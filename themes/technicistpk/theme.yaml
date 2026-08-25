@@ -1,0 +1,146 @@
+name: "TechnicistPK"
+description: "Dynamic SEO-optimized theme for Technicist (SMC) Pvt Ltd."
+author: "Antigravity"
+homepage: "http://www.technicistpk.com"
+code: "technicistpk"
+
+form:
+    tabs:
+        fields:
+            # Company Info Tab
+            site_name:
+                label: 'Site Name'
+                type: text
+                default: 'Technicist (SMC) Pvt Ltd'
+                span: left
+                tab: 'Company Info'
+            ceo_name:
+                label: 'CEO Name'
+                type: text
+                default: 'Syed Abul Hassan'
+                span: right
+                tab: 'Company Info'
+            contact_phone:
+                label: 'Contact Phone'
+                type: text
+                default: '+92-312-5721105'
+                span: left
+                tab: 'Company Info'
+            contact_phone_landline:
+                label: 'Contact Phone (Landline)'
+                type: text
+                default: '051-2223120'
+                span: right
+                tab: 'Company Info'
+            contact_email:
+                label: 'Contact Email'
+                type: text
+                default: 'Technicist.isb@gmail.com'
+                span: left
+                tab: 'Company Info'
+            contact_address:
+                label: 'Contact Address'
+                type: text
+                default: 'Main Office, Al-Mustafa Towers, Sector F-10, Islamabad'
+                span: right
+                tab: 'Company Info'
+
+            # SEO Tab
+            seo_title_default:
+                label: 'Default SEO Title'
+                type: text
+                default: 'Technicist (SMC) Pvt Ltd | Excellence in Expertise, Driven by Professionalism'
+                span: left
+                tab: 'SEO'
+            seo_description_default:
+                label: 'Default SEO Description'
+                type: text
+                default: 'Technicist (SMC) Pvt Ltd provides advanced road safety, automation, IT, security, and surveillance systems across Pakistan. Led by CEO Syed Abul Hassan.'
+                span: right
+                tab: 'SEO'
+            seo_keywords_default:
+                label: 'Default SEO Keywords'
+                type: text
+                default: 'Technicist, Technicistpk, boom barrier, e-tag system, visitor management, highway safety, security surveillance, LED stadium lights, CCTV Islamabad'
+                span: left
+                tab: 'SEO'
+
+            # Hero Tab
+            hero_title:
+                label: 'Hero Title'
+                type: text
+                default: 'Secure Your Roads with Smart Integrated Solutions'
+                tab: 'Hero Slider'
+            hero_subtitle:
+                label: 'Hero Subtitle'
+                type: textarea
+                default: 'Technicist (SMC) Pvt. Ltd. provides Import, Supply & Installation of advanced road safety, automation, and security solutions.'
+                tab: 'Hero Slider'
+            hero_video_1:
+                label: 'Hero Video 1 URL'
+                type: text
+                default: '/storage/app/uploads/public/1.mp4'
+                span: left
+                tab: 'Hero Slider'
+            hero_video_2:
+                label: 'Hero Video 2 URL'
+                type: text
+                default: '/themes/technicistpk/assets/img/facial_vehicle_entry_exit.mp4'
+                span: right
+                tab: 'Hero Slider'
+
+            # Vision & Mission Tab
+            vision_text:
+                label: 'Vision Text'
+                type: textarea
+                default: 'To lead in delivering innovative IT and automation solutions through the integration of advanced technologies, latest equipment, and intelligent management systems — enhancing security, reducing manpower, and minimizing time consumption for visitors and vehicles with seamless software integration, automatic systems, and smart software development.'
+                tab: 'Vision & Mission'
+            mission_1_title:
+                label: 'Mission 1 Title'
+                type: text
+                default: 'Automatic System'
+                span: left
+                tab: 'Vision & Mission'
+            mission_1_text:
+                label: 'Mission 1 Description'
+                type: text
+                default: 'Empowering efficiency through intelligent automation — Smart systems that work seamlessly, so you don’t have to.'
+                span: right
+                tab: 'Vision & Mission'
+            mission_2_title:
+                label: 'Mission 2 Title'
+                type: text
+                default: 'Manpower Reduce'
+                span: left
+                tab: 'Vision & Mission'
+            mission_2_text:
+                label: 'Mission 2 Description'
+                type: text
+                default: 'Minimizing human effort with advanced automated solutions — Optimizing performance while reducing operational dependency.'
+                span: right
+                tab: 'Vision & Mission'
+            mission_3_title:
+                label: 'Mission 3 Title'
+                type: text
+                default: 'Fastest Entry System'
+                span: left
+                tab: 'Vision & Mission'
+            mission_3_text:
+                label: 'Mission 3 Description'
+                type: text
+                default: 'Experience speed and accuracy like never before — Seamless access powered by intelligent entry management.'
+                span: right
+                tab: 'Vision & Mission'
+            mission_4_title:
+                label: 'Mission 4 Title'
+                type: text
+                default: 'Security Enhance'
+                span: left
+                tab: 'Vision & Mission'
+            mission_4_text:
+                label: 'Mission 4 Description'
+                type: text
+                default: 'Strengthening protection with next-generation technology — Ensuring safety, reliability, and complete peace of mind.'
+                span: right
+                tab: 'Vision & Mission'
+

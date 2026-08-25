@@ -1,0 +1,43 @@
+description = "Hero video slider using 1.mp4 and 2.mp4"
+==
+<!-- Carousel Start -->
+<div class="container-fluid p-0 pb-5">
+    <div class="owl-carousel header-carousel position-relative">
+        <div class="owl-carousel-item position-relative" style="min-height: 600px; overflow: hidden;">
+            <video autoplay loop muted playsinline style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: 1; transform: translate(-50%, -50%); object-fit: cover;">
+                <source src="{{ this.theme.hero_video_1 }}" type="video/mp4">
+            </video>
+            <div class="carousel-inner" style="z-index: 2; background: rgba(0, 0, 0, 0.6); position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center;">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-lg-8 text-center">
+                            <h1 class="display-3 text-white animated slideInDown mb-4">{{ this.theme.hero_title }}</h1>
+                            <p class="fs-5 text-white mb-4 pb-2">{{ this.theme.hero_subtitle }}</p>
+                            <a href="{{ 'services'|page }}" class="btn btn-primary rounded-pill py-md-3 px-md-5 me-3 animated slideInLeft">Our Services</a>
+                            <a href="{{ 'contact'|page }}" class="btn btn-light rounded-pill py-md-3 px-md-5 animated slideInRight">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="owl-carousel-item position-relative" style="min-height: 600px; overflow: hidden;">
+            <video autoplay loop muted playsinline style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: 1; transform: translate(-50%, -50%); object-fit: cover;">
+                <source src="{{ this.theme.hero_video_2 }}" type="video/mp4">
+            </video>
+            <div class="carousel-inner" style="z-index: 2; background: rgba(0, 0, 0, 0.6); position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center;">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-lg-8 text-center">
+                            <h1 class="display-3 text-white animated slideInDown mb-4">Excellence in Expertise</h1>
+                            <p class="fs-5 text-white mb-4 pb-2">"Excellence in Expertise, Driven by Professionalism and Precision."</p>
+                            <a href="{{ 'about'|page }}" class="btn btn-primary rounded-pill py-md-3 px-md-5 me-3 animated slideInLeft">About Us</a>
+                            <a href="{{ 'contact'|page }}" class="btn btn-light rounded-pill py-md-3 px-md-5 animated slideInRight">Get A Quote</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Carousel End -->
+

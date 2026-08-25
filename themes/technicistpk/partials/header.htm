@@ -1,0 +1,63 @@
+description = "Header partial containing dynamic navigation and topbar"
+==
+<!-- Topbar Start -->
+<div class="container-fluid bg-dark px-5">
+    <div class="row gx-4 d-none d-lg-flex">
+        <div class="col-lg-6 text-start">
+            <div class="h-100 d-inline-flex align-items-center py-3 me-4 text-white-50">
+                <div class="btn-sm-square rounded-circle bg-primary me-2">
+                    <small class="fa fa-map-marker-alt text-white"></small>
+                </div>
+                <small>{{ this.theme.contact_address }}</small>
+            </div>
+            <div class="h-100 d-inline-flex align-items-center py-3 text-white-50">
+                <div class="btn-sm-square rounded-circle bg-primary me-2">
+                    <small class="fa fa-envelope-open text-white"></small>
+                </div>
+                <small>{{ this.theme.contact_email }}</small>
+            </div>
+        </div>
+        <div class="col-lg-6 text-end">
+            <div class="h-100 d-inline-flex align-items-center py-3 me-4 text-white-50">
+                <div class="btn-sm-square rounded-circle bg-primary me-2">
+                    <small class="fa fa-phone-alt text-white"></small>
+                </div>
+                <small>{{ this.theme.contact_phone }} (Cell) | {{ this.theme.contact_phone_landline }} (Landline)</small>
+            </div>
+            <div class="h-100 d-inline-flex align-items-center py-3 text-white-50">
+                <div class="btn-sm-square rounded-circle bg-primary me-2">
+                    <small class="far fa-clock text-white"></small>
+                </div>
+                <small>Mon - Sat : 9AM - 6PM</small>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Topbar End -->
+
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 px-4 px-lg-5">
+    <a href="{{ 'home'|page }}" class="navbar-brand d-flex align-items-center">
+        <h2 class="m-0 text-primary">{{ this.theme.site_name }}</h2>
+    </a>
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto py-4 py-lg-0">
+            <a href="{{ 'home'|page }}" class="nav-item nav-link {% if this.page.id == 'home' %}active{% endif %}">Home</a>
+            <a href="{{ 'about'|page }}" class="nav-item nav-link {% if this.page.id == 'about' %}active{% endif %}">About Us</a>
+            <a href="{{ 'services'|page }}" class="nav-item nav-link {% if this.page.id == 'services' %}active{% endif %}">Services</a>
+            <a href="{{ 'projects'|page }}" class="nav-item nav-link {% if this.page.id == 'projects' %}active{% endif %}">Projects</a>
+            <a href="{{ 'contact'|page }}" class="nav-item nav-link {% if this.page.id == 'contact' %}active{% endif %}">Contact</a>
+        </div>
+        <div class="h-100 d-lg-inline-flex align-items-center d-none">
+            <a class="btn btn-square rounded-circle bg-light text-primary me-2" href="#"><i class="fab fa-facebook-f"></i></a>
+            <a class="btn btn-square rounded-circle bg-light text-primary me-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a class="btn btn-square rounded-circle bg-light text-primary me-0" href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+</nav>
+<!-- Navbar End -->
+

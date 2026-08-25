@@ -1,0 +1,240 @@
+title = "Home"
+url = "/"
+layout = "default"
+meta_title = "Technicist (SMC) Pvt Ltd | Intelligent Automation & Security Solutions"
+meta_description = "Technicist (SMC) Pvt Ltd is Pakistan's premier provider of automated boom barriers, RFID e-tag systems, visitor management, surveillance, and LED stadium lighting."
+meta_keywords = "boom barrier, RFID e-tag, visitor management system, highway safety, LED stadium light, PCB controller, IT solutions Islamabad"
+is_hidden = 0
+==
+<!-- Hero Slider -->
+{% partial 'hero_slider' %}
+
+<!-- Facts/Mission/Vision Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.1s">
+                <div class="btn-lg-square rounded-circle bg-primary mx-auto mb-4">
+                    <i class="fa fa-cogs text-white"></i>
+                </div>
+                <h5 class="mb-2">{{ this.theme.mission_1_title }}</h5>
+                <p>{{ this.theme.mission_1_text }}</p>
+            </div>
+            <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.3s">
+                <div class="btn-lg-square rounded-circle bg-primary mx-auto mb-4">
+                    <i class="fa fa-users-cog text-white"></i>
+                </div>
+                <h5 class="mb-2">{{ this.theme.mission_2_title }}</h5>
+                <p>{{ this.theme.mission_2_text }}</p>
+            </div>
+            <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.5s">
+                <div class="btn-lg-square rounded-circle bg-primary mx-auto mb-4">
+                    <i class="fa fa-shipping-fast text-white"></i>
+                </div>
+                <h5 class="mb-2">{{ this.theme.mission_3_title }}</h5>
+                <p>{{ this.theme.mission_3_text }}</p>
+            </div>
+            <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.7s">
+                <div class="btn-lg-square rounded-circle bg-primary mx-auto mb-4">
+                    <i class="fa fa-shield-alt text-white"></i>
+                </div>
+                <h5 class="mb-2">{{ this.theme.mission_4_title }}</h5>
+                <p>{{ this.theme.mission_4_text }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Facts/Mission/Vision End -->
+
+
+<!-- About Section Start -->
+<div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
+    <div class="container about px-lg-0">
+        <div class="row g-0 mx-lg-0">
+            <div class="col-lg-6 ps-lg-0 wow fadeIn" data-wow-delay="0.1s" style="min-height: 400px;">
+                <div class="position-relative h-100">
+                    <img class="position-absolute img-fluid w-100 h-100" src="{{ 'img/about.jpg'|theme }}" style="object-fit: cover;" alt="About Technicist">
+                </div>
+            </div>
+            <div class="col-lg-6 about-text py-5 px-lg-5 wow fadeIn" data-wow-delay="0.5s">
+                <div class="bg-primary mb-3" style="width: 60px; height: 2px;"></div>
+                <h1 class="display-5 mb-4">About Us</h1>
+                <p class="mb-4">Technicist (SMC) Pvt Ltd. is fully equipped with highly qualified and well-experienced technical staff, giving us a powerful edge of technical and management expertise over competitors. We believe that excellence, efficiency, customer satisfaction, and professionalism are the absolute keys to success.</p>
+                
+                <h5 class="mb-3">Our Vision</h5>
+                <p class="mb-4">{{ this.theme.vision_text }}</p>
+
+                <div class="d-flex align-items-center mb-4">
+                    <div class="btn-sm-square rounded-circle bg-primary me-3">
+                        <i class="fa fa-user text-white"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0">{{ this.theme.ceo_name }}</h6>
+                        <small>CEO, {{ this.theme.site_name }}</small>
+                    </div>
+                </div>
+
+                <a href="{{ 'about'|page }}" class="btn btn-primary rounded-pill py-3 px-5">Explore More</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About Section End -->
+
+
+<!-- Services Section Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <div class="bg-primary mb-3 mx-auto" style="width: 60px; height: 2px;"></div>
+            <h1 class="display-5 mb-5">Our Services Portfolio</h1>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="service-item d-flex flex-column bg-light h-100 p-4">
+                    <div class="btn-sm-square rounded-circle bg-primary mb-3">
+                        <i class="fa fa-road text-white"></i>
+                    </div>
+                    <h5 class="mb-3">Boom Barrier & E-Tag Systems</h5>
+                    <p class="mb-4">High-performance automatic barriers and RFID systems for seamless security access.</p>
+                    <a class="mt-auto text-primary" href="{{ 'services'|page }}">Read More <i class="fa fa-arrow-right ms-2"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="service-item d-flex flex-column bg-light h-100 p-4">
+                    <img class="img-fluid mb-3 rounded" src="{{ 'img/vms_entry_user_vehicle_detail.jpeg'|theme }}" alt="Visitor Management System" style="height: 180px; object-fit: cover;">
+                    <div class="btn-sm-square rounded-circle bg-primary mb-3">
+                        <i class="fa fa-id-card text-white"></i>
+                    </div>
+                    <h5 class="mb-3">Visitor Management System</h5>
+                    <p class="mb-4">Advanced software solutions to track, register, and monitor visitors efficiently.</p>
+                    <a class="mt-auto text-primary" href="{{ 'services'|page }}">Read More <i class="fa fa-arrow-right ms-2"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="service-item d-flex flex-column bg-light h-100 p-4">
+                    <div class="btn-sm-square rounded-circle bg-primary mb-3">
+                        <i class="fa fa-video text-white"></i>
+                    </div>
+                    <h5 class="mb-3">CCTV & Surveillance Systems</h5>
+                    <p class="mb-4">Next-generation surveillance networks to keep your assets secure and monitored 24/7.</p>
+                    <a class="mt-auto text-primary" href="{{ 'services'|page }}">Read More <i class="fa fa-arrow-right ms-2"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <a href="{{ 'services'|page }}" class="btn btn-primary rounded-pill py-3 px-5">View Full Portfolio</a>
+        </div>
+    </div>
+</div>
+<!-- Services Section End -->
+
+
+<!-- Why Choose Us Start -->
+<div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
+    <div class="container feature px-lg-0">
+        <div class="row g-0 mx-lg-0">
+            <div class="col-lg-6 feature-text py-5 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
+                <div class="bg-primary mb-3" style="width: 60px; height: 2px;"></div>
+                <h1 class="display-5 mb-5">Why Choose Us?</h1>
+                <div class="row g-4">
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <div class="btn-sm-square rounded-circle bg-primary me-3">
+                                <i class="fa fa-check text-white"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Comprehensive</h6>
+                                <small>One-stop security & IT provider</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <div class="btn-sm-square rounded-circle bg-primary me-3">
+                                <i class="fa fa-check text-white"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Advanced Tech</h6>
+                                <small>Latest equipment & software</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <div class="btn-sm-square rounded-circle bg-primary me-3">
+                                <i class="fa fa-check text-white"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Expert Team</h6>
+                                <small>Qualified skilled professionals</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <div class="btn-sm-square rounded-circle bg-primary me-3">
+                                <i class="fa fa-check text-white"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">24/7 Support</h6>
+                                <small>Round the clock support</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 pe-lg-0 wow fadeIn" data-wow-delay="0.5s" style="min-height: 400px;">
+                <div class="position-relative h-100">
+                    <img class="position-absolute img-fluid w-100 h-100" src="{{ 'img/feature.jpg'|theme }}" style="object-fit: cover;" alt="Why Choose Technicist">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Why Choose Us End -->
+
+
+<!-- Clients Section Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <div class="bg-primary mb-3 mx-auto" style="width: 60px; height: 2px;"></div>
+            <h1 class="display-5 mb-5">Trusted By Leading Institutions</h1>
+        </div>
+        <div class="row g-4 text-center justify-content-center">
+            <div class="col-lg-2 col-md-4 col-6 wow zoomIn" data-wow-delay="0.1s">
+                <div class="bg-light p-3 rounded">
+                    <h6 class="mb-0">PAF</h6>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 wow zoomIn" data-wow-delay="0.2s">
+                <div class="bg-light p-3 rounded">
+                    <h6 class="mb-0">PAK ARMY</h6>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 wow zoomIn" data-wow-delay="0.3s">
+                <div class="bg-light p-3 rounded">
+                    <h6 class="mb-0">SUZUKI</h6>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 wow zoomIn" data-wow-delay="0.4s">
+                <div class="bg-light p-3 rounded">
+                    <h6 class="mb-0">DHA</h6>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 wow zoomIn" data-wow-delay="0.5s">
+                <div class="bg-light p-3 rounded">
+                    <h6 class="mb-0">CDA</h6>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6 wow zoomIn" data-wow-delay="0.6s">
+                <div class="bg-light p-3 rounded">
+                    <h6 class="mb-0">NHA</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Clients Section End -->
+
