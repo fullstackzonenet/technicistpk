@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: 'technicist.portfolio::lang.models.page.label'
+
+# Model Form Field configuration
+form: $/technicist/portfolio/models/page/fields.yaml
+
+# Model Class name
+modelClass: Technicist\Portfolio\Models\Page
+
+# Default redirect location
+defaultRedirect: technicist/portfolio/pages
+
+# Create page
+create:
+    title: backend::lang.form.create_title
+    redirect: technicist/portfolio/pages/update/:id
+    redirectClose: technicist/portfolio/pages
+
+# Update page
+update:
+    title: backend::lang.form.update_title
+    redirect: technicist/portfolio/pages
+    redirectClose: technicist/portfolio/pages
+
+# Preview page
+preview:
+    title: backend::lang.form.preview_title

@@ -1,0 +1,169 @@
+title = "Products"
+url = "/products"
+layout = "default"
+==
+<!-- Page Header Start -->
+<div class="container-fluid page-header py-5 mb-5" style="background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('{{ 'assets/images/hero-yellowish-bg.png'|theme }}') center/cover no-repeat;">
+    <div class="container py-5 text-center">
+        <h1 class="display-3 text-white mb-3 animated slideInDown" style="font-weight: 800; letter-spacing: 0.5px;">Our Products</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb justify-content-center text-uppercase" style="background: transparent;">
+                <li class="breadcrumb-item"><a class="text-white" href="{{ '/'|app }}" style="text-decoration: none; font-weight: 500;">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #65B530 !important; font-weight: 700;">Products</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<style>
+    .product-card-box {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .product-card-box:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+    .product-card-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+    .product-card-body {
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    .product-tag {
+        display: inline-block;
+        background: rgba(101, 181, 48, 0.12);
+        color: #65B530;
+        font-weight: 700;
+        font-size: 12px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+    .product-title {
+        color: #111827 !important;
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+    .product-desc {
+        color: #4b5563 !important;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        flex-grow: 1;
+    }
+    .product-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #65B530;
+        font-weight: 700;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+    .product-btn:hover {
+        color: #4a821e;
+    }
+</style>
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 700px;">
+            <div class="bg-primary mb-3 mx-auto" style="width: 60px; height: 3px; background-color: #65B530 !important;"></div>
+            <h2 class="display-6 fw-bold" style="color: #111827;">Innovative Digital Products</h2>
+            <p class="text-secondary fs-6">Explore our proprietary software platforms, smart city suites, and AI enterprise modules.</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            
+            <!-- Product 1 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="product-card-box">
+                    <a href="{{ '/product/resident-e-services'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/pptx/image21.png'|theme }}" alt="Resident E Services" class="product-card-img">
+                    </a>
+                    <div class="product-card-body">
+                        <div>
+                            <span class="product-tag">Product</span>
+                            <a href="{{ '/product/resident-e-services'|app }}" style="text-decoration: none;">
+                                <h3 class="product-title">Resident E Services</h3>
+                            </a>
+                            <p class="product-desc">Digital ecosystem for modern residential societies featuring gate passes, digital subscriptions, billing, and community alerts.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto d-flex align-items-center justify-content-between gap-2">
+                            <a href="{{ '/product/resident-e-services'|app }}" class="product-btn">
+                                View Details <i class="fa fa-arrow-right"></i>
+                            </a>
+                            <a href="https://residenteservices.com/" target="_blank" rel="noopener noreferrer" class="btn btn-sm text-white fw-bold px-3 py-1" style="background-color: #65B530; font-size: 0.82rem; border-radius: 4px;">
+                                Visit Portal <i class="fa fa-external-link-alt ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="product-card-box">
+                    <a href="{{ '/product/smart-city'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/smart-city-nwc.png'|theme }}" alt="Smart City" class="product-card-img">
+                    </a>
+                    <div class="product-card-body">
+                        <div>
+                            <span class="product-tag">Product</span>
+                            <a href="{{ '/product/smart-city'|app }}" style="text-decoration: none;">
+                                <h3 class="product-title">Smart City</h3>
+                            </a>
+                            <p class="product-desc">Comprehensive municipal automation suite combining RFID N-Tag access, automated infrastructure management, and IoT connectivity.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/product/smart-city'|app }}" class="product-btn">
+                                View Product <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="product-card-box">
+                    <a href="{{ '/product/ai'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/pptx/image6.png'|theme }}" alt="AI Solutions" class="product-card-img">
+                    </a>
+                    <div class="product-card-body">
+                        <div>
+                            <span class="product-tag">Product</span>
+                            <a href="{{ '/product/ai'|app }}" style="text-decoration: none;">
+                                <h3 class="product-title">Artificial Intelligence</h3>
+                            </a>
+                            <p class="product-desc">Enterprise artificial intelligence tools delivering automated decision making, video analytics, and intelligent automation.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/product/ai'|app }}" class="product-btn">
+                                View Product <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

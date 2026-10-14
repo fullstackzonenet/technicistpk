@@ -1,0 +1,31 @@
+fields:
+    title:
+        label: Title
+        type: text
+        required: true
+    slug:
+        label: Slug
+        type: text
+        preset:
+            field: title
+            type: slug
+    category:
+        label: Category
+        type: dropdown
+        options:
+            completed: Completed
+            ongoing: Ongoing
+    description:
+        label: Short Description
+        type: textarea
+        size: small
+    featured_image:
+        label: Featured Image
+        type: fileupload
+        mode: image
+        imageWidth: 200
+        imageHeight: 200
+    content:
+        label: Content
+        type: richeditor
+        size: huge

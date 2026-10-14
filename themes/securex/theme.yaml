@@ -1,0 +1,14 @@
+name: "Securex"
+description: "A secure and modern theme based on Securex HTML template"
+author: "Technicist"
+homepage: ""
+code: "securex"
+
+form:
+  fields:
+    hero_video:
+      label: Hero Video
+      type: mediafinder
+      mode: video
+      span: full
+      comment: "Upload the video for the homepage hero section here."

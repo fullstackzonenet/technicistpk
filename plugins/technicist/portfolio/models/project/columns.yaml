@@ -1,0 +1,17 @@
+columns:
+    id:
+        label: technicist.portfolio::lang.models.project.id
+        type: number
+    title:
+        label: Title
+        type: text
+        searchable: true
+    category:
+        label: Category
+        type: text
+    created_at:
+        label: technicist.portfolio::lang.models.project.created_at
+        type: datetime
+    updated_at:
+        label: technicist.portfolio::lang.models.project.updated_at
+        type: datetime

@@ -1,0 +1,327 @@
+title = "Projects"
+url = "/projects"
+layout = "default"
+==
+<!-- Page Header Start -->
+<div class="container-fluid page-header py-5 mb-5" style="background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('{{ 'assets/images/hero-yellowish-bg.png'|theme }}') center/cover no-repeat;">
+    <div class="container py-5 text-center">
+        <h1 class="display-3 text-white mb-3 animated slideInDown" style="font-weight: 800; letter-spacing: 0.5px;">Our Projects</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb justify-content-center text-uppercase" style="background: transparent;">
+                <li class="breadcrumb-item"><a class="text-white" href="{{ '/'|app }}" style="text-decoration: none; font-weight: 500;">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #65B530 !important; font-weight: 700;">Projects</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<style>
+    .project-card-box {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .project-card-box:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+    .project-card-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+    .project-card-body {
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    .project-tag {
+        display: inline-block;
+        background: rgba(101, 181, 48, 0.12);
+        color: #65B530;
+        font-weight: 700;
+        font-size: 12px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+    .project-title {
+        color: #111827 !important;
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+    .project-desc {
+        color: #4b5563 !important;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        flex-grow: 1;
+    }
+    .project-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #65B530;
+        font-weight: 700;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+    .project-btn:hover {
+        color: #4a821e;
+    }
+</style>
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 700px;">
+            <div class="bg-primary mb-3 mx-auto" style="width: 60px; height: 3px; background-color: #65B530 !important;"></div>
+            <h2 class="display-6 fw-bold" style="color: #111827;">Engineered Enterprise Solutions</h2>
+            <p class="text-secondary fs-6">Explore our turnkey hardware, software, security, and infrastructure engineering projects delivered across Pakistan.</p>
+        </div>
+
+        <div class="row g-4">
+            
+            <!-- Project 1 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-card-box">
+                    <a href="{{ '/projects/cctv-network-management-system'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/Security_Safety_System.jpg'|theme }}" alt="CCTV & Network Management System" class="project-card-img">
+                    </a>
+                    <div class="project-card-body">
+                        <div>
+                            <span class="project-tag">Project</span>
+                            <a href="{{ '/projects/cctv-network-management-system'|app }}" style="text-decoration: none;">
+                                <h3 class="project-title">CCTV & Network Management System</h3>
+                            </a>
+                            <p class="project-desc">High-definition real-time IP camera monitoring integrated with resilient, scalable IT network backbones.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/projects/cctv-network-management-system'|app }}" class="project-btn">
+                                View Details <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-card-box">
+                    <a href="{{ '/projects/e-tag-visitor-management-system'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/vehicle-access-control.jpeg'|theme }}" alt="E-Tag & Visitor Management System" class="project-card-img">
+                    </a>
+                    <div class="project-card-body">
+                        <div>
+                            <span class="project-tag">Project</span>
+                            <a href="{{ '/projects/e-tag-visitor-management-system'|app }}" style="text-decoration: none;">
+                                <h3 class="project-title">E-Tag & Visitor Management System</h3>
+                            </a>
+                            <p class="project-desc">Automated RFID barrier access control paired with pre-registration digital visitor logs.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/projects/e-tag-visitor-management-system'|app }}" class="project-btn">
+                                View Details <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-card-box">
+                    <a href="{{ '/projects/highway-safety-it-equipment'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/pptx/image32.jpeg'|theme }}" alt="Highway Safety & IT Equipment" class="project-card-img">
+                    </a>
+                    <div class="project-card-body">
+                        <div>
+                            <span class="project-tag">Project</span>
+                            <a href="{{ '/projects/highway-safety-it-equipment'|app }}" style="text-decoration: none;">
+                                <h3 class="project-title">Highway Safety & IT Equipment</h3>
+                            </a>
+                            <p class="project-desc">Advanced electronic toll collection, speed enforcement, and smart traffic sensors for highways.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/projects/highway-safety-it-equipment'|app }}" class="project-btn">
+                                View Details <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-card-box">
+                    <a href="{{ '/projects/security-surveillance-system'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/pptx/image34.jpeg'|theme }}" alt="Security & Surveillance System" class="project-card-img">
+                    </a>
+                    <div class="project-card-body">
+                        <div>
+                            <span class="project-tag">Project</span>
+                            <a href="{{ '/projects/security-surveillance-system'|app }}" style="text-decoration: none;">
+                                <h3 class="project-title">Security & Surveillance System</h3>
+                            </a>
+                            <p class="project-desc">Complete multi-layer perimeter protection, AI threat detection, and 24/7 centralized monitoring.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/projects/security-surveillance-system'|app }}" class="project-btn">
+                                View Details <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 5 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-card-box">
+                    <a href="{{ '/projects/society-management-e-services-apps'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/pptx/image21.png'|theme }}" alt="Society Management & E-Services Apps" class="project-card-img">
+                    </a>
+                    <div class="project-card-body">
+                        <div>
+                            <span class="project-tag">Project</span>
+                            <a href="{{ '/projects/society-management-e-services-apps'|app }}" style="text-decoration: none;">
+                                <h3 class="project-title">Society Management & E-Services Apps</h3>
+                            </a>
+                            <p class="project-desc">All-in-one mobile and web portal for residential gated communities, e-passes, and billing.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/projects/society-management-e-services-apps'|app }}" class="project-btn">
+                                View Details <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 6 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-card-box">
+                    <a href="{{ '/projects/ac-dc-boom-barrier'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/pptx/image38.png'|theme }}" alt="AC, DC Boom Barrier" class="project-card-img">
+                    </a>
+                    <div class="project-card-body">
+                        <div>
+                            <span class="project-tag">Project</span>
+                            <a href="{{ '/projects/ac-dc-boom-barrier'|app }}" style="text-decoration: none;">
+                                <h3 class="project-title">AC, DC Boom Barrier</h3>
+                            </a>
+                            <p class="project-desc">High-duty automated vehicular boom barriers built for heavy-traffic entry checkpoints.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/projects/ac-dc-boom-barrier'|app }}" class="project-btn">
+                                View Details <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 7 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-card-box">
+                    <a href="{{ '/projects/led-stadium-street-lights'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/led_stadium_lights.png'|theme }}" alt="LED Stadium & Street Lights" class="project-card-img">
+                    </a>
+                    <div class="project-card-body">
+                        <div>
+                            <span class="project-tag">Project</span>
+                            <a href="{{ '/projects/led-stadium-street-lights'|app }}" style="text-decoration: none;">
+                                <h3 class="project-title">LED Stadium & Street Lights</h3>
+                            </a>
+                            <p class="project-desc">High-power LED floodlights and smart municipal street lighting engineered for maximum efficiency.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/projects/led-stadium-street-lights'|app }}" class="project-btn">
+                                View Details <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 8 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-card-box">
+                    <a href="{{ '/projects/universal-ip-controller'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/pptx/image18.jpg'|theme }}" alt="Universal IP Controller" class="project-card-img">
+                    </a>
+                    <div class="project-card-body">
+                        <div>
+                            <span class="project-tag">Project</span>
+                            <a href="{{ '/projects/universal-ip-controller'|app }}" style="text-decoration: none;">
+                                <h3 class="project-title">Universal IP Controller</h3>
+                            </a>
+                            <p class="project-desc">Intelligent industrial hardware controller delivering remote web access, switching, and telemetry.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/projects/universal-ip-controller'|app }}" class="project-btn">
+                                View Details <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 9 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-card-box">
+                    <a href="{{ '/projects/3m-china-cat-eyes'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/pptx/image30.png'|theme }}" alt="3M China Cat-eyes" class="project-card-img">
+                    </a>
+                    <div class="project-card-body">
+                        <div>
+                            <span class="project-tag">Project</span>
+                            <a href="{{ '/projects/3m-china-cat-eyes'|app }}" style="text-decoration: none;">
+                                <h3 class="project-title">3M China Cat-eyes</h3>
+                            </a>
+                            <p class="project-desc">High-durability reflective pavement markers and cat-eyes ensuring night driver safety.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/projects/3m-china-cat-eyes'|app }}" class="project-btn">
+                                View Details <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 10 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="project-card-box">
+                    <a href="{{ '/projects/elect-mech-engineering-works'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/pptx/image10.png'|theme }}" alt="Elect. & Mech. Engineering Works" class="project-card-img">
+                    </a>
+                    <div class="project-card-body">
+                        <div>
+                            <span class="project-tag">Project</span>
+                            <a href="{{ '/projects/elect-mech-engineering-works'|app }}" style="text-decoration: none;">
+                                <h3 class="project-title">Elect. & Mech. Engineering Works</h3>
+                            </a>
+                            <p class="project-desc">End-to-end electrical, mechanical, panel fabrication, and field installation services.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/projects/elect-mech-engineering-works'|app }}" class="project-btn">
+                                View Details <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

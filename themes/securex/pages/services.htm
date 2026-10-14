@@ -1,0 +1,189 @@
+title = "Services"
+url = "/services"
+layout = "default"
+==
+<!-- Page Header Start -->
+<div class="container-fluid page-header py-5 mb-5" style="background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('{{ 'assets/images/hero-yellowish-bg.png'|theme }}') center/cover no-repeat;">
+    <div class="container py-5 text-center">
+        <h1 class="display-3 text-white mb-3 animated slideInDown" style="font-weight: 800; letter-spacing: 0.5px;">Our Services</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb justify-content-center text-uppercase" style="background: transparent;">
+                <li class="breadcrumb-item"><a class="text-white" href="{{ '/'|app }}" style="text-decoration: none; font-weight: 500;">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #65B530 !important; font-weight: 700;">Services</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<style>
+    .service-card-box {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .service-card-box:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+    .service-card-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+    .service-card-body {
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+    .service-tag {
+        display: inline-block;
+        background: rgba(101, 181, 48, 0.12);
+        color: #65B530;
+        font-weight: 700;
+        font-size: 12px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+    .service-title {
+        color: #111827 !important;
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+    .service-desc {
+        color: #4b5563 !important;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        flex-grow: 1;
+    }
+    .service-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #65B530;
+        font-weight: 700;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+    .service-btn:hover {
+        color: #4a821e;
+    }
+</style>
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 700px;">
+            <div class="bg-primary mb-3 mx-auto" style="width: 60px; height: 3px; background-color: #65B530 !important;"></div>
+            <h2 class="display-6 fw-bold" style="color: #111827;">Comprehensive Enterprise Services</h2>
+            <p class="text-secondary fs-6">Delivering industry-grade access control, road safety, physical security, and mechanical engineering solutions.</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            
+            <!-- Service 1 -->
+            <div class="col-lg-6 col-md-6">
+                <div class="service-card-box">
+                    <a href="{{ '/services/e-tag-vehicle-access-control-system'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/vehicle-access-control.jpeg'|theme }}" alt="E-Tag / Vehicle Access Control System" class="service-card-img">
+                    </a>
+                    <div class="service-card-body">
+                        <div>
+                            <span class="service-tag">Service</span>
+                            <a href="{{ '/services/e-tag-vehicle-access-control-system'|app }}" style="text-decoration: none;">
+                                <h3 class="service-title">E-Tag / Vehicle Access Control System</h3>
+                            </a>
+                            <p class="service-desc">Automated high-speed RFID vehicle identification and barrier gate integration for secure corporate and residential entries.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/services/e-tag-vehicle-access-control-system'|app }}" class="service-btn">
+                                Learn More <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="col-lg-6 col-md-6">
+                <div class="service-card-box">
+                    <a href="{{ '/services/road-traffic-safety'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/roadsafety.png'|theme }}" alt="Road / Traffic Safety" class="service-card-img">
+                    </a>
+                    <div class="service-card-body">
+                        <div>
+                            <span class="service-tag">Service</span>
+                            <a href="{{ '/services/road-traffic-safety'|app }}" style="text-decoration: none;">
+                                <h3 class="service-title">Road / Traffic Safety</h3>
+                            </a>
+                            <p class="service-desc">Intelligent traffic surveillance equipment, variable message signs, speed detection, and durable highway safety markers.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/services/road-traffic-safety'|app }}" class="service-btn">
+                                Learn More <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="col-lg-6 col-md-6">
+                <div class="service-card-box">
+                    <a href="{{ '/services/security-safety-system'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/Security_Safety_System.jpg'|theme }}" alt="Security / Safety System" class="service-card-img">
+                    </a>
+                    <div class="service-card-body">
+                        <div>
+                            <span class="service-tag">Service</span>
+                            <a href="{{ '/services/security-safety-system'|app }}" style="text-decoration: none;">
+                                <h3 class="service-title">Security / Safety System</h3>
+                            </a>
+                            <p class="service-desc">Multi-layered security engineering, IP surveillance cameras, biometric access, alarm systems, and 24/7 monitoring centers.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/services/security-safety-system'|app }}" class="service-btn">
+                                Learn More <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 4 -->
+            <div class="col-lg-6 col-md-6">
+                <div class="service-card-box">
+                    <a href="{{ '/services/elect-mech-engineering-works'|app }}" style="text-decoration: none;">
+                        <img src="{{ 'assets/images/pptx/image10.png'|theme }}" alt="Elect. & Mech. Engineering Works" class="service-card-img">
+                    </a>
+                    <div class="service-card-body">
+                        <div>
+                            <span class="service-tag">Service</span>
+                            <a href="{{ '/services/elect-mech-engineering-works'|app }}" style="text-decoration: none;">
+                                <h3 class="service-title">Elect. & Mech. Engineering Works</h3>
+                            </a>
+                            <p class="service-desc">Comprehensive electrical wiring, mechanical installations, control panel engineering, and facility maintenance.</p>
+                        </div>
+                        <div class="pt-3 border-top mt-auto">
+                            <a href="{{ '/services/elect-mech-engineering-works'|app }}" class="service-btn">
+                                Learn More <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

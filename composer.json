@@ -82,6 +82,10 @@
         "allow-plugins": {
             "composer/installers": true,
             "wikimedia/composer-merge-plugin": true
-        }
+        },
+        "platform": {
+            "php": "8.2.0"
+        },
+        "platform-check": false
     }
 }

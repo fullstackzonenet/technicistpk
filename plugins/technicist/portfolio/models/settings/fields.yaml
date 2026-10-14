@@ -1,0 +1,24 @@
+tabs:
+    fields:
+        about_content:
+            tab: About Us
+            label: About Us Content
+            type: richeditor
+            size: huge
+        contact_address:
+            tab: Contact Us
+            label: Address
+            type: text
+        contact_phone:
+            tab: Contact Us
+            label: Phone Number
+            type: text
+        contact_email:
+            tab: Contact Us
+            label: Email
+            type: text
+        contact_intro:
+            tab: Contact Us
+            label: Contact Intro Text
+            type: textarea
+            size: small

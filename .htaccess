@@ -5,18 +5,14 @@
     </IfModule>
 
     RewriteEngine On
+    RewriteBase /
 
     ##
-    ## You may need to uncomment the following line for some hosting environments,
-    ## if you have installed to a subdirectory, enter the name here also.
+    ## Force HTTPS (Fixes Mixed Content Block)
     ##
-    # RewriteBase /
-
-    ##
-    ## Uncomment following lines to force HTTPS.
-    ##
-    # RewriteCond %{HTTPS} off
-    # RewriteRule (.*) https://%{SERVER_NAME}/$1 [L,R=301]
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
     ##
     ## Paths explicitly blocked from being handled by the server

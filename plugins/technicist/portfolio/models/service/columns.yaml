@@ -1,0 +1,14 @@
+columns:
+    id:
+        label: technicist.portfolio::lang.models.service.id
+        type: number
+    title:
+        label: Title
+        type: text
+        searchable: true
+    created_at:
+        label: technicist.portfolio::lang.models.service.created_at
+        type: datetime
+    updated_at:
+        label: technicist.portfolio::lang.models.service.updated_at
+        type: datetime

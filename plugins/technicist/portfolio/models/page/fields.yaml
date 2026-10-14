@@ -1,0 +1,15 @@
+fields:
+    title:
+        label: Page Title
+        span: auto
+        type: text
+        required: true
+    slug:
+        label: Slug (e.g. about, contact, home)
+        span: auto
+        type: text
+        required: true
+    content:
+        label: Page Content
+        type: richeditor
+        size: huge

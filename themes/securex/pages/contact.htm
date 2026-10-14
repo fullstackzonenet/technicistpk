@@ -1,0 +1,197 @@
+title = "Contact Us"
+url = "/contact-us"
+layout = "default"
+==
+function onStart()
+{
+    $this['page_data'] = \Technicist\Portfolio\Models\Page::where('slug', 'contact-us')->first();
+    $this['preset_subject'] = input('subject', '');
+}
+
+function onSendContact()
+{
+    $data = post();
+    // Validate inputs
+    if (empty($data['name']) || empty($data['email']) || empty($data['message'])) {
+        throw new \ValidationException(['email' => 'Please fill in all required fields.']);
+    }
+
+    $name = e($data['name']);
+    $email = e($data['email']);
+    $subject = e($data['subject'] ?? 'Website Contact Message');
+    $userMsg = e($data['message']);
+
+    $body = "New message received from Technicist PK Website Contact Form:\n\n"
+          . "Name: {$name}\n"
+          . "Email: {$email}\n"
+          . "Subject: {$subject}\n\n"
+          . "Message:\n{$userMsg}\n";
+
+    try {
+        \Mail::raw($body, function ($message) use ($email, $name, $subject) {
+            $message->to('info@technicistpk.com', 'Technicist Info');
+            $message->to('contact@technicistpk.com', 'Technicist Contact');
+            $message->to('technicist.isb@gmail.com', 'Technicist Admin');
+            $message->to('emanrehman28@gmail.com', 'Eman Rehman');
+            $message->replyTo($email, $name);
+            $message->subject("Website Contact Form: {$subject}");
+        });
+    } catch (\Exception $e) {
+        \Log::error('Contact Form Mail Error: ' . $e->getMessage());
+    }
+
+    \Flash::success('Thank you! Your message has been sent successfully.');
+    return [
+        '#contact-form-container' => '
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 40px 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 25px; animation: fadeIn 0.5s ease-in-out;">
+            <div style="width: 70px; height: 70px; border: 3px solid #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#25d366" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <h4 style="color: #25d366; font-size: 1.35rem; font-weight: 600; margin: 0;">Form is successfully submitted. Thank you!</h4>
+        </div>
+        '
+    ];
+}
+==
+
+<!-- Page Header Start -->
+<div class="container-fluid page-header py-5 mb-5" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{{ 'assets/images/hero-yellowish-bg.png'|theme }}') center/cover no-repeat;">
+    <div class="container py-5 text-center">
+        <h1 class="display-3 text-white mb-3 animated slideInDown" style="font-weight: 700;">Contact Us</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb justify-content-center text-uppercase" style="background: transparent;">
+                <li class="breadcrumb-item"><a class="text-white" href="{{ '/'|app }}">Home</a></li>
+                <li class="breadcrumb-item text-primary active" aria-current="page" style="color: #65B530 !important;">Contact Us</li>
+            </ol>
+        </nav>
+        <div class="mt-4" style="max-width: 800px; margin: 0 auto; color: #f5f5f5; font-size: 1.1rem; line-height: 1.75;">
+            {{ page_data.content|raw }}
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Contact Start -->
+<div class="container-fluid bg-light py-5">
+    <div class="container contact px-3 px-sm-4">
+        <div class="row g-4 align-items-stretch">
+            <!-- Left Column: Map & Info -->
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                <div class="p-4 p-md-5 bg-white rounded-3 shadow-sm h-100" style="border-top: 4px solid #65B530;">
+                    <div class="section-title text-start mb-4">
+                        <p class="text-uppercase fw-bold mb-2" style="color: #65B530; letter-spacing: 1px;">Get In Touch</p>
+                        <h2 class="display-6 mb-3" style="color: #161616; font-weight: 700;">Have Any Questions? Feel Free To Contact Us</h2>
+                        <p style="color: #555555; font-size: 0.98rem; line-height: 1.6;">
+                            Whether you need customized security engineering, system integration, access control, or emergency technical support, our team is available to assist you.
+                        </p>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="btn-square rounded-circle me-3 flex-shrink-0" style="background-color: #65B530 !important; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa fa-map-marker-alt text-white"></i>
+                        </div>
+                        <div>
+                            <span style="color: #666; font-size: 0.85rem; display: block; text-transform: uppercase; font-weight: 600;">Main Office Address</span>
+                            <strong style="color: #161616; font-size: 0.98rem; word-break: break-word;">{{ settings.contact_address|default('Al Mustafa Tower, F10, Islamabad') }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="btn-square rounded-circle me-3 flex-shrink-0" style="background-color: #65B530 !important; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa fa-phone-alt text-white"></i>
+                        </div>
+                        <div>
+                            <span style="color: #666; font-size: 0.85rem; display: block; text-transform: uppercase; font-weight: 600;">Phone / Direct Line</span>
+                            <strong style="color: #161616; font-size: 0.98rem;"><a href="tel:+923125721105" style="color: #161616; text-decoration: none;">{{ settings.contact_phone|default('+92 312 5721105') }}</a></strong>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="btn-square rounded-circle me-3 flex-shrink-0" style="background-color: #65B530 !important; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa fa-envelope text-white"></i>
+                        </div>
+                        <div>
+                            <span style="color: #666; font-size: 0.85rem; display: block; text-transform: uppercase; font-weight: 600;">Official Support Email</span>
+                            <strong style="color: #161616; font-size: 0.98rem;">info@technicistpk.com</strong>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="btn-square rounded-circle me-3 flex-shrink-0" style="background-color: #65B530 !important; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa fa-clock text-white"></i>
+                        </div>
+                        <div>
+                            <span style="color: #666; font-size: 0.85rem; display: block; text-transform: uppercase; font-weight: 600;">Business Hours</span>
+                            <strong style="color: #161616; font-size: 0.98rem;">Mon - Sat: 09:00 AM - 06:00 PM</strong>
+                        </div>
+                    </div>
+
+                    <div class="mt-4" style="width: 100%; height: 220px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #e2e8f0;">
+                        <iframe src="https://maps.google.com/maps?q=Al-Mustafa%20Tower%20F10%20Islamabad&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Form -->
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.3s">
+                <div id="contact-form-container" class="p-4 p-md-5 bg-white rounded-3 shadow-sm h-100" style="border-top: 4px solid #65B530;">
+                    <h3 style="color: #161616; font-size: 1.6rem; font-weight: 700; margin-bottom: 24px;">Send Us A Message</h3>
+                    
+                    <form id="contact-form" data-request="onSendContact" data-request-flash>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required style="border-color: #e2e8f0; color: #161616;">
+                                    <label for="name" style="color: #666;">Your Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required style="border-color: #e2e8f0; color: #161616;">
+                                    <label for="email" style="color: #666;">Your Email</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" value="{{ input('subject')|default(preset_subject) }}" required style="border-color: #e2e8f0; color: #161616;">
+                                    <label for="subject" style="color: #666;">Subject</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="Leave a message here" name="message" id="message" style="height: 140px; border-color: #e2e8f0; color: #161616;" required></textarea>
+                                    <label for="message" style="color: #666;">Message</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" type="submit" style="background-color: #65B530 !important; border-color: #65B530 !important; font-size: 1.05rem; font-weight: 700; color: #ffffff;">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact End -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const subjectParam = urlParams.get('subject');
+        if (subjectParam) {
+            const subjectInput = document.getElementById('subject');
+            if (subjectInput) {
+                subjectInput.value = subjectParam;
+            }
+        }
+    } catch(e) {
+        console.error(e);
+    }
+});
+</script>
+
+
