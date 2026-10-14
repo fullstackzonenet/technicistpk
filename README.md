@@ -6,64 +6,56 @@ This portal is built on top of [Winter CMS](https://wintercms.com/) (Laravel-pow
 
 ---
 
+## 📋 System Requirements
+
+For full system requirements, server configurations, PHP extensions, and database setup, please see [REQUIREMENTS.md](file:///home/eman/dev_projects/technicistpk/REQUIREMENTS.md).
+
+* **PHP Version**: `PHP >= 8.1` (Recommended: `PHP 8.2` or `PHP 8.3`)
+* **CMS Core**: WinterCMS (Laravel & Symfony components)
+* **Database**: SQLite (`storage/database.sqlite`) or MySQL
+* **Web Server**: Apache / LiteSpeed (Hostinger) with `mod_rewrite` enabled
+* **Active Theme**: `themes/securex`
+
+---
+
 ## 🚀 Key Features
 
-*   **Custom Hero Video Slider**: Supports HTML5 background playback of `facial_vehicle_entry_exit.mp4` and other high-definition streams with animated overlays.
-*   **Fully Dynamic Backend Customization**: Controlled completely via `theme.yaml` tabs (Company Info, Hero Slider, Vision & Mission, SEO) enabling non-technical staff to change cellular lines, email, address, and metadata tags effortlessly from the CMS administrator panel.
-*   **100% SEO-Friendly Architecture**: Features customized dynamic headers supporting canonical link resolution, dynamic OpenGraph properties, meta description fields, and search-engine indexation directives on all templates.
-*   **Responsive Multi-Pages**: Structured layouts covering:
-    *   **Home**: Key corporate facts, value propositions, and trust matrices.
-    *   **About**: Management values, historical background, and CEO Syed Abul Hassan's vision.
-    *   **Services**: Details of boom barrier systems, E-Tags, Visitor tracker apps, and IT infrastructure.
-    *   **Projects**: Highlighted success stories and contracts (CDA, DHA, PAF, Suzuki, NHA).
-    *   **Contact**: Lead capture and inquiry forms.
+* **Dynamic Corporate Pages**:
+  * **Home**: Key corporate facts, value propositions, and trust matrices.
+  * **About**: Management values, historical background, and company vision.
+  * **Services**: Boom barrier systems, E-Tags, Visitor tracker apps, IT infrastructure, Elect/Mech Engineering, and Road Safety.
+  * **Products**: Smart City, AI, Resident E-Services.
+  * **Projects**: Highlighted success stories and contracts (CDA, DHA, PAF, Suzuki, NHA).
+  * **Blog**: IT Automation, ERP, and E-Tag Security articles.
+  * **Contact**: Google Map embed and automated lead forms.
+* **100% SEO-Friendly Architecture**: Customized dynamic headers supporting canonical link resolution, dynamic OpenGraph properties, meta description fields, and search-engine indexation directives.
+* **Responsive Layout**: Built with Bootstrap 5, jQuery, Waypoints, Owl Carousel, and WOW Animation.
 
 ---
 
-## 🛠️ Tech Stack & Environment
+## 🔧 Quick Setup & Deployment
 
-*   **PHP version requirement**: PHP 8.2
-*   **CMS Core**: WinterCMS (on top of Laravel & Symfony components)
-*   **Local Database**: SQLite (`storage/database.sqlite`) for ultra-lightweight rapid development.
-*   **Production Database**: MySQL support integrated with ready-to-use sample configs.
-*   **Frontend**: Bootstrap 5, FontAwesome, jQuery, Waypoints, Owl Carousel, WOW Animation.
+1. **Clone Repository**:
+   ```bash
+   git clone git@github.com:fullstackzonenet/technicistpk.git
+   cd technicistpk
+   ```
 
----
+2. **Setup Environment**:
+   ```bash
+   cp .env.example .env
+   ```
 
-## 🔧 Installation & Deployment
+3. **Install Dependencies**:
+   ```bash
+   composer install --no-dev --optimize-autoloader
+   ```
 
-### 1. Prerequisites
-Ensure you have Homebrew and PHP 8.2 installed on your development environment:
-```shell
-# For macOS with homebrew:
-brew install php@8.2
-```
-
-### 2. Environment Setup
-Duplicate `.env.example` to create your local `.env`:
-```shell
-cp .env.example .env
-```
-*   For **local SQLite development**: Maintain the connection string `DB_CONNECTION="sqlite"`.
-*   For **production MySQL deployment**: Adjust connection strings to `mysql` using details outlined in `.env.sample`.
-
-### 3. Composer Installation
-Restore all standard dependencies:
-```shell
-composer install
-```
-
-### 4. Database Setup & Upgrades
-Apply migrations and set up standard schemas:
-```shell
-php artisan winter:up
-```
-
-### 5. Mirror Public Assets
-Run the mirror command so your local webserver exposes all assets cleanly:
-```shell
-php artisan winter:mirror public --relative
-```
+4. **Run Migrations & Clear Cache**:
+   ```bash
+   php artisan winter:up
+   php artisan cache:clear
+   ```
 
 ---
 
@@ -71,23 +63,25 @@ php artisan winter:mirror public --relative
 
 ```
 ├── config/                 # Application configuration (DB, CMS, app rules)
-├── souce_html/             # Original HTML mockup templates & profile PDFs (Git Ignored)
+├── plugins/
+│   ├── technicist/         # Technicist Custom Plugins
+│   └── winter/pages/       # Winter Pages Plugin
 ├── themes/
-│   └── technicistpk/       # TechnicistPK Theme Directory
-│       ├── assets/         # CSS, JS, Libraries, & HD videos (facial_vehicle_entry_exit.mp4)
+│   └── securex/            # Active Securex Theme Directory
+│       ├── assets/         # CSS, JS, Libraries, SCSS & Images
 │       ├── layouts/        # Default master layout (SEO & OpenGraph elements)
-│       ├── pages/          # Home, About, Services, Projects, and Contact pages
-│       ├── partials/       # Header, Footer, and Video Slider layouts
-│       └── theme.yaml      # Master backend dynamic customizer blueprint
-└── public/                 # Exposed public web directory (Mirrored)
+│       ├── pages/          # Home, About, Services, Products, Projects, Contact
+│       └── theme.yaml      # Master backend customizer blueprint
+├── storage/
+│   └── database.sqlite     # SQLite Database File
+└── public_html/            # Web root folder for Hostinger deployment
 ```
 
 ---
 
-## 📞 Support & Contacts
+## 📞 Contact Information
 
-*   **CEO**: Syed Abul Hassan
-*   **Address**: Office #12, 1st Floor, VIP Plaza, I-8 Markaz, Islamabad, Pakistan
-*   **Cell**: +92-312-5721105
-*   **Landline**: 051-2223120
-*   **Email**: Technicist.isb@gmail.com
+* **Address**: Office #12, 1st Floor, VIP Plaza, I-8 Markaz, Islamabad, Pakistan
+* **Cell / WhatsApp**: +92-312-5721105
+* **Landline**: 051-2223120
+* **Email**: Technicist.isb@gmail.com / info@technicistpk.com
