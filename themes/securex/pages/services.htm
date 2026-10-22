@@ -1,15 +1,33 @@
-title = "Services"
+title = "Solutions & Services"
 url = "/services"
 layout = "default"
+meta_title = "Solutions & Engineering Services | Technicist PK"
+meta_description = "Explore Technicist's turnkey B2B services: RFID vehicle access control, boom barriers, CCTV networks, road safety cat-eyes, and electrical-mechanical engineering in Pakistan."
+==
+<?php
+function onStart()
+{
+    if (class_exists('\Technicist\Portfolio\Models\Service')) {
+        $this['services'] = \Technicist\Portfolio\Models\Service::orderBy('sort_order', 'asc')->get();
+    }
+    if (class_exists('\Technicist\Portfolio\Models\Page')) {
+        $this['page_data'] = \Technicist\Portfolio\Models\Page::where('slug', 'services')->first();
+    }
+}
+?>
 ==
 <!-- Page Header Start -->
-<div class="container-fluid page-header py-5 mb-5" style="background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('{{ 'assets/images/hero-yellowish-bg.png'|theme }}') center/cover no-repeat;">
-    <div class="container py-5 text-center">
-        <h1 class="display-3 text-white mb-3 animated slideInDown" style="font-weight: 800; letter-spacing: 0.5px;">Our Services</h1>
-        <nav aria-label="breadcrumb animated slideInDown">
-            <ol class="breadcrumb justify-content-center text-uppercase" style="background: transparent;">
-                <li class="breadcrumb-item"><a class="text-white" href="{{ '/'|app }}" style="text-decoration: none; font-weight: 500;">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page" style="color: #65B530 !important; font-weight: 700;">Services</li>
+<div class="container-fluid py-5 mb-5 position-relative" style="background: linear-gradient(135deg, #0B132B 0%, #1C2541 100%); border-bottom: 2px solid #00A8E8;">
+    <div class="container py-4 text-center">
+        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: rgba(0, 168, 232, 0.12); border: 1px solid rgba(0, 168, 232, 0.3); color: #00A8E8; font-size: 0.85rem; font-weight: 700;">
+            <span style="display:inline-block; width: 8px; height: 8px; border-radius: 50%; background: #00A8E8;"></span>
+            {{ page_data.hero_badge|default('Turnkey Infrastructure Solutions') }}
+        </div>
+        <h1 class="display-4 text-white mb-2 fw-bold" style="font-weight: 800; letter-spacing: 0.5px;">{{ page_data.hero_title|default('Engineering Solutions & Services') }}</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center text-uppercase mb-0" style="background: transparent;">
+                <li class="breadcrumb-item"><a class="text-white-50" href="{{ '/'|app }}" style="text-decoration: none; font-weight: 500;">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #00A8E8 !important; font-weight: 700;">Services</li>
             </ol>
         </nav>
     </div>
@@ -45,8 +63,8 @@ layout = "default"
     }
     .service-tag {
         display: inline-block;
-        background: rgba(101, 181, 48, 0.12);
-        color: #65B530;
+        background: rgba(0, 168, 232, 0.12);
+        color: #00A8E8;
         font-weight: 700;
         font-size: 12px;
         padding: 4px 12px;
@@ -55,7 +73,7 @@ layout = "default"
         margin-bottom: 12px;
     }
     .service-title {
-        color: #111827 !important;
+        color: #0B132B !important;
         font-size: 1.25rem;
         font-weight: 700;
         margin-bottom: 10px;
@@ -72,118 +90,70 @@ layout = "default"
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        color: #65B530;
+        color: #00A8E8;
         font-weight: 700;
         text-decoration: none;
         transition: color 0.2s ease;
     }
     .service-btn:hover {
-        color: #4a821e;
+        color: #FF6B35;
     }
 </style>
 
 <div class="container-xxl py-5">
     <div class="container">
-        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 700px;">
-            <div class="bg-primary mb-3 mx-auto" style="width: 60px; height: 3px; background-color: #65B530 !important;"></div>
-            <h2 class="display-6 fw-bold" style="color: #111827;">Comprehensive Enterprise Services</h2>
-            <p class="text-secondary fs-6">Delivering industry-grade access control, road safety, physical security, and mechanical engineering solutions.</p>
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 750px;">
+            <div class="mb-3 mx-auto" style="width: 60px; height: 3px; background-color: #00A8E8 !important;"></div>
+            <h2 class="display-6 fw-bold mb-1" style="color: #0B132B;">Comprehensive Enterprise Services</h2>
+            <div class="tech-urdu-title text-primary mb-2" style="font-size: 1.25rem; font-weight: 700; color: #0284C7 !important;">
+                جامع کارپوریٹ و صنعتی انجینئرنگ خدمات
+            </div>
+            <p class="text-secondary fs-6 mb-1">Delivering industry-grade access control, road safety, physical security, and mechanical engineering solutions.</p>
+            <p class="tech-urdu-text text-muted" style="font-size: 0.95rem;">پاکستان بھر میں جدید وہیکل ایکسیس، روڈ سیفٹی، کیمرہ نیٹ ورکنگ اور الیکٹریکل انجینئرنگ کے ٹرن کی سسٹمز۔</p>
         </div>
 
         <div class="row g-4 justify-content-center">
-            
-            <!-- Service 1 -->
-            <div class="col-lg-6 col-md-6">
-                <div class="service-card-box">
-                    <a href="{{ '/services/e-tag-vehicle-access-control-system'|app }}" style="text-decoration: none;">
-                        <img src="{{ 'assets/images/vehicle-access-control.jpeg'|theme }}" alt="E-Tag / Vehicle Access Control System" class="service-card-img">
-                    </a>
-                    <div class="service-card-body">
-                        <div>
-                            <span class="service-tag">Service</span>
-                            <a href="{{ '/services/e-tag-vehicle-access-control-system'|app }}" style="text-decoration: none;">
-                                <h3 class="service-title">E-Tag / Vehicle Access Control System</h3>
-                            </a>
-                            <p class="service-desc">Automated high-speed RFID vehicle identification and barrier gate integration for secure corporate and residential entries.</p>
-                        </div>
-                        <div class="pt-3 border-top mt-auto">
-                            <a href="{{ '/services/e-tag-vehicle-access-control-system'|app }}" class="service-btn">
-                                Learn More <i class="fa fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Service 2 -->
-            <div class="col-lg-6 col-md-6">
-                <div class="service-card-box">
-                    <a href="{{ '/services/road-traffic-safety'|app }}" style="text-decoration: none;">
-                        <img src="{{ 'assets/images/roadsafety.png'|theme }}" alt="Road / Traffic Safety" class="service-card-img">
-                    </a>
-                    <div class="service-card-body">
-                        <div>
-                            <span class="service-tag">Service</span>
-                            <a href="{{ '/services/road-traffic-safety'|app }}" style="text-decoration: none;">
-                                <h3 class="service-title">Road / Traffic Safety</h3>
-                            </a>
-                            <p class="service-desc">Intelligent traffic surveillance equipment, variable message signs, speed detection, and durable highway safety markers.</p>
-                        </div>
-                        <div class="pt-3 border-top mt-auto">
-                            <a href="{{ '/services/road-traffic-safety'|app }}" class="service-btn">
-                                Learn More <i class="fa fa-arrow-right"></i>
-                            </a>
+            {% if services and services.count > 0 %}
+                {% for service in services %}
+                <div class="col-lg-6 col-md-6">
+                    <div class="service-card-box">
+                        <a href="{{ ('/services/' ~ (service.url_slug ? service.url_slug : service.slug))|app }}" style="text-decoration: none;">
+                            <img src="{{ service.image ? (service.image starts with 'http' ? service.image : service.image|theme) : ('assets/images/vehicle-access-control.jpeg'|theme) }}" alt="{{ service.title }}" class="service-card-img">
+                        </a>
+                        <div class="service-card-body">
+                            <div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="service-tag mb-0">{{ service.badge|default('Service') }}</span>
+                                    {% if service.title_urdu %}
+                                    <span class="tech-urdu-badge text-primary" style="font-size: 0.82rem; font-weight: 600;">{{ service.title_urdu }}</span>
+                                    {% endif %}
+                                </div>
+                                <a href="{{ ('/services/' ~ (service.url_slug ? service.url_slug : service.slug))|app }}" style="text-decoration: none;">
+                                    <h3 class="service-title mb-1">{{ service.title }}</h3>
+                                </a>
+                                {% if service.title_urdu %}
+                                <div class="tech-card-urdu-title mb-2" style="font-size: 1.05rem; font-weight: 700; color: #00A8E8;">{{ service.title_urdu }}</div>
+                                {% endif %}
+                                <p class="service-desc mb-2">{{ service.description }}</p>
+                                {% if service.description_urdu %}
+                                <p class="tech-urdu-text text-muted mb-3" style="font-size: 0.9rem; line-height: 1.6;">{{ service.description_urdu }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="pt-3 border-top mt-auto d-flex justify-content-between align-items-center">
+                                <a href="{{ ('/services/' ~ (service.url_slug ? service.url_slug : service.slug))|app }}" class="service-btn">
+                                    Learn More <i class="fa fa-arrow-right"></i>
+                                </a>
+                                <span class="tech-urdu-badge text-muted" style="font-size: 0.85rem;">تفصیلات دیکھیں</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Service 3 -->
-            <div class="col-lg-6 col-md-6">
-                <div class="service-card-box">
-                    <a href="{{ '/services/security-safety-system'|app }}" style="text-decoration: none;">
-                        <img src="{{ 'assets/images/Security_Safety_System.jpg'|theme }}" alt="Security / Safety System" class="service-card-img">
-                    </a>
-                    <div class="service-card-body">
-                        <div>
-                            <span class="service-tag">Service</span>
-                            <a href="{{ '/services/security-safety-system'|app }}" style="text-decoration: none;">
-                                <h3 class="service-title">Security / Safety System</h3>
-                            </a>
-                            <p class="service-desc">Multi-layered security engineering, IP surveillance cameras, biometric access, alarm systems, and 24/7 monitoring centers.</p>
-                        </div>
-                        <div class="pt-3 border-top mt-auto">
-                            <a href="{{ '/services/security-safety-system'|app }}" class="service-btn">
-                                Learn More <i class="fa fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center text-muted py-5">
+                    <p>No services currently published.</p>
                 </div>
-            </div>
-
-            <!-- Service 4 -->
-            <div class="col-lg-6 col-md-6">
-                <div class="service-card-box">
-                    <a href="{{ '/services/elect-mech-engineering-works'|app }}" style="text-decoration: none;">
-                        <img src="{{ 'assets/images/pptx/image10.png'|theme }}" alt="Elect. & Mech. Engineering Works" class="service-card-img">
-                    </a>
-                    <div class="service-card-body">
-                        <div>
-                            <span class="service-tag">Service</span>
-                            <a href="{{ '/services/elect-mech-engineering-works'|app }}" style="text-decoration: none;">
-                                <h3 class="service-title">Elect. & Mech. Engineering Works</h3>
-                            </a>
-                            <p class="service-desc">Comprehensive electrical wiring, mechanical installations, control panel engineering, and facility maintenance.</p>
-                        </div>
-                        <div class="pt-3 border-top mt-auto">
-                            <a href="{{ '/services/elect-mech-engineering-works'|app }}" class="service-btn">
-                                Learn More <i class="fa fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            {% endif %}
         </div>
     </div>
 </div>

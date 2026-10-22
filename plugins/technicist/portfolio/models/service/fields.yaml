@@ -1,25 +1,88 @@
 fields:
     title:
-        label: Title
+        label: Service Title (English)
+        span: left
         type: text
         required: true
     slug:
-        label: Slug
+        label: Slug (URL-friendly)
+        span: right
         type: text
-        preset:
-            field: title
-            type: slug
-    description:
-        label: Short Description
-        type: textarea
-        size: small
-    featured_image:
-        label: Featured Image
-        type: fileupload
-        mode: image
-        imageWidth: 200
-        imageHeight: 200
-    content:
-        label: Content
-        type: richeditor
-        size: huge
+        required: true
+
+tabs:
+    fields:
+        title_urdu:
+            tab: 'Details'
+            label: 'Service Title (Urdu)'
+            type: text
+            span: left
+        badge:
+            tab: 'Details'
+            label: 'Badge Label'
+            type: text
+            span: right
+            placeholder: 'Access Control'
+
+        description:
+            tab: 'Details'
+            label: 'Short Description (English)'
+            type: textarea
+            span: left
+            size: small
+        description_urdu:
+            tab: 'Details'
+            label: 'Short Description (Urdu)'
+            type: textarea
+            span: right
+            size: small
+
+        content:
+            tab: 'Details'
+            label: 'Full Service Description'
+            type: richeditor
+            span: full
+            size: large
+
+        icon:
+            tab: 'Details'
+            label: 'Icon Class (FontAwesome)'
+            type: text
+            span: left
+            placeholder: 'fa fa-shield-alt'
+        image:
+            tab: 'Details'
+            label: 'Service Image (path or URL)'
+            type: text
+            span: right
+            placeholder: 'assets/images/service-name.jpg'
+
+        url_slug:
+            tab: 'Details'
+            label: 'Frontend URL Slug'
+            type: text
+            span: left
+            placeholder: 'e-tag-vehicle-access-control-system'
+            comment: 'The URL /services/THIS-SLUG'
+
+        features_json:
+            tab: 'Details'
+            label: 'Key Features (JSON Array)'
+            type: codeeditor
+            language: json
+            span: full
+            size: small
+            comment: '["Opening Speed: 0.6s–3.0s", "Long-range UHF tags", "Power backup"]'
+
+        featured:
+            tab: 'Settings'
+            label: 'Featured Service'
+            type: checkbox
+            span: left
+            comment: 'Show on homepage cards'
+        sort_order:
+            tab: 'Settings'
+            label: 'Sort Order'
+            type: number
+            span: right
+            default: 0

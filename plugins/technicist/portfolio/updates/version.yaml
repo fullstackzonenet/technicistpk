@@ -9,3 +9,8 @@
 1.0.3:
     - 'Create Pages Table'
     - v1.0.3/create_pages_table.php
+1.0.4:
+    - 'Add dynamic section fields to pages, projects, and services'
+    - v1.0.4/add_sections_to_pages_table.php
+    - v1.0.4/add_fields_to_projects_table.php
+    - v1.0.4/add_fields_to_services_table.php

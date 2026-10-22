@@ -5,11 +5,178 @@ fields:
         type: text
         required: true
     slug:
-        label: Slug (e.g. about, contact, home)
+        label: Slug (e.g. home, about, contact)
         span: auto
         type: text
         required: true
-    content:
-        label: Page Content
-        type: richeditor
-        size: huge
+        comment: 'Use: home | about | contact | services | projects | blog'
+
+tabs:
+    fields:
+
+        # =====================
+        # HERO SECTION TAB
+        # =====================
+        hero_badge:
+            tab: 'Hero Section'
+            label: 'Hero Badge Text (English)'
+            type: text
+            span: left
+            placeholder: 'Mission-Critical Infrastructure & Engineering'
+        hero_badge_urdu:
+            tab: 'Hero Section'
+            label: 'Hero Badge Text (Urdu)'
+            type: text
+            span: right
+            placeholder: 'انجینئرنگ اور سیکیورٹی سسٹمز'
+
+        hero_title:
+            tab: 'Hero Section'
+            label: 'Hero Heading (English)'
+            type: text
+            span: left
+            placeholder: 'Engineering Smarter Infrastructure.'
+        hero_title_urdu:
+            tab: 'Hero Section'
+            label: 'Hero Heading (Urdu)'
+            type: text
+            span: right
+            placeholder: 'جدید ترین انفراسٹرکچر انجینئرنگ'
+
+        hero_subtitle:
+            tab: 'Hero Section'
+            label: 'Hero Sub-description (English)'
+            type: textarea
+            span: left
+            size: small
+        hero_subtitle_urdu:
+            tab: 'Hero Section'
+            label: 'Hero Sub-description (Urdu)'
+            type: textarea
+            span: right
+            size: small
+
+        hero_video:
+            tab: 'Hero Section'
+            label: 'Hero Background Video URL'
+            type: text
+            span: full
+            placeholder: 'assets/images/heroloop.mp4'
+            comment: 'Relative path inside theme assets folder'
+
+        stats_json:
+            tab: 'Hero Section'
+            label: 'Stats Strip (JSON)'
+            type: codeeditor
+            language: json
+            span: full
+            size: small
+            comment: 'Array of objects: [{"icon":"fa-microchip","text":"Integrated RFID Barriers","urdu":"خودکار بیریئرز"}]'
+
+        # =====================
+        # INTRO / ABOUT SECTION
+        # =====================
+        intro_badge:
+            tab: 'Intro Section'
+            label: 'Section Badge (English)'
+            type: text
+            span: left
+        intro_badge_urdu:
+            tab: 'Intro Section'
+            label: 'Section Badge (Urdu)'
+            type: text
+            span: right
+
+        intro_title:
+            tab: 'Intro Section'
+            label: 'Section Heading (English)'
+            type: text
+            span: left
+        intro_title_urdu:
+            tab: 'Intro Section'
+            label: 'Section Heading (Urdu)'
+            type: text
+            span: right
+
+        intro_text:
+            tab: 'Intro Section'
+            label: 'Section Description (English)'
+            type: richeditor
+            span: full
+            size: large
+
+        intro_text_urdu:
+            tab: 'Intro Section'
+            label: 'Section Description (Urdu)'
+            type: textarea
+            span: full
+            size: small
+
+        # =====================
+        # CONTACT INFO
+        # =====================
+        phone:
+            tab: 'Contact Info'
+            label: 'Phone Number'
+            type: text
+            span: left
+            placeholder: '+92 312 5721105'
+        whatsapp:
+            tab: 'Contact Info'
+            label: 'WhatsApp Number'
+            type: text
+            span: right
+            placeholder: '923125721105'
+
+        email:
+            tab: 'Contact Info'
+            label: 'Email Address'
+            type: text
+            span: left
+        address:
+            tab: 'Contact Info'
+            label: 'Office Address (English)'
+            type: textarea
+            span: right
+            size: small
+
+        address_urdu:
+            tab: 'Contact Info'
+            label: 'Office Address (Urdu)'
+            type: textarea
+            span: full
+            size: small
+
+        # =====================
+        # SEO
+        # =====================
+        meta_title:
+            tab: 'SEO'
+            label: 'Meta Title'
+            type: text
+            span: full
+        meta_description:
+            tab: 'SEO'
+            label: 'Meta Description'
+            type: textarea
+            span: full
+            size: small
+
+        # =====================
+        # EXTRA / RAW CONTENT
+        # =====================
+        content:
+            tab: 'Extra Content'
+            label: 'Additional Page Content'
+            type: richeditor
+            size: huge
+            span: full
+
+        sections_json:
+            tab: 'Extra Content'
+            label: 'Custom Sections Data (JSON)'
+            type: codeeditor
+            language: json
+            span: full
+            size: large
+            comment: 'Advanced: store any additional structured data as JSON'

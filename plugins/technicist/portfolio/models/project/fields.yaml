@@ -1,31 +1,86 @@
 fields:
     title:
-        label: Title
+        label: Project Title (English)
+        span: left
         type: text
         required: true
     slug:
-        label: Slug
+        label: Slug (URL-friendly)
+        span: right
         type: text
-        preset:
-            field: title
-            type: slug
-    category:
-        label: Category
-        type: dropdown
-        options:
-            completed: Completed
-            ongoing: Ongoing
-    description:
-        label: Short Description
-        type: textarea
-        size: small
-    featured_image:
-        label: Featured Image
-        type: fileupload
-        mode: image
-        imageWidth: 200
-        imageHeight: 200
-    content:
-        label: Content
-        type: richeditor
-        size: huge
+        required: true
+        comment: 'e.g. boom-barrier-dfcc, cctv-lahore-highway'
+
+tabs:
+    fields:
+        description:
+            tab: 'Details'
+            label: Short Description
+            type: textarea
+            span: full
+            size: small
+
+        content:
+            tab: 'Details'
+            label: Full Project Description
+            type: richeditor
+            span: full
+            size: large
+
+        image:
+            tab: 'Details'
+            label: 'Project Image (path or URL)'
+            type: text
+            span: left
+            placeholder: 'assets/images/project-name.jpg'
+        badge:
+            tab: 'Details'
+            label: 'Badge Label'
+            type: text
+            span: right
+            placeholder: 'Access Control'
+
+        client:
+            tab: 'Details'
+            label: 'Client Name'
+            type: text
+            span: left
+        location:
+            tab: 'Details'
+            label: 'Location'
+            type: text
+            span: right
+
+        year:
+            tab: 'Details'
+            label: 'Year Completed'
+            type: text
+            span: left
+        category:
+            tab: 'Details'
+            label: 'Category'
+            type: text
+            span: right
+            placeholder: 'Security, Road Safety, IT, etc.'
+
+        features_json:
+            tab: 'Details'
+            label: 'Key Features (JSON Array)'
+            type: codeeditor
+            language: json
+            span: full
+            size: small
+            comment: '["Long-range UHF (12m+)", "AC/DC Boom Barriers", "Power backup"]'
+
+        featured:
+            tab: 'Settings'
+            label: 'Featured Project'
+            type: checkbox
+            span: left
+            comment: 'Show on homepage'
+        sort_order:
+            tab: 'Settings'
+            label: 'Sort Order'
+            type: number
+            span: right
+            default: 0

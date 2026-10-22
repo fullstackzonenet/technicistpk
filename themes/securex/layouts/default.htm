@@ -1,22 +1,103 @@
 description = "Default layout"
 ==
+<?php
+function onStart()
+{
+    if (class_exists('\Technicist\Portfolio\Models\Page')) {
+        $this['site_contact'] = \Technicist\Portfolio\Models\Page::where('slug', 'contact')->orWhere('slug', 'contact-us')->first();
+        $this['site_home'] = \Technicist\Portfolio\Models\Page::where('slug', 'home')->first();
+    }
+}
+?>
+==
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Technicist PK - Technology & Security Solutions</title>
+    <title>{{ this.page.meta_title ? this.page.meta_title : (this.page.title ? this.page.title ~ ' | Technicist - Engineering & Security Infrastructure Pakistan' : 'Technicist - Engineering & Security Infrastructure Pakistan') }}</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta name="description" content="{{ this.page.meta_description ? this.page.meta_description : 'Technicist delivers enterprise vehicle access control, RFID boom barriers, CCTV surveillance networks, road safety equipment, and electrical/mechanical engineering solutions across Pakistan.' }}">
+    <meta name="keywords" content="vehicle access control Pakistan, RFID boom barrier Islamabad, CCTV surveillance network, intelligent transportation systems, 3M road safety cat eyes, automated gates Lahore, Technicist">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ ''|app }}{{ this.page.url }}">
+
+    <!-- Open Graph / Meta -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ ''|app }}{{ this.page.url }}">
+    <meta property="og:title" content="{{ this.page.title ? this.page.title ~ ' | Technicist' : 'Technicist PK' }}">
+    <meta property="og:description" content="{{ this.page.meta_description ? this.page.meta_description : 'Engineering Smarter Infrastructure. Delivering Intelligent Security across Pakistan.' }}">
+    <meta property="og:image" content="{{ 'assets/images/technicist-logo.png'|theme }}">
+
+    <!-- Schema.org JSON-LD (Organization, Service, BreadcrumbList) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "{{ ''|app }}/#organization",
+          "name": "Technicist Private Limited",
+          "url": "{{ ''|app }}",
+          "logo": "{{ 'assets/images/technicist-logo.png'|theme }}",
+          "description": "Technicist is a premier engineering contractor delivering integrated vehicle access control, enterprise surveillance, road safety equipment, and electrical/mechanical engineering solutions in Pakistan.",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Al Mustafa Tower, Sector F-10",
+            "addressLocality": "Islamabad",
+            "addressCountry": "PK"
+          },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+92-312-5721105",
+            "contactType": "sales",
+            "areaServed": "PK",
+            "availableLanguage": ["English", "Urdu"]
+          }
+        },
+        {
+          "@type": "Service",
+          "@id": "{{ ''|app }}/#service",
+          "name": "Access Control, Surveillance & Infrastructure Engineering",
+          "provider": {
+            "@id": "{{ ''|app }}/#organization"
+          },
+          "areaServed": {
+            "@type": "Country",
+            "name": "Pakistan"
+          },
+          "serviceType": "Security Systems Engineering, RFID Boom Barriers, CCTV Networks, Road Safety Equipment"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "{{ ''|app }}/"
+            }
+            {% if this.page.id != 'home' %}
+            ,{
+              "@type": "ListItem",
+              "position": 2,
+              "name": "{{ this.page.title }}",
+              "item": "{{ ''|app }}{{ this.page.url }}"
+            }
+            {% endif %}
+          ]
+        }
+      ]
+    }
+    </script>
 
     <!-- Favicon -->
     <link href="{{ 'assets/img/favicon.ico'|theme }}" rel="icon">
 
-    <!-- Google Web Fonts -->
+    <!-- Google Web Fonts (Urdu: Noto Nastaliq Urdu; English: Outfit, Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Roboto:wght@500;700;900&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet"> 
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -30,8 +111,9 @@ description = "Default layout"
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ 'assets/css/bootstrap.min.css'|theme }}" rel="stylesheet">
 
-    <!-- Template Stylesheet -->
+    <!-- Template Stylesheet & B2B Design System -->
     <link href="{{ 'assets/css/style.css'|theme }}" rel="stylesheet">
+    <link href="{{ 'assets/css/design-system.css'|theme }}" rel="stylesheet">
     <style>
         .dropdown-scroll-box::-webkit-scrollbar {
             width: 6px;
@@ -42,6 +124,110 @@ description = "Default layout"
         }
         .dropdown-scroll-box::-webkit-scrollbar-track {
             background-color: #f1f5f9;
+        }
+
+        /* Responsive Brand Title & Subtitle */
+        .brand-title-text {
+            font-size: 1.35rem;
+        }
+        .brand-sub-text {
+            font-size: 0.72rem;
+        }
+        @media (max-width: 576px) {
+            .brand-title-text {
+                font-size: 1.05rem !important;
+            }
+            .brand-sub-text {
+                font-size: 0.58rem !important;
+                letter-spacing: 0.8px !important;
+            }
+        }
+        @media (max-width: 380px) {
+            .brand-title-text {
+                font-size: 0.95rem !important;
+            }
+            .brand-sub-text {
+                font-size: 0.52rem !important;
+                letter-spacing: 0.5px !important;
+            }
+        }
+
+        /* Footer Interactions on White Theme */
+        .text-dark-hover {
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+        .text-dark-hover:hover {
+            color: #0284C7 !important;
+            transform: translateX(4px);
+        }
+        .footer-social-btn {
+            transition: all 0.25s ease;
+        }
+        .footer-social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+        }
+
+        /* =====================================================================
+           PROFESSIONAL URDU TYPOGRAPHY SYSTEM (Balanced, Elegant Proportion)
+           ===================================================================== */
+        :lang(ur),
+        .tech-urdu-title,
+        .tech-urdu-subtitle,
+        .tech-urdu-text,
+        .tech-urdu-badge,
+        .tech-card-urdu-title,
+        .tech-card-urdu-desc,
+        .hero-urdu-desc {
+            font-family: 'Noto Nastaliq Urdu', 'Gulzar', 'Jameel Noori Nastaleeq', 'Urdu Typesetting', Tahoma, sans-serif !important;
+        }
+
+        /* Scaled, balanced sizes for Nastaliq (since Nastaliq glyphs are visually ~20-25% larger than Latin) */
+        .tech-urdu-title {
+            font-size: 1.15rem !important;
+            line-height: 1.8 !important;
+        }
+        .tech-urdu-subtitle {
+            font-size: 0.98rem !important;
+            line-height: 1.75 !important;
+        }
+        .hero-urdu-desc {
+            font-size: 1.05rem !important;
+            line-height: 1.85 !important;
+        }
+        .tech-card-urdu-title {
+            font-size: 0.88rem !important;
+            line-height: 1.7 !important;
+        }
+        .tech-urdu-badge {
+            font-size: 0.82rem !important;
+            line-height: 1.5 !important;
+        }
+        .tech-urdu-text {
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+
+        /* Mobile Responsive Utilities for Closing CTA */
+        @media (max-width: 767px) {
+            .cta-conversion-strip {
+                padding-top: 2.5rem !important;
+                padding-bottom: 2.5rem !important;
+            }
+            .cta-pill-badge {
+                white-space: normal !important;
+                text-align: center;
+                display: inline-flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 6px 14px !important;
+                font-size: 0.78rem !important;
+            }
+            .cta-conversion-strip .btn-tech-primary,
+            .cta-conversion-strip .btn {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
         }
     </style>
 </head>
@@ -65,13 +251,13 @@ description = "Default layout"
                         <div class="btn-sm-square rounded-circle bg-primary me-2">
                             <small class="fa fa-map-marker-alt text-white"></small>
                         </div>
-                        <small class="text-light">Al Mustafa Tower Sector F10, Islamabad, Pakistan</small>
+                        <small class="text-light">{{ site_contact.address|default('Al Mustafa Tower Sector F10, Islamabad, Pakistan') }}</small>
                     </div>
                     <div class="h-100 d-inline-flex align-items-center py-3">
                         <div class="btn-sm-square rounded-circle bg-primary me-2">
                             <small class="fa fa-envelope-open text-white"></small>
                         </div>
-                        <small class="text-light">info@technicistpk.com</small>
+                        <small class="text-light">{{ site_contact.email|default('info@technicistpk.com') }}</small>
                     </div>
                 </div>
                 <div class="col-lg-6 text-end">
@@ -79,14 +265,14 @@ description = "Default layout"
                         <div class="btn-sm-square rounded-circle bg-primary me-2">
                             <small class="fa fa-phone-alt text-white"></small>
                         </div>
-                        <a href="tel:+923125721105" class="text-light text-decoration-none"><small>+92 312 5721105</small></a>
+                        <a href="tel:{{ site_contact.phone|default('+923125721105')|replace({' ': '', '-': ''}) }}" class="text-light text-decoration-none"><small>{{ site_contact.phone|default('+92 312 5721105') }}</small></a>
                     </div>
                     <div class="h-100 d-inline-flex align-items-center py-3">
-                        <a href="https://wa.me/923125721105" target="_blank" class="d-inline-flex align-items-center text-decoration-none">
+                        <a href="https://wa.me/{{ site_contact.whatsapp|default('923125721105')|replace({' ': '', '+': '', '-': ''}) }}" target="_blank" class="d-inline-flex align-items-center text-decoration-none">
                             <div class="btn-sm-square rounded-circle bg-primary me-2">
                                 <small class="fab fa-whatsapp text-white" style="font-size: 15px;"></small>
                             </div>
-                            <small class="text-light">+92 312 5721105</small>
+                            <small class="text-light">{{ site_contact.phone|default('+92 312 5721105') }}</small>
                         </a>
                     </div>
                 </div>
@@ -96,83 +282,134 @@ description = "Default layout"
     <!-- Topbar End -->
 
 
-    <!-- Navbar Start -->
-    <div class="container-fluid bg-white sticky-top p-0 shadow-sm">
+    <!-- Navbar Start (Standardized Enterprise Architecture) -->
+    <header class="container-fluid sticky-top p-0 shadow-sm" style="background-color: var(--tech-surface-white); border-bottom: 2px solid var(--tech-accent-teal);">
         <div class="container">
-            <nav class="navbar navbar-expand-lg bg-white navbar-light p-0">
-                <a href="{{ '/'|app }}" class="navbar-brand d-flex align-items-center py-2">
-                    <img src="{{ 'assets/images/technicist-logo.png'|theme }}" alt="Technicist Logo" style="height: 60px; width: auto; object-fit: contain;">
-                    <span class="ms-2 text-dark fs-3" style="font-weight: 800; color: #161616; letter-spacing: 0.5px;">Technicist</span>
+            <nav class="navbar navbar-expand-xl navbar-light p-0" style="min-height: 80px;">
+                <!-- Logo: Standardized High-Res Technicist Brand -->
+                <a href="{{ '/'|app }}" class="navbar-brand d-flex align-items-center py-2 me-auto me-xl-4" title="Technicist (SMC-Pvt) Ltd">
+                    <img src="{{ 'assets/images/technicist-logo.png'|theme }}" alt="Technicist Logo" width="180" height="58" style="height: 44px; width: auto; object-fit: contain;">
+                    <div class="ms-2 d-flex flex-column justify-content-center">
+                        <span class="fw-bold lh-1 brand-title-text" style="font-family: 'Outfit', sans-serif; letter-spacing: 0.5px; color: #0B132B;">TECHNICIST</span>
+                        <span class="text-uppercase fw-bolder brand-sub-text" style="letter-spacing: 1.2px; color: #00A8E8; margin-top: 2px;">Engineering &amp; Security</span>
+                    </div>
                 </a>
-                <button type="button" class="navbar-toggler me-2" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+
+                <button type="button" class="navbar-toggler border-0 me-2" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav ms-auto py-4 py-lg-0">
-                <a href="{{ '/'|app }}" class="nav-item nav-link active">Home</a>
-                <a href="{{ '/about-us'|app }}" class="nav-item nav-link">About Us</a>
 
-                <div class="nav-item dropdown">
-                    <a href="{{ '/products'|app }}" class="nav-link dropdown-toggle">Products</a>
-                    <div class="dropdown-menu rounded-0 rounded-bottom m-0 p-0 shadow-sm" style="min-width: 240px;">
-                        <div style="max-height: 180px; overflow-y: auto; padding: 6px 0;" class="dropdown-scroll-box">
-                            <a href="{{ '/product/resident-e-services'|app }}" class="dropdown-item">Resident E Services</a>
-                            <a href="{{ '/product/smart-city'|app }}" class="dropdown-item">Smart City</a>
-                            <a href="{{ '/product/ai'|app }}" class="dropdown-item">AI</a>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto py-3 py-xl-0 align-items-xl-center">
+                        <!-- 1. Home -->
+                        <a href="{{ '/'|app }}" class="nav-item nav-link fw-bold px-2 px-xxl-3 py-2 text-dark text-nowrap {{ this.page.id == 'home' ? 'text-primary' : '' }}">Home</a>
+                        
+                        <!-- 2. About Us -->
+                        <a href="{{ '/about-us'|app }}" class="nav-item nav-link fw-bold px-2 px-xxl-3 py-2 text-dark text-nowrap {{ this.page.id == 'about' ? 'text-primary' : '' }}" style="white-space: nowrap;">About Us</a>
+
+                        <!-- 3. Solutions (Mega-menu / Dropdown) -->
+                        <div class="nav-item dropdown">
+                            <a href="{{ '/services'|app }}" class="nav-link dropdown-toggle fw-bold px-2 px-xxl-3 py-2 text-dark text-nowrap" data-bs-toggle="dropdown" style="white-space: nowrap;">
+                                Solutions
+                            </a>
+                            <div class="dropdown-menu rounded-3 m-0 p-3 shadow-lg border-0" style="min-width: 320px; background: #FFFFFF; border-top: 3px solid #00A8E8 !important;">
+                                <div class="mb-2 pb-2 border-bottom">
+                                    <small class="text-uppercase fw-bold text-muted" style="letter-spacing: 0.05em; font-size: 0.72rem;">Engineering Capabilities</small>
+                                </div>
+                                <a href="{{ '/services/e-tag-vehicle-access-control-system'|app }}" class="dropdown-item py-2 px-3 rounded-2 d-flex align-items-center gap-2">
+                                    <i class="fa fa-id-card" style="color: #00A8E8; width: 18px;"></i>
+                                    <div>
+                                        <div class="fw-bold" style="font-size: 0.9rem;">Vehicle Access & RFID</div>
+                                        <small class="text-muted d-block" style="font-size: 0.78rem;">High-speed barriers & UHF E-Tags</small>
+                                    </div>
+                                </a>
+                                <a href="{{ '/services/security-safety-system'|app }}" class="dropdown-item py-2 px-3 rounded-2 d-flex align-items-center gap-2">
+                                    <i class="fa fa-video" style="color: #00A8E8; width: 18px;"></i>
+                                    <div>
+                                        <div class="fw-bold" style="font-size: 0.9rem;">Surveillance & ANPR</div>
+                                        <small class="text-muted d-block" style="font-size: 0.78rem;">AI camera networks & monitoring</small>
+                                    </div>
+                                </a>
+                                <a href="{{ '/services/road-traffic-safety'|app }}" class="dropdown-item py-2 px-3 rounded-2 d-flex align-items-center gap-2">
+                                    <i class="fa fa-traffic-light" style="color: #00A8E8; width: 18px;"></i>
+                                    <div>
+                                        <div class="fw-bold" style="font-size: 0.9rem;">Traffic Safety & ITS</div>
+                                        <small class="text-muted d-block" style="font-size: 0.78rem;">Solar studs, 3M cat-eyes, signaling</small>
+                                    </div>
+                                </a>
+                                <a href="{{ '/product/resident-e-services'|app }}" class="dropdown-item py-2 px-3 rounded-2 d-flex align-items-center gap-2">
+                                    <i class="fa fa-laptop-code" style="color: #00A8E8; width: 18px;"></i>
+                                    <div>
+                                        <div class="fw-bold" style="font-size: 0.9rem;">E-Services & VMS</div>
+                                        <small class="text-muted d-block" style="font-size: 0.78rem;">Visitor QR passes & society portals</small>
+                                    </div>
+                                </a>
+                                <a href="{{ '/services/elect-mech-engineering-works'|app }}" class="dropdown-item py-2 px-3 rounded-2 d-flex align-items-center gap-2">
+                                    <i class="fa fa-cogs" style="color: #00A8E8; width: 18px;"></i>
+                                    <div>
+                                        <div class="fw-bold" style="font-size: 0.9rem;">Electrical & Mechanical</div>
+                                        <small class="text-muted d-block" style="font-size: 0.78rem;">Hydraulic bollards & steel turnstiles</small>
+                                    </div>
+                                </a>
+                                <div class="mt-2 pt-2 border-top text-center">
+                                    <a href="{{ '/services'|app }}" class="small fw-bold text-decoration-none" style="color: #FF6B35;">
+                                        View All Solutions <i class="fa fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="p-2 border-top text-center" style="background: #f8fafc;">
-                            <a href="{{ '/products'|app }}" class="btn btn-sm w-100 text-white fw-bold" style="background-color: #65B530; border-radius: 6px;">See More <i class="fa fa-arrow-right ms-1"></i></a>
+
+                        <!-- 4. Projects (Filterable portfolio) -->
+                        <a href="{{ '/projects'|app }}" class="nav-item nav-link fw-bold px-2 px-xxl-3 py-2 text-dark text-nowrap {{ this.page.id == 'projects' ? 'text-primary' : '' }}" style="white-space: nowrap;">Projects</a>
+
+                        <!-- 5. Industries -->
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle fw-bold px-2 px-xxl-3 py-2 text-dark text-nowrap" data-bs-toggle="dropdown" style="white-space: nowrap;">
+                                Industries
+                            </a>
+                            <div class="dropdown-menu rounded-3 m-0 p-3 shadow-lg border-0" style="min-width: 280px; background: #FFFFFF; border-top: 3px solid #FF6B35 !important;">
+                                <a href="{{ '/projects'|app }}#communities" class="dropdown-item py-2 px-3 rounded-2 d-flex align-items-center gap-2">
+                                    <i class="fa fa-city" style="color: #FF6B35;"></i>
+                                    <span class="fw-bold" style="font-size: 0.9rem;">Gated Communities</span>
+                                </a>
+                                <a href="{{ '/projects'|app }}#commercial" class="dropdown-item py-2 px-3 rounded-2 d-flex align-items-center gap-2">
+                                    <i class="fa fa-building" style="color: #FF6B35;"></i>
+                                    <span class="fw-bold" style="font-size: 0.9rem;">Commercial High-Rises</span>
+                                </a>
+                                <a href="{{ '/projects'|app }}#industrial" class="dropdown-item py-2 px-3 rounded-2 d-flex align-items-center gap-2">
+                                    <i class="fa fa-industry" style="color: #FF6B35;"></i>
+                                    <span class="fw-bold" style="font-size: 0.9rem;">Industrial & Logistics</span>
+                                </a>
+                                <a href="{{ '/projects'|app }}#government" class="dropdown-item py-2 px-3 rounded-2 d-flex align-items-center gap-2">
+                                    <i class="fa fa-landmark" style="color: #FF6B35;"></i>
+                                    <span class="fw-bold" style="font-size: 0.9rem;">Government & Defense</span>
+                                </a>
+                            </div>
                         </div>
+
+                        <!-- 6. Contact Us -->
+                        <a href="{{ '/contact-us'|app }}" class="nav-item nav-link fw-bold px-2 px-xxl-3 py-2 text-dark text-nowrap {{ this.page.id == 'contact' ? 'text-primary' : '' }}" style="white-space: nowrap;">Contact Us</a>
+                    </div>
+
+                    <!-- Prominent Header CTAs -->
+                    <div class="d-flex align-items-center gap-2 ms-xl-2 ms-xxl-3 py-2 py-xl-0 flex-nowrap">
+                        <!-- Direct Mobile/Header WhatsApp Toggle -->
+                        <a href="https://wa.me/923125721105?text=Hello%20Technicist%20Engineering%20Desk%2C%20I%20am%20interested%20in%20a%20Technical%20Consultation." 
+                           target="_blank" rel="noopener" class="btn btn-sm d-flex align-items-center justify-content-center rounded-pill text-white" 
+                           style="background: #25D366; width: 40px; height: 40px;" title="Chat on WhatsApp (+92 312 5721105)">
+                            <i class="fab fa-whatsapp fs-5"></i>
+                        </a>
+
+                        <!-- Prominent "Request a Consultation" CTA -->
+                        <a href="{{ '/contact-us'|app }}" class="btn-tech-primary py-2 px-3" style="font-size: 0.88rem; white-space: nowrap;">
+                            <i class="fa fa-clipboard-list"></i> Request a Consultation
+                        </a>
                     </div>
                 </div>
-                <div class="nav-item dropdown">
-                    <a href="{{ '/services'|app }}" class="nav-link dropdown-toggle">Services</a>
-                    <div class="dropdown-menu rounded-0 rounded-bottom m-0 p-0 shadow-sm" style="min-width: 280px;">
-                        <div style="max-height: 200px; overflow-y: auto; padding: 6px 0;" class="dropdown-scroll-box">
-                            <a href="{{ '/services/e-tag-vehicle-access-control-system'|app }}" class="dropdown-item">E-Tag / Vehicle Access Control System</a>
-                            <a href="{{ '/services/road-traffic-safety'|app }}" class="dropdown-item">Road / Traffic Safety</a>
-                            <a href="{{ '/services/security-safety-system'|app }}" class="dropdown-item">Security / Safety System</a>
-                            <a href="{{ '/services/elect-mech-engineering-works'|app }}" class="dropdown-item">Elect. & Mech. Engineering Works</a>
-                        </div>
-                        <div class="p-2 border-top text-center" style="background: #f8fafc;">
-                            <a href="{{ '/services'|app }}" class="btn btn-sm w-100 text-white fw-bold" style="background-color: #65B530; border-radius: 6px;">See More <i class="fa fa-arrow-right ms-1"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="nav-item dropdown">
-                    <a href="{{ '/projects'|app }}" class="nav-link dropdown-toggle">Projects</a>
-                    <div class="dropdown-menu rounded-0 rounded-bottom m-0 p-0 shadow-sm" style="min-width: 280px;">
-                        <div style="max-height: 240px; overflow-y: auto; padding: 6px 0;" class="dropdown-scroll-box">
-                            <a href="{{ '/projects/cctv-network-management-system'|app }}" class="dropdown-item">CCTV & Network Management System</a>
-                            <a href="{{ '/projects/e-tag-visitor-management-system'|app }}" class="dropdown-item">E-Tag & Visitor Management System</a>
-                            <a href="{{ '/projects/highway-safety-it-equipment'|app }}" class="dropdown-item">Highway Safety & IT Equipment</a>
-                            <a href="{{ '/projects/security-surveillance-system'|app }}" class="dropdown-item">Security & Surveillance System</a>
-                            <a href="{{ '/projects/society-management-e-services-apps'|app }}" class="dropdown-item">Society Management & E-Services Apps</a>
-                            <a href="{{ '/projects/ac-dc-boom-barrier'|app }}" class="dropdown-item">AC, DC Boom Barrier</a>
-                            <a href="{{ '/projects/led-stadium-street-lights'|app }}" class="dropdown-item">LED Stadium & Street Lights</a>
-                            <a href="{{ '/projects/universal-ip-controller'|app }}" class="dropdown-item">Universal IP Controller</a>
-                            <a href="{{ '/projects/3m-china-cat-eyes'|app }}" class="dropdown-item">3M China Cat-eyes</a>
-                            <a href="{{ '/projects/elect-mech-engineering-works'|app }}" class="dropdown-item">Elect. & Mech. Engineering Works</a>
-                        </div>
-                        <div class="p-2 border-top text-center" style="background: #f8fafc;">
-                            <a href="{{ '/projects'|app }}" class="btn btn-sm w-100 text-white fw-bold" style="background-color: #65B530; border-radius: 6px;">See More <i class="fa fa-arrow-right ms-1"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <a href="{{ '/blog'|app }}" class="nav-item nav-link">Blog</a>
-                <a href="{{ '/contact-us'|app }}" class="nav-item nav-link">Contact</a>
-            </div>
-            <div class="h-100 d-lg-inline-flex align-items-center d-none">
-                <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i class="fab fa-twitter"></i></a>
-                <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i class="fab fa-linkedin-in"></i></a>
-                <a class="btn btn-square rounded-circle bg-light text-primary me-0" href=""><i class="fab fa-instagram"></i></a>
-            </div>
-            </div>
-        </nav>
-    </div>
-</div>
-<!-- Navbar End -->
+            </nav>
+        </div>
+    </header>
+    <!-- Navbar End -->
 
 
     <!-- Main Page Content Start -->
@@ -180,83 +417,198 @@ description = "Default layout"
         {% page %}
     </main>
     <!-- Main Page Content End -->
-<!-- Footer Start -->
-    <div class="container-fluid bg-dark text-secondary footer mt-5 py-5 wow fadeIn" data-wow-delay="0.1s">
+<!-- =========================================================================
+     SECTION H: HIGH-CONVERSION CLOSING FOOTER & CONTACT STRIP (BILINGUAL)
+     ========================================================================= -->
+    <!-- Closing CTA Banner / Strip -->
+    <section class="py-5 position-relative overflow-hidden cta-conversion-strip" style="background: linear-gradient(135deg, #070D18 0%, #0F172A 50%, #16243C 100%); border-top: 3px solid #00A8E8; border-bottom: 1px solid rgba(255,255,255,0.12);">
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="opacity: 0.05; pointer-events: none; background-image: radial-gradient(#38BDF8 1.5px, transparent 1.5px); background-size: 20px 20px;"></div>
+        <div class="container position-relative py-3">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-7 text-center text-lg-start">
+                    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3 cta-pill-badge" style="background: rgba(2, 132, 199, 0.25); border: 1px solid #38BDF8; font-size: 0.85rem; font-weight: 700;">
+                        <span style="display:inline-block; width: 8px; height: 8px; border-radius: 50%; background: #22C55E; box-shadow: 0 0 10px #22C55E;"></span>
+                        <span style="color: #FFFFFF; letter-spacing: 0.3px;">Enterprise Infrastructure &amp; Security Advisory</span> 
+                        <span style="color: rgba(255,255,255,0.4);" class="mx-1">|</span> 
+                        <span class="tech-urdu-badge" style="font-size: 0.88rem; color: #FDBA74; font-weight: 700;">مشاورتی سیکیورٹی انجینئرنگ</span>
+                    </div>
+                    <h2 class="fw-bold mb-2 text-white" style="font-size: clamp(1.65rem, 2.7vw, 2.25rem); line-height: 1.25; letter-spacing: -0.01em;">
+                        Ready to Secure and Automate Your Infrastructure?
+                    </h2>
+                    <div class="tech-urdu-title mb-3" style="font-size: 1.22rem !important; font-weight: 700; color: #F59E0B !important; line-height: 1.85 !important; text-shadow: 0 1px 3px rgba(0,0,0,0.5);">
+                        کیا آپ اپنے انفراسٹرکچر اور سیکیورٹی سسٹمز کو خودکار بنانے کے لیے تیار ہیں؟
+                    </div>
+                    <p class="mb-2" style="font-size: 1.02rem; line-height: 1.65; max-width: 620px; color: #F1F5F9; font-weight: 400; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
+                        Partner with Pakistan’s leading B2B access control, road safety, and surveillance engineering contractors. Request an on-site audit or instant technical quotation today.
+                    </p>
+                    <p class="tech-urdu-text mb-0" style="font-size: 1.05rem; color: #FFFFFF; font-weight: 600; line-height: 1.85;">
+                        پاکستان کے معروف سیکیورٹی و انفراسٹرکچر انجینئرز سے فوری سائٹ سروے، تکنیکی تجاویز اور باقاعدہ کوٹیشن حاصل کریں۔
+                    </p>
+                </div>
+                <div class="col-lg-5 text-center text-lg-end">
+                    <div class="d-flex flex-column flex-sm-row flex-lg-column align-items-center justify-content-center justify-content-lg-end gap-3">
+                        <a href="{{ '/contact-us'|app }}" class="btn-tech-primary py-3 px-4 shadow-sm text-decoration-none text-center w-100" style="font-size: 0.98rem; font-weight: 700; border-radius: 8px; max-width: 320px;">
+                            <div><i class="fa fa-clipboard-check me-2"></i> Request a Consultation</div>
+                            <span class="tech-urdu-badge d-block text-white" style="font-size: 0.84rem; opacity: 0.95; font-weight: 600;">تکنیکی مشاورت حاصل کریں</span>
+                        </a>
+                        <a href="https://wa.me/923125721105?text=Hello%20Technicist%20Engineering%20Desk%2C%20I%20would%20like%20to%20request%20a%20Technical%20Consultation%20and%20Quote." 
+                           target="_blank" rel="noopener" class="btn py-3 px-4 rounded-3 text-white fw-bold d-inline-flex flex-column align-items-center justify-content-center shadow-sm text-decoration-none w-100" 
+                           style="background: #25D366; font-size: 0.98rem; border: 1px solid rgba(255,255,255,0.25); transition: all 0.25s ease; max-width: 320px;">
+                            <div><i class="fab fa-whatsapp fs-5 me-2"></i> WhatsApp (+92 312 5721105)</div>
+                            <span class="tech-urdu-badge d-block text-white" style="font-size: 0.84rem; font-weight: 600;">واٹس ایپ فوری رابطہ</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Footer -->
+    <footer class="position-relative" style="background: #FFFFFF; border-top: 1px solid #E2E8F0; color: #0F172A;">
         <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
-                    <div class="mb-4 d-flex align-items-center">
-                        <img src="{{ 'assets/images/technicist-logo.png'|theme }}" alt="Technicist" style="height: 60px; width: auto; background: #ffffff; padding: 4px; border-radius: 8px;">
-                        <span class="ms-2 text-white fs-4" style="font-weight: 800; letter-spacing: 0.5px;">Technicist</span>
+            <div class="row g-4 g-lg-5">
+                <!-- Col 1: Brand & Location Information -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="mb-4 d-flex align-items-center gap-3">
+                        <img src="{{ 'assets/images/technicist-logo.png'|theme }}" alt="Technicist" style="height: 54px; width: auto; object-fit: contain;">
+                        <div>
+                            <span class="fs-4 fw-bold d-block" style="letter-spacing: 0.5px; line-height: 1.1; color: #0B132B;">TECHNICIST</span>
+                            <span style="font-size: 0.84rem; color: #0284C7; letter-spacing: 1.5px; font-weight: 800; text-transform: uppercase;">Engineering &amp; Security</span>
+                            <span class="tech-urdu-badge d-block" style="font-size: 0.95rem; color: #EA580C; font-weight: 700;">انجینئرنگ اینڈ سیکیورٹی پاکستان</span>
+                        </div>
                     </div>
-                    <h5 class="text-light mb-4">Address</h5>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Al Mustafa Tower, F10, Islamabad</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+92 312 5721105</p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@technicistpk.com</p>
-                    <div class="d-flex pt-2">
-                        <a class="btn btn-square btn-outline-secondary rounded-circle me-2" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-square btn-outline-secondary rounded-circle me-2" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square btn-outline-secondary rounded-circle me-2" href=""><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-square btn-outline-secondary rounded-circle me-2" href=""><i class="fab fa-linkedin-in"></i></a>
+                    <p class="mb-3" style="font-size: 0.98rem; line-height: 1.7; font-weight: 400; color: #334155 !important;">
+                        Technicist delivers end-to-end turnkey B2B security engineering, intelligent vehicle access automation, highway safety equipment, and optical fiber network infrastructures throughout Pakistan.
+                    </p>
+                    <p class="tech-urdu-text mb-4" style="font-size: 1.05rem; color: #1E293B !important; line-height: 1.8; font-weight: 600;">
+                        تیکنیسسٹ پاکستان بھر میں جدید وہیکل ایکسیس، ای ٹیگ بیریئرز، سی سی ٹی وی نیٹ ورکنگ اور روڈ سیفٹی کا مجاز ادارہ ہے۔
+                    </p>
+                    <div class="d-flex flex-column gap-3" style="font-size: 0.98rem;">
+                        <div class="d-flex align-items-start gap-3">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 40px; height: 40px; background: #E0F2FE; color: #0284C7; font-size: 1.05rem; border: 1px solid #BAE6FD;">
+                                <i class="fa fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <strong class="d-block text-dark" style="font-size: 0.98rem; font-weight: 700;">Location Information <span class="tech-urdu-badge ms-1" style="font-size:0.88rem; color: #0284C7; font-weight: 600;">(دفتر کا پتہ)</span></strong>
+                                <span style="font-weight: 500; font-size: 0.94rem; color: #475569;">{{ site_contact.address|default('Sector F-10, Al Mustafa Tower, Islamabad, Pakistan') }}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 40px; height: 40px; background: #E0F2FE; color: #0284C7; font-size: 1.05rem; border: 1px solid #BAE6FD;">
+                                <i class="fa fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <strong class="d-block text-dark" style="font-size: 0.98rem; font-weight: 700;">Direct Line / Hotline <span class="tech-urdu-badge ms-1" style="font-size:0.88rem; color: #0284C7; font-weight: 600;">(ہیلپ لائن)</span></strong>
+                                <a href="tel:{{ site_contact.phone|default('+923125721105')|replace({' ': '', '-': ''}) }}" class="text-decoration-none fw-bold" style="color: #0284C7; font-size: 1.12rem; letter-spacing: 0.5px;">{{ site_contact.phone|default('+92 312 5721105') }}</a>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 40px; height: 40px; background: #E0F2FE; color: #0284C7; font-size: 1.05rem; border: 1px solid #BAE6FD;">
+                                <i class="fa fa-envelope"></i>
+                            </div>
+                            <div>
+                                <strong class="d-block text-dark" style="font-size: 0.98rem; font-weight: 700;">Official Inquiries <span class="tech-urdu-badge ms-1" style="font-size:0.88rem; color: #0284C7; font-weight: 600;">(ای میل)</span></strong>
+                                <a href="mailto:{{ site_contact.email|default('info@technicistpk.com') }}" class="text-decoration-none fw-semibold" style="font-size: 0.96rem; color: #334155;">{{ site_contact.email|default('info@technicistpk.com') }}</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <h5 class="text-light mb-4">Services</h5>
-                    <a class="btn btn-link" href="{{ '/projects/cctv-network-management-system'|app }}">CCTV & Network</a>
-                    <a class="btn btn-link" href="{{ '/projects/e-tag-visitor-management-system'|app }}">E-Tag & Visitor Mgmt</a>
-                    <a class="btn btn-link" href="{{ '/projects/security-surveillance-system'|app }}">Security & Surveillance</a>
-                    <a class="btn btn-link" href="{{ '/projects/society-management-e-services-apps'|app }}">Society E-Services</a>
-                    <a class="btn btn-link" href="{{ '/projects/highway-safety-it-equipment'|app }}">Highway Safety</a>
+
+                <!-- Col 2: Engineering Solutions -->
+                <div class="col-lg-2 col-md-6 col-sm-6">
+                    <h5 class="fw-bold mb-3 pb-2" style="color: #0F172A; border-bottom: 2px solid #0284C7; display: inline-block; font-size: 1.12rem;">Solutions <span class="tech-urdu-badge" style="font-size:0.90rem; color:#0284C7;">(خدمات)</span></h5>
+                    <ul class="list-unstyled d-flex flex-column gap-3 mb-0" style="font-size: 0.96rem;">
+                        <li><a class="text-decoration-none fw-semibold d-block text-dark-hover" style="color: #1E293B;" href="{{ '/projects/e-tag-visitor-management-system'|app }}"><i class="fa fa-angle-right me-2" style="color: #0284C7;"></i>Vehicle Access Control <span class="d-block tech-urdu-badge mt-1" style="font-size:0.88rem; color:#64748B; font-weight: 600;">گاڑیوں کا خودکار ای ٹیگ گیٹ</span></a></li>
+                        <li><a class="text-decoration-none fw-semibold d-block text-dark-hover" style="color: #1E293B;" href="{{ '/product/resident-e-services'|app }}"><i class="fa fa-angle-right me-2" style="color: #0284C7;"></i>Visitor Management VMS <span class="d-block tech-urdu-badge mt-1" style="font-size:0.88rem; color:#64748B; font-weight: 600;">وزیٹر مینجمنٹ پورٹل</span></a></li>
+                        <li><a class="text-decoration-none fw-semibold d-block text-dark-hover" style="color: #1E293B;" href="{{ '/projects/cctv-network-management-system'|app }}"><i class="fa fa-angle-right me-2" style="color: #0284C7;"></i>CCTV &amp; Optical Networks <span class="d-block tech-urdu-badge mt-1" style="font-size:0.88rem; color:#64748B; font-weight: 600;">سی سی ٹی وی کیمرے و فائبر</span></a></li>
+                        <li><a class="text-decoration-none fw-semibold d-block text-dark-hover" style="color: #1E293B;" href="{{ '/services/security-safety-system'|app }}"><i class="fa fa-angle-right me-2" style="color: #0284C7;"></i>Security &amp; Alarm Systems <span class="d-block tech-urdu-badge mt-1" style="font-size:0.88rem; color:#64748B; font-weight: 600;">سیکیورٹی و الارم سسٹمز</span></a></li>
+                        <li><a class="text-decoration-none fw-semibold d-block text-dark-hover" style="color: #1E293B;" href="{{ '/services/road-traffic-safety'|app }}"><i class="fa fa-angle-right me-2" style="color: #0284C7;"></i>Road &amp; Traffic Safety <span class="d-block tech-urdu-badge mt-1" style="font-size:0.88rem; color:#64748B; font-weight: 600;">روڈ و ٹریفک سیفٹی کیٹ آئیز</span></a></li>
+                        <li><a class="text-decoration-none fw-semibold d-block text-dark-hover" style="color: #1E293B;" href="{{ '/services/elect-mech-engineering-works'|app }}"><i class="fa fa-angle-right me-2" style="color: #0284C7;"></i>Elect-Mech Engineering <span class="d-block tech-urdu-badge mt-1" style="font-size:0.88rem; color:#64748B; font-weight: 600;">الیکٹریکل و مکینیکل کام</span></a></li>
+                    </ul>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <h5 class="text-light mb-4">Quick Links</h5>
-                    <a class="btn btn-link" href="{{ '/about-us'|app }}">About Us</a>
-                    <a class="btn btn-link" href="{{ '/contact-us'|app }}">Contact Us</a>
-                    <a class="btn btn-link" href="{{ '/services'|app }}">Our Services</a>
-                    <a class="btn btn-link" href="{{ '/projects'|app }}">Our Projects</a>
-                    <a class="btn btn-link" href="{{ '/blog'|app }}">Blog</a>
+
+                <!-- Col 3: Industries & Sectors -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <h5 class="fw-bold mb-3 pb-2" style="color: #0F172A; border-bottom: 2px solid #FF6B35; display: inline-block; font-size: 1.12rem;">Industries Served <span class="tech-urdu-badge" style="font-size:0.90rem; color:#FF6B35;">(شعبہ جات)</span></h5>
+                    <ul class="list-unstyled d-flex flex-column gap-3 mb-0" style="font-size: 0.96rem;">
+                        <li><a class="text-decoration-none fw-semibold d-block text-dark-hover" style="color: #1E293B;" href="{{ '/projects'|app }}#communities"><i class="fa fa-angle-right me-2" style="color: #FF6B35;"></i>Housing Societies <span class="d-block tech-urdu-badge mt-1" style="font-size:0.88rem; color:#64748B; font-weight: 600;">ہاؤسنگ سوسائٹیز و گیٹڈ ٹاؤن</span></a></li>
+                        <li><a class="text-decoration-none fw-semibold d-block text-dark-hover" style="color: #1E293B;" href="{{ '/projects'|app }}#government"><i class="fa fa-angle-right me-2" style="color: #FF6B35;"></i>Government Installations <span class="d-block tech-urdu-badge mt-1" style="font-size:0.88rem; color:#64748B; font-weight: 600;">سرکاری و حساس ادارے</span></a></li>
+                        <li><a class="text-decoration-none fw-semibold d-block text-dark-hover" style="color: #1E293B;" href="{{ '/projects'|app }}#commercial"><i class="fa fa-angle-right me-2" style="color: #FF6B35;"></i>Commercial High-Rises <span class="d-block tech-urdu-badge mt-1" style="font-size:0.88rem; color:#64748B; font-weight: 600;">کمرشل پلازے و دفاتر</span></a></li>
+                        <li><a class="text-decoration-none fw-semibold d-block text-dark-hover" style="color: #1E293B;" href="{{ '/projects'|app }}#industrial"><i class="fa fa-angle-right me-2" style="color: #FF6B35;"></i>Industrial Facilities <span class="d-block tech-urdu-badge mt-1" style="font-size:0.88rem; color:#64748B; font-weight: 600;">فیکٹریاں و لاجسٹکس پارکس</span></a></li>
+                        <li><a class="text-decoration-none fw-semibold d-block text-dark-hover" style="color: #1E293B;" href="{{ '/projects'|app }}#roads"><i class="fa fa-angle-right me-2" style="color: #FF6B35;"></i>Highways &amp; Municipal Roads <span class="d-block tech-urdu-badge mt-1" style="font-size:0.88rem; color:#64748B; font-weight: 600;">شاہراہیں اور بلدیاتی سڑکیں</span></a></li>
+                    </ul>
                 </div>
+
+                <!-- Col 4: Quick Navigation & Legal / Sitemap -->
                 <div class="col-lg-3 col-md-6">
-                    <h5 class="text-light mb-4">Newsletter</h5>
-                    <p>Subscribe to our newsletter for the latest updates on our services.</p>
-                    <div class="position-relative w-100">
-                        <input id="newsletter-email" class="form-control bg-transparent border-secondary w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                        <button id="newsletter-btn" type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                    <h5 class="fw-bold mb-3 pb-2" style="color: #0F172A; border-bottom: 2px solid #0284C7; display: inline-block; font-size: 1.12rem;">Quick Navigation <span class="tech-urdu-badge" style="font-size:0.90rem; color:#0284C7;">(فوری لنکس)</span></h5>
+                    <ul class="list-unstyled d-flex flex-column gap-3 mb-4" style="font-size: 0.96rem;">
+                        <li><a class="text-decoration-none fw-semibold d-block text-dark-hover" style="color: #1E293B;" href="{{ '/'|app }}"><i class="fa fa-angle-right me-2" style="color: #0284C7;"></i>Home <span class="tech-urdu-badge ms-1" style="font-size:0.88rem; color:#64748B; font-weight: 600;">(ہوم پیج)</span></a></li>
+                        <li><a class="text-decoration-none fw-semibold d-block text-dark-hover" style="color: #1E293B;" href="{{ '/about-us'|app }}"><i class="fa fa-angle-right me-2" style="color: #0284C7;"></i>About Technicist <span class="tech-urdu-badge ms-1" style="font-size:0.88rem; color:#64748B; font-weight: 600;">(ہمارے بارے میں)</span></a></li>
+                        <li><a class="text-decoration-none fw-semibold d-block text-dark-hover" style="color: #1E293B;" href="{{ '/projects'|app }}"><i class="fa fa-angle-right me-2" style="color: #0284C7;"></i>Projects Portfolio <span class="tech-urdu-badge ms-1" style="font-size:0.88rem; color:#64748B; font-weight: 600;">(منصوبہ جات)</span></a></li>
+                        <li><a class="text-decoration-none fw-semibold d-block text-dark-hover" style="color: #1E293B;" href="{{ '/contact-us'|app }}"><i class="fa fa-angle-right me-2" style="color: #0284C7;"></i>Contact Desk <span class="tech-urdu-badge ms-1" style="font-size:0.88rem; color:#64748B; font-weight: 600;">(رابطہ اور کوٹیشن)</span></a></li>
+                    </ul>
+
+                    <h6 class="fw-bold mb-3" style="font-size: 0.95rem; letter-spacing: 0.5px; text-transform: uppercase; color: #0F172A;">Connect With Engineering <span class="tech-urdu-badge" style="font-size:0.88rem; color:#0284C7;">(سوشل میڈیا)</span></h6>
+                    <div class="d-flex gap-2 mb-4">
+                        <a class="btn btn-square rounded-circle d-flex align-items-center justify-content-center footer-social-btn" href="https://linkedin.com" target="_blank" rel="noopener" style="background: #F1F5F9; color: #0A66C2; border: 1px solid #CBD5E1; width: 42px; height: 42px; font-size: 1.1rem;" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a class="btn btn-square rounded-circle d-flex align-items-center justify-content-center footer-social-btn" href="https://facebook.com" target="_blank" rel="noopener" style="background: #F1F5F9; color: #1877F2; border: 1px solid #CBD5E1; width: 42px; height: 42px; font-size: 1.1rem;" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-square rounded-circle d-flex align-items-center justify-content-center footer-social-btn" href="https://twitter.com" target="_blank" rel="noopener" style="background: #F1F5F9; color: #0F172A; border: 1px solid #CBD5E1; width: 42px; height: 42px; font-size: 1.1rem;" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-square rounded-circle d-flex align-items-center justify-content-center footer-social-btn" href="https://youtube.com" target="_blank" rel="noopener" style="background: #F1F5F9; color: #FF0000; border: 1px solid #CBD5E1; width: 42px; height: 42px; font-size: 1.1rem;" title="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-square rounded-circle d-flex align-items-center justify-content-center footer-social-btn" href="https://wa.me/{{ site_contact.whatsapp|default('923125721105')|replace({' ': '', '+': '', '-': ''}) }}" target="_blank" rel="noopener" style="background: #DCFCE7; color: #16A34A; border: 1px solid #86EFAC; width: 42px; height: 42px; font-size: 1.15rem;" title="WhatsApp ({{ site_contact.phone|default('+92 312 5721105') }})"><i class="fab fa-whatsapp"></i></a>
                     </div>
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            document.getElementById('newsletter-btn').addEventListener('click', function() {
-                                var email = document.getElementById('newsletter-email').value;
-                                if(email && email.includes('@')) {
-                                    var name = email.split('@')[0];
-                                    // Capitalize the first letter for a nicer greeting
-                                    name = name.charAt(0).toUpperCase() + name.slice(1);
-                                    alert('Thank you ' + name + ' for contacting Technicist PK!');
-                                    document.getElementById('newsletter-email').value = '';
-                                } else {
-                                    alert('Please enter a valid email address.');
-                                }
-                            });
-                        });
-                    </script>
+
+                    <!-- Direct Quick Connect Buttons (Relocated from screen float) -->
+                    <div class="d-flex flex-column gap-2">
+                        <a href="https://wa.me/923125721105?text=Hello%20Technicist%20Engineering%20Desk%2C%20I%20would%20like%20to%20request%20a%20technical%20quote%20for%20an%20Access%20Control%20%2F%20Security%20project." 
+                           target="_blank" rel="noopener" class="btn text-white fw-bold d-flex align-items-center gap-2 px-3 py-2 rounded-3 shadow-sm text-decoration-none" 
+                           style="background: #25D366; font-size: 0.92rem; border: none; transition: transform 0.2s ease;">
+                            <i class="fab fa-whatsapp fs-5"></i>
+                            <span>Engineering Desk</span>
+                            <span class="ms-auto badge bg-white text-dark" style="font-size: 0.75rem; font-weight: 600;">Chat Now</span>
+                        </a>
+                        <a href="tel:+923125721105" class="btn text-white fw-bold d-flex align-items-center gap-2 px-3 py-2 rounded-3 shadow-sm text-decoration-none" 
+                           style="background: #0B132B; font-size: 0.92rem; border: 1px solid #1E293B; transition: transform 0.2s ease;">
+                            <i class="fa fa-phone-alt fs-6 text-primary"></i>
+                            <span>+92 312 5721105</span>
+                            <span class="ms-auto badge bg-primary text-white" style="font-size: 0.75rem; font-weight: 600;">Call Us</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- Sub-footer: Legal Policies & Sitemap & Copyright -->
+        <div class="py-3" style="background: #F8FAFC; border-top: 1px solid #E2E8F0;">
+            <div class="container">
+                <div class="row align-items-center gy-2">
+                    <div class="col-md-6 text-center text-md-start" style="font-size: 0.88rem; color: #64748B;">
+                        &copy; {{ "now"|date("Y") }} <strong style="color: #0F172A;">Technicist Private Limited</strong>. All Rights Reserved. Engineered for High-Security Pakistan Infrastructures.
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <ul class="list-inline mb-0" style="font-size: 0.85rem;">
+                            <li class="list-inline-item me-3">
+                                <a href="{{ '/privacy-policy'|app }}" class="text-decoration-none" style="color: #64748B;">Privacy Policy</a>
+                            </li>
+                            <li class="list-inline-item me-3">
+                                <span style="color: #CBD5E1;">&bull;</span>
+                            </li>
+                            <li class="list-inline-item me-3">
+                                <a href="{{ '/terms-of-service'|app }}" class="text-decoration-none" style="color: #64748B;">Terms &amp; Conditions</a>
+                            </li>
+                            <li class="list-inline-item me-3">
+                                <span style="color: #CBD5E1;">&bull;</span>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="{{ '/sitemap'|app }}" class="text-decoration-none" style="color: #64748B;">Sitemap</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
     <!-- Footer End -->
-
-
-    <!-- Copyright Start -->
-    <div class="container-fluid py-4" style="background: #000000;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0 text-white" style="font-size: 0.95rem;">
-                    &copy; {{ "now"|date("Y") }} <a class="border-bottom" href="{{ '/'|app }}" style="color: #65B530 !important;">Technicist Private Limited</a>, All Rights Reserved.
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Copyright End -->
 
 
     <!-- Back to Top -->

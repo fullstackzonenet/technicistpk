@@ -23,6 +23,16 @@ if (!file_exists($helperPath)) {
 
 require $helperPath;
 
+if (!class_exists('ZipArchive', false)) {
+    class ZipArchive {
+        const OVERWRITE = 8;
+        const CREATE = 1;
+        const EXCL = 2;
+        const CHECKCONS = 4;
+    }
+}
+
+
 /*
 |--------------------------------------------------------------------------
 | Register The Composer Auto Loader

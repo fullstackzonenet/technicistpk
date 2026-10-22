@@ -1,0 +1,687 @@
+/**
+ * ==========================================================================
+ * TECHNICIST B2B ENTERPRISE DESIGN SYSTEM (v2.1)
+ * Standards-compliant Token System with:
+ * - Primary Navy / Charcoal: #0B132B
+ * - Secondary Slate: #1C2541
+ * - Tech Accent Teal / Blue: #00A8E8
+ * - Action Highlight Orange / Amber: #FF6B35
+ * - Surface Neutrals: #F8F9FA & #FFFFFF
+ * ==========================================================================
+ */
+
+:root {
+    /* Brand Design Tokens - Refined Neutral Charcoal & Contrast Architecture */
+    --tech-primary-navy: #0B1120;        /* Deep crisp background for sections (Slate 950 deep) */
+    --tech-secondary-slate: #1E293B;     /* Distinct elevated card background (Slate 800) */
+    --tech-card-bg: #162032;             /* Premium dark card tone clearly distinct from #0B1120 */
+    --tech-accent-teal: #0284C7;         /* Precision enterprise cyan / blue */
+    --tech-accent-teal-hover: #0369A1;
+    --tech-accent-teal-light: rgba(2, 132, 199, 0.12);
+    --tech-accent-teal-border: rgba(56, 189, 248, 0.25);
+
+    --tech-action-orange: #FF6B35;       /* Primary CTA buttons, emergency floats */
+    --tech-action-orange-hover: #E85A24;
+    --tech-action-orange-light: rgba(255, 107, 53, 0.15);
+    --tech-action-orange-border: rgba(255, 107, 53, 0.4);
+
+    --tech-surface-light: #F8FAFC;       /* Clean crisp light sections */
+    --tech-surface-white: #FFFFFF;       /* Card background */
+    --tech-border-light: #E2E8F0;
+    --tech-border-dark: rgba(255, 255, 255, 0.14);
+
+    --tech-text-primary: #0F172A;
+    --tech-text-secondary: #475569;
+    --tech-text-muted: #64748B;
+    --tech-text-light: #F1F5F9;
+    --tech-text-light-muted: #94A3B8;
+
+    --tech-whatsapp: #25D366;
+    --tech-whatsapp-hover: #20bd5a;
+
+    /* Shadows & Glows */
+    --tech-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --tech-shadow-md: 0 6px 20px rgba(0, 0, 0, 0.18);
+    --tech-shadow-lg: 0 14px 35px rgba(0, 0, 0, 0.28);
+    --tech-glow-orange: 0 6px 25px rgba(255, 107, 53, 0.35);
+    --tech-glow-teal: 0 4px 20px rgba(2, 132, 199, 0.25);
+
+    /* Typography Scale (Modular scale based on 16px base) */
+    --tech-font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --tech-font-mono: 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+
+    --tech-h1-size: clamp(2.75rem, 4vw, 3.5rem);
+    --tech-h2-size: clamp(2rem, 3vw, 2.5rem);
+    --tech-h3-size: clamp(1.25rem, 1.8vw, 1.5rem);
+    --tech-body-size: 1rem;
+    --tech-body-line-height: 1.6;
+
+    /* Transitions */
+    --tech-transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   GLOBAL TYPOGRAPHY & LAYOUT UTILITIES
+   ========================================================================== */
+body {
+    font-family: var(--tech-font-sans) !important;
+    background-color: var(--tech-primary-navy) !important;
+    color: var(--tech-text-light);
+    font-size: var(--tech-body-size);
+    line-height: var(--tech-body-line-height);
+    overflow-x: hidden;
+}
+
+h1, .h1 {
+    font-size: var(--tech-h1-size);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: #FFFFFF;
+}
+
+h2, .h2 {
+    font-size: var(--tech-h2-size);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+}
+
+h3, .h3 {
+    font-size: var(--tech-h3-size);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    color: #FFFFFF;
+}
+
+p {
+    line-height: var(--tech-body-line-height);
+    margin-bottom: 1rem;
+}
+
+/* Engineering Section Headings & Badges */
+.tech-section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--tech-accent-teal-light);
+    color: var(--tech-accent-teal);
+    border: 1px solid var(--tech-accent-teal-border);
+    padding: 6px 18px;
+    border-radius: 50px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.tech-section-badge .pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--tech-accent-teal);
+    box-shadow: 0 0 10px var(--tech-accent-teal);
+    animation: techPulse 2s infinite;
+}
+
+@keyframes techPulse {
+    0% { transform: scale(0.9); opacity: 0.8; }
+    50% { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.8; }
+}
+
+.tech-section-title {
+    font-size: var(--tech-h2-size);
+    font-weight: 800;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+}
+
+.tech-urdu-title {
+    font-family: 'Noto Sans Arabic', 'Urdu Typesetting', Tahoma, sans-serif;
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    font-weight: 700;
+    color: #FFB088;
+    line-height: 1.6;
+    direction: rtl;
+    margin-bottom: 12px;
+}
+
+.tech-section-subtitle {
+    font-size: 1.05rem;
+    color: #E2E8F0; /* Bright readable off-white */
+    max-width: 780px;
+    margin: 0 auto 0.6rem auto;
+    line-height: 1.65;
+    font-weight: 500;
+}
+
+.tech-urdu-subtitle {
+    font-family: 'Noto Sans Arabic', 'Urdu Typesetting', Tahoma, sans-serif;
+    font-size: 1.05rem;
+    color: #F8FAFC; /* Crisp readable pure off-white */
+    max-width: 780px;
+    margin: 0 auto 2.5rem auto;
+    direction: rtl;
+    line-height: 1.75;
+    font-weight: 600;
+}
+
+/* Bilingual Badge & Inline Labels */
+.tech-lang-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+}
+
+.tech-urdu-text {
+    font-family: 'Noto Sans Arabic', 'Urdu Typesetting', Tahoma, sans-serif;
+    direction: rtl;
+}
+
+.tech-card-urdu-title {
+    font-family: 'Noto Sans Arabic', 'Urdu Typesetting', Tahoma, sans-serif;
+    font-size: 0.96rem;
+    color: #FDBA74; /* Warm high-contrast amber */
+    direction: rtl;
+    display: block;
+    margin-top: 3px;
+    font-weight: 700;
+}
+
+.tech-card-urdu-desc {
+    font-family: 'Noto Sans Arabic', 'Urdu Typesetting', Tahoma, sans-serif;
+    font-size: 0.92rem;
+    color: #F1F5F9;
+    direction: rtl;
+    display: block;
+    margin-top: 6px;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   BUTTONS & CALL TO ACTIONS (ACTION HIGHLIGHT ORANGE / TEAL)
+   ========================================================================== */
+.btn-tech-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--tech-action-orange);
+    color: #FFFFFF !important;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 12px 28px;
+    border-radius: 8px;
+    border: none;
+    box-shadow: var(--tech-glow-orange);
+    transition: var(--tech-transition);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-tech-primary:hover {
+    background: var(--tech-action-orange-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(255, 107, 53, 0.5);
+    color: #FFFFFF !important;
+}
+
+.btn-tech-teal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--tech-accent-teal);
+    color: #FFFFFF !important;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 12px 26px;
+    border-radius: 8px;
+    border: none;
+    box-shadow: var(--tech-glow-teal);
+    transition: var(--tech-transition);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-tech-teal:hover {
+    background: var(--tech-accent-teal-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 168, 232, 0.45);
+    color: #FFFFFF !important;
+}
+
+.btn-tech-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #FFFFFF !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: var(--tech-transition);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-tech-outline:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--tech-accent-teal);
+    color: var(--tech-accent-teal) !important;
+    transform: translateY(-2px);
+}
+
+.btn-tech-wa {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--tech-whatsapp);
+    color: #FFFFFF !important;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 18px rgba(37, 211, 102, 0.35);
+    transition: var(--tech-transition);
+    border: none;
+    text-decoration: none;
+}
+
+.btn-tech-wa:hover {
+    background: var(--tech-whatsapp-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+    color: #FFFFFF !important;
+}
+
+/* ==========================================================================
+   CARDS & GRIDS (SECONDARY SLATE #1C2541 CONTAINERS)
+   ========================================================================== */
+.tech-card {
+    background: #162032; /* Rich, distinct elevated surface tone */
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    contain: layout paint;
+}
+
+.tech-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--tech-accent-teal), transparent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+/* Micro-Interaction: Precise -4px Subtle Hover Lift */
+.tech-card:hover {
+    background: #1E293B;
+    border-color: #38BDF8;
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), 0 0 25px rgba(2, 132, 199, 0.2);
+}
+
+.tech-card:hover::before {
+    opacity: 1;
+}
+
+/* Zero CLS Media Wrapper */
+.tech-card-media {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    background-color: var(--tech-primary-navy);
+    overflow: hidden;
+    contain: strict;
+}
+
+.tech-card-media img {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(1.0);
+}
+
+.tech-card:hover .tech-card-media img {
+    transform: scale(1.04);
+}
+
+/* WCAG AA Accessibility: High-Contrast Focus Visible Rings */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--tech-accent-teal) !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 0 0 4px rgba(0, 168, 232, 0.35) !important;
+}
+
+.tech-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: var(--tech-accent-teal-light);
+    border: 1px solid var(--tech-accent-teal-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--tech-accent-teal);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: var(--tech-transition);
+}
+
+.tech-card:hover .tech-card-icon {
+    background: var(--tech-accent-teal);
+    color: #FFFFFF;
+    transform: scale(1.06);
+}
+
+.tech-card-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 0.75rem;
+}
+
+.tech-card-text {
+    font-size: 0.94rem;
+    color: #E2E8F0; /* High contrast readable light grey */
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    flex-grow: 1;
+    font-weight: 400;
+}
+
+/* Feature checklist inside cards */
+.tech-spec-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 1rem;
+}
+
+.tech-spec-list li {
+    font-size: 0.90rem;
+    color: #F8FAFC;
+    margin-bottom: 9px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.tech-spec-list li i {
+    color: #38BDF8;
+    font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   4-STEP ENGINEERING EXECUTION TIMELINE (Workflow Diagram)
+   ========================================================================== */
+.tech-workflow-section {
+    padding: 6rem 0;
+    background: linear-gradient(180deg, var(--tech-primary-navy) 0%, #101B3A 50%, var(--tech-primary-navy) 100%);
+    position: relative;
+    border-top: 1px solid var(--tech-border-dark);
+    border-bottom: 1px solid var(--tech-border-dark);
+}
+
+.tech-timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    position: relative;
+}
+
+@media (max-width: 991px) {
+    .tech-timeline-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .tech-timeline-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.tech-step-card {
+    background: #162032;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 2rem 1.6rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    position: relative;
+    transition: var(--tech-transition);
+}
+
+.tech-step-card:hover {
+    background: #1E293B;
+    border-color: #38BDF8;
+    transform: translateY(-5px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), 0 0 25px rgba(2, 132, 199, 0.2);
+}
+
+.tech-step-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+}
+
+.tech-step-number {
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.16);
+    font-family: var(--tech-font-mono);
+    line-height: 1;
+    transition: var(--tech-transition);
+}
+
+.tech-step-card:hover .tech-step-number {
+    color: var(--tech-accent-teal);
+}
+
+.tech-step-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--tech-accent-teal-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--tech-accent-teal);
+    font-size: 1.25rem;
+}
+
+.tech-step-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 0.75rem;
+}
+
+.tech-step-desc {
+    font-size: 0.90rem;
+    color: #E2E8F0;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   METRIC STATS STRIP
+   ========================================================================== */
+.tech-stats-strip {
+    background: var(--tech-secondary-slate);
+    border-top: 1px solid var(--tech-border-dark);
+    border-bottom: 1px solid var(--tech-border-dark);
+    padding: 2.5rem 0;
+}
+
+.tech-stat-item {
+    text-align: center;
+    padding: 1rem;
+    border-right: 1px solid var(--tech-border-dark);
+}
+
+.tech-stat-item:last-child {
+    border-right: none;
+}
+
+@media (max-width: 767px) {
+    .tech-stat-item {
+        border-right: none;
+        border-bottom: 1px solid var(--tech-border-dark);
+    }
+    .tech-stat-item:last-child {
+        border-bottom: none;
+    }
+}
+
+.tech-stat-value {
+    font-size: clamp(2.2rem, 3.2vw, 3rem);
+    font-weight: 800;
+    color: var(--tech-accent-teal);
+    line-height: 1.1;
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+}
+
+.tech-stat-label {
+    font-size: 0.84rem;
+    color: var(--tech-text-light-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   SURFACE NEUTRALS SECTION UTILITY (Alternate Backgrounds)
+   ========================================================================== */
+.tech-surface-neutral {
+    background-color: var(--tech-surface-light) !important;
+    color: var(--tech-text-primary) !important;
+}
+
+.tech-surface-neutral .tech-card {
+    background: var(--tech-surface-white) !important;
+    border: 1px solid var(--tech-border-light) !important;
+    box-shadow: var(--tech-shadow-sm);
+}
+
+.tech-surface-neutral .tech-card:hover {
+    border-color: var(--tech-accent-teal) !important;
+    box-shadow: var(--tech-shadow-md);
+}
+
+.tech-surface-neutral .tech-card-title {
+    color: var(--tech-primary-navy) !important;
+}
+
+.tech-surface-neutral .tech-card-text {
+    color: var(--tech-text-secondary) !important;
+}
+
+.tech-surface-neutral .tech-spec-list {
+    border-top: 1px solid var(--tech-border-light);
+}
+
+.tech-surface-neutral .tech-spec-list li {
+    color: var(--tech-text-primary);
+}
+
+/* ==========================================================================
+   STICKY FLOATING B2B EMERGENCY & ACTION WIDGET
+   ========================================================================== */
+.tech-floating-widget {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tech-float-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 20px;
+    border-radius: 50px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    transition: var(--tech-transition);
+}
+
+.tech-float-btn.float-wa {
+    background: #25D366;
+    color: #FFFFFF !important;
+}
+
+.tech-float-btn.float-wa:hover {
+    background: #20bd5a;
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 10px 30px rgba(37, 211, 102, 0.5);
+}
+
+.tech-float-btn.float-action {
+    background: var(--tech-action-orange);
+    color: #FFFFFF !important;
+    box-shadow: var(--tech-glow-orange);
+}
+
+.tech-float-btn.float-action:hover {
+    background: var(--tech-action-orange-hover);
+    transform: translateY(-3px) scale(1.03);
+}
+
+.tech-float-btn.float-phone {
+    background: var(--tech-primary-navy);
+    color: #FFFFFF !important;
+    border: 1px solid var(--tech-border-dark);
+}
+
+.tech-float-btn.float-phone:hover {
+    background: var(--tech-secondary-slate);
+    border-color: var(--tech-accent-teal);
+    transform: translateY(-3px) scale(1.03);
+}
+
+@media (max-width: 576px) {
+    .tech-floating-widget {
+        right: 16px;
+        bottom: 16px;
+        gap: 8px;
+    }
+    .tech-float-btn span {
+        display: none;
+    }
+    .tech-float-btn {
+        width: 48px;
+        height: 48px;
+        padding: 0;
+        justify-content: center;
+        border-radius: 50%;
+    }
+}

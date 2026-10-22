@@ -6,6 +6,12 @@ function onStart()
 {
     $page = \Technicist\Portfolio\Models\Page::where('slug', 'home')->first();
     $this['page_data'] = $page;
+    if (class_exists('\Technicist\Portfolio\Models\Service')) {
+        $this['services'] = \Technicist\Portfolio\Models\Service::orderBy('sort_order', 'asc')->get();
+    }
+    if (class_exists('\Technicist\Portfolio\Models\Project')) {
+        $this['projects'] = \Technicist\Portfolio\Models\Project::orderBy('sort_order', 'asc')->get();
+    }
 
     $featureImg = 'assets/images/code_management_ui.png';
     if ($page && !empty($page->content) && preg_match('/src="([^"]*storage\/app\/media[^"]*)"/i', $page->content, $m)) {
@@ -15,12 +21,14 @@ function onStart()
 }
 ==
 <style>
+    /* Hero Architecture & High-Contrast Typography */
     #heroVideoSlider {
         position: relative;
         width: 100%;
         height: 100vh;
-        min-height: 850px;
+        min-height: 820px;
         overflow: hidden;
+        background: #000000;
     }
     .hero-video-item {
         position: absolute;
@@ -31,486 +39,1247 @@ function onStart()
         object-fit: cover;
         object-position: center center;
     }
-    .hero-badge {
+    /* Clear, natural video without color tint */
+    .hero-enterprise-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* Pure neutral black gradients only - zero color tint to preserve true video colors */
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.48) 50%, rgba(0, 0, 0, 0.75) 100%);
+        z-index: 5;
+    }
+    .hero-vignette {
+        display: none;
+    }
+    /* Hero Content container - responsive padding with crisp contrast */
+    .hero-content-scrim {
+        background: transparent;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        position: relative;
+        z-index: 7;
+    }
+    .hero-badge-pill {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        background: rgba(101, 181, 48, 0.18);
-        color: #65B530;
-        border: 1px solid rgba(101, 181, 48, 0.4);
-        padding: 6px 18px;
+        gap: 12px;
+        background: rgba(0, 0, 0, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+        padding: 9px 26px;
         border-radius: 50px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        backdrop-filter: blur(8px);
-        margin-bottom: 20px;
-        max-width: 100%;
-        white-space: normal;
-        text-align: center;
     }
-    .hero-title {
-        color: #ffffff;
-        font-weight: 800;
-        font-size: clamp(1.8rem, 4vw, 3.2rem);
-        line-height: 1.25;
-        letter-spacing: -0.5px;
-        text-shadow: 0 4px 25px rgba(0,0,0,0.85);
-        margin-bottom: 20px;
-        word-wrap: break-word;
-    }
-    .hero-text {
-        color: rgba(255, 255, 255, 0.92);
-        font-size: clamp(0.95rem, 1.5vw, 1.15rem);
-        line-height: 1.6;
-        max-width: 740px;
-        margin: 0 auto 28px auto;
-        text-shadow: 0 2px 12px rgba(0,0,0,0.8);
-        word-wrap: break-word;
-    }
-    .btn-hero-primary {
-        background-color: #65B530 !important;
-        border-color: #65B530 !important;
-        color: #ffffff !important;
-        font-weight: 600;
-        padding: 12px 30px;
-        border-radius: 50px;
-        box-shadow: 0 6px 20px rgba(101, 181, 48, 0.45);
-        transition: all 0.3s ease;
-        text-decoration: none;
+    .hero-spec-strip {
         display: inline-flex;
         align-items: center;
+        gap: 22px;
+        flex-wrap: wrap;
+        margin: 22px 0 28px 0;
+        padding: 12px 32px;
+        background: rgba(0, 0, 0, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+        border-radius: 50px;
+    }
+    .hero-spec-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #FFFFFF;
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+    }
+    .hero-spec-item i {
+        color: #FF8533;
+        font-size: 1.15rem;
+    }
+    .hero-spec-divider {
+        width: 1px;
+        height: 22px;
+        background: rgba(255, 255, 255, 0.35);
+    }
+
+    .hero-controls-bar {
+        position: absolute;
+        bottom: 35px;
+        left: 0;
+        width: 100%;
+        display: flex;
         justify-content: center;
-    }
-    .btn-hero-primary:hover {
-        background-color: #549927 !important;
-        color: #ffffff !important;
-        transform: translateY(-2px);
-    }
-    .btn-hero-outline {
-        background: rgba(255, 255, 255, 0.12) !important;
-        border: 1px solid rgba(255, 255, 255, 0.35) !important;
-        color: #ffffff !important;
-        font-weight: 600;
-        padding: 12px 30px;
-        border-radius: 50px;
-        backdrop-filter: blur(8px);
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-flex;
         align-items: center;
-        justify-content: center;
+        z-index: 99;
+        gap: 14px;
+        pointer-events: auto;
     }
-    .btn-hero-outline:hover {
-        background: rgba(255, 255, 255, 0.28) !important;
-        color: #ffffff !important;
-        transform: translateY(-2px);
-    }
+
+    /* Mobile Only Responsive Rules - NEVER affect desktop or normal view */
     @media (max-width: 768px) {
         #heroVideoSlider {
             height: auto !important;
-            min-height: 480px !important;
-            padding: 40px 0 !important;
+            min-height: 820px !important;
+            padding: 70px 12px 90px 12px !important;
+        }
+        .hero-content-layer {
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            height: auto !important;
+        }
+        .hero-badge-pill {
+            flex-direction: column !important;
+            gap: 4px !important;
+            padding: 8px 16px !important;
+            border-radius: 20px !important;
+        }
+        .hero-badge-pill .hero-badge-eng {
+            font-size: 0.8rem !important;
+            letter-spacing: 0.04em !important;
+        }
+        .hero-badge-pill .hero-badge-urdu {
+            font-size: 0.95rem !important;
+        }
+        .hero-badge-pill .pulse-dot,
+        .hero-badge-pill .badge-divider {
+            display: none !important;
         }
         .hero-title {
-            font-size: 1.45rem !important;
-            line-height: 1.3 !important;
+            font-size: 1.85rem !important;
+            line-height: 1.25 !important;
             margin-bottom: 12px !important;
+        }
+        .tech-urdu-title {
+            font-size: 1.25rem !important;
+            line-height: 1.5 !important;
+            margin-bottom: 14px !important;
+        }
+        .hero-spec-strip {
+            padding: 8px 14px !important;
+            gap: 8px !important;
+            justify-content: center !important;
+            border-radius: 25px !important;
+            margin: 14px 0 18px 0 !important;
+        }
+        .hero-spec-item {
+            font-size: 0.85rem !important;
         }
         .hero-text {
-            font-size: 0.85rem !important;
-            line-height: 1.5 !important;
-            margin-bottom: 20px !important;
+            font-size: 0.96rem !important;
+            line-height: 1.55 !important;
         }
-        .hero-badge {
-            font-size: 0.75rem !important;
-            padding: 4px 14px !important;
-            margin-bottom: 12px !important;
+        .hero-urdu-desc {
+            font-size: 0.98rem !important;
+            line-height: 1.6 !important;
+            margin-bottom: 22px !important;
         }
-        .btn-hero-primary, .btn-hero-outline {
-            padding: 9px 22px !important;
-            font-size: 0.85rem !important;
+        .hero-cta-group {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 12px !important;
+            max-width: 320px;
+            margin: 0 auto !important;
         }
-        .hero-slider-controls {
-            bottom: 15px !important;
+        .hero-cta-group .btn-tech-primary,
+        .hero-cta-group .btn-tech-outline,
+        .hero-cta-group .btn-tech-wa {
+            width: 100% !important;
+            padding: 12px 16px !important;
+            font-size: 0.92rem !important;
+            justify-content: center !important;
+            text-align: center !important;
+        }
+        .hero-controls-bar {
+            position: absolute !important;
+            bottom: 20px !important;
         }
     }
+
+    @media (max-width: 480px) {
+        #heroVideoSlider {
+            min-height: 860px !important;
+            padding: 60px 8px 95px 8px !important;
+        }
+        .hero-title {
+            font-size: 1.65rem !important;
+        }
+        .hero-spec-strip {
+            display: none !important;
+        }
+    }
+
+    /* Global Urdu Nastaliq Typography */
+    .tech-urdu-title,
+    .tech-urdu-subtitle,
+    .tech-urdu-text,
+    .tech-card-urdu-title,
+    .tech-urdu-badge,
+    .hero-urdu-desc {
+        font-family: 'Noto Nastaliq Urdu', 'Gulzar', 'Jameel Noori Nastaleeq', 'Urdu Typesetting', Tahoma, sans-serif !important;
+    }
+    .tech-urdu-title {
+        font-size: 1.15rem !important;
+        line-height: 1.8 !important;
+    }
+    .tech-urdu-subtitle {
+        font-size: 0.98rem !important;
+        line-height: 1.75 !important;
+    }
+    .hero-urdu-desc {
+        font-size: 1.05rem !important;
+        line-height: 1.85 !important;
+    }
+    .tech-card-urdu-title {
+        font-size: 0.88rem !important;
+        line-height: 1.7 !important;
+    }
+
+    /* ==========================================================================
+       HOME PAGE WHITE THEME (ALL SECTIONS BELOW HERO)
+       ========================================================================== */
+    .tech-home-light-sections {
+        background-color: #FFFFFF !important;
+        color: #0F172A !important;
+    }
+
+    /* White Backgrounds for Sections B, C, D, E, F, G */
+    .tech-home-light-sections .tech-stats-strip,
+    .tech-home-light-sections section {
+        background-color: #FFFFFF !important;
+        border-top: 1px solid #E2E8F0 !important;
+        border-bottom: 1px solid #E2E8F0 !important;
+    }
+
+    /* Alternate soft clean background for workflow & industries */
+    .tech-home-light-sections .tech-workflow-section,
+    .tech-home-light-sections #industries {
+        background-color: #F8FAFC !important;
+    }
+
+    /* Section Titles & Subtitles - Dark & Crisp */
+    .tech-home-light-sections .tech-section-title {
+        color: #0F172A !important;
+        font-weight: 800;
+    }
+    .tech-home-light-sections .tech-urdu-title {
+        color: #EA580C !important; /* Premium readable dark amber / orange */
+        font-weight: 800;
+    }
+    .tech-home-light-sections .tech-section-subtitle {
+        color: #475569 !important; /* Clear Slate 600 */
+        font-weight: 500;
+    }
+    .tech-home-light-sections .tech-urdu-subtitle {
+        color: #334155 !important; /* Clear Slate 700 */
+        font-weight: 600;
+    }
+
+    /* Section Badge */
+    .tech-home-light-sections .tech-section-badge {
+        background: #E0F2FE !important;
+        color: #0284C7 !important;
+        border: 1px solid #BAE6FD !important;
+    }
+    .tech-home-light-sections .tech-section-badge .tech-urdu-text {
+        color: #C2410C !important; /* Deep, crisp Rust/Orange 700 - 100% readable on light cyan badge */
+        font-weight: 700 !important;
+    }
+    .tech-home-light-sections .tech-step-card .tech-card-urdu-title {
+        color: #C2410C !important;
+        font-weight: 700 !important;
+    }
+
+    /* Cards - Crisp Pure White with subtle shadow and refined border */
+    .tech-home-light-sections .tech-card {
+        background: #FFFFFF !important;
+        border: 1px solid #E2E8F0 !important;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06) !important;
+    }
+    .tech-home-light-sections .tech-card:hover {
+        background: #FFFFFF !important;
+        border-color: #0284C7 !important;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12) !important;
+    }
+
+    /* Card Titles & Text */
+    .tech-home-light-sections .tech-card-title {
+        color: #0F172A !important;
+        font-weight: 700;
+    }
+    .tech-home-light-sections .tech-card-urdu-title {
+        color: #D97706 !important; /* Amber 600 for sharp reading */
+        font-weight: 700;
+    }
+    .tech-home-light-sections .tech-card-text {
+        color: #475569 !important;
+        font-weight: 400;
+    }
+    .tech-home-light-sections .tech-spec-list {
+        border-top: 1px solid #E2E8F0 !important;
+    }
+    .tech-home-light-sections .tech-spec-list li {
+        color: #1E293B !important;
+        font-weight: 500;
+    }
+    .tech-home-light-sections .tech-spec-list li i {
+        color: #0284C7 !important;
+    }
+    .tech-home-light-sections .tech-spec-list li .tech-urdu-text {
+        color: #0369A1 !important;
+        font-weight: 600;
+    }
+
+    /* Card Action Buttons */
+    .tech-home-light-sections .btn-tech-outline {
+        background: #F8FAFC !important;
+        color: #0F172A !important;
+        border: 1.5px solid #CBD5E1 !important;
+        font-weight: 700;
+    }
+    .tech-home-light-sections .btn-tech-outline:hover {
+        background: #0284C7 !important;
+        color: #FFFFFF !important;
+        border-color: #0284C7 !important;
+    }
+    .tech-home-light-sections .btn-tech-outline .tech-urdu-text {
+        color: #475569 !important;
+    }
+    .tech-home-light-sections .btn-tech-outline:hover .tech-urdu-text {
+        color: #FFFFFF !important;
+    }
+
+    /* Section B: Key Capabilities Trust Bar Cards */
+    .tech-home-light-sections .tech-stats-strip .rounded-3 {
+        background: #FFFFFF !important;
+        border: 1px solid #E2E8F0 !important;
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+    }
+    .tech-home-light-sections .tech-stats-strip h4 {
+        color: #0F172A !important;
+    }
+    .tech-home-light-sections .tech-stats-strip p {
+        color: #475569 !important;
+    }
+
+    /* Section D: Workflows Containers & Steps */
+    .tech-home-light-sections .tech-workflow-box {
+        background: #FFFFFF !important;
+        border: 1px solid #E2E8F0 !important;
+        box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+    }
+    .tech-home-light-sections .tech-workflow-box h3 {
+        color: #0F172A !important;
+    }
+    .tech-home-light-sections .tech-workflow-box small {
+        color: #64748B !important;
+    }
+    .tech-home-light-sections .tech-workflow-step {
+        background: #F8FAFC !important;
+        border: 1px solid #E2E8F0 !important;
+    }
+    .tech-home-light-sections .tech-workflow-step h4 {
+        color: #0F172A !important;
+    }
+    .tech-home-light-sections .tech-workflow-step p {
+        color: #475569 !important;
+    }
+
+    /* Section E: Portfolio Filter Tabs */
+    .tech-home-light-sections .portfolio-filter-btn {
+        background: #F1F5F9 !important;
+        color: #334155 !important;
+        border: 1px solid #CBD5E1 !important;
+    }
+    .tech-home-light-sections .portfolio-filter-btn .tech-urdu-text {
+        color: #64748B !important;
+    }
+    .tech-home-light-sections .portfolio-filter-btn:hover {
+        background: #E2E8F0 !important;
+        color: #0F172A !important;
+    }
+    .tech-home-light-sections .portfolio-filter-btn.active {
+        background: #0284C7 !important;
+        color: #FFFFFF !important;
+        border-color: #0284C7 !important;
+    }
+    .tech-home-light-sections .portfolio-filter-btn.active .tech-urdu-text {
+        color: #FFFFFF !important;
+    }
+
+    /* Section G: 5-Step Delivery Lifecycle */
+    .tech-home-light-sections .tech-step-card {
+        background: #FFFFFF !important;
+        border: 1px solid #E2E8F0 !important;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06) !important;
+    }
+    .tech-home-light-sections .tech-step-card:hover {
+        border-color: #0284C7 !important;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12) !important;
+    }
+    .tech-home-light-sections .tech-step-title {
+        color: #0F172A !important;
+    }
+    .tech-home-light-sections .tech-step-desc {
+        color: #475569 !important;
+    }
+    .tech-home-light-sections .tech-step-number {
+        color: #E2E8F0 !important;
+    }
+    .tech-home-light-sections .tech-step-card:hover .tech-step-number {
+        color: #0284C7 !important;
+    }
 </style>
-<!-- Hero Video Slider Start -->
-    <div class="container-fluid p-0 mb-0">
-        <div class="position-relative" id="heroVideoSlider">
-            <!-- Video Elements -->
-            <video id="heroVid1" autoplay muted playsinline preload="metadata" class="hero-video-item position-absolute w-100 h-100" style="object-fit: cover; top: 0; left: 0; z-index: 2; opacity: 1; transition: opacity 1.2s ease-in-out;">
-                <source src="{{ 'assets/images/herovid.mp4'|theme }}" type="video/mp4">
-            </video>
-            <video id="heroVid2" muted playsinline preload="none" class="hero-video-item position-absolute w-100 h-100" style="object-fit: cover; top: 0; left: 0; z-index: 1; opacity: 0; transition: opacity 1.2s ease-in-out;">
-                <source src="{{ 'assets/images/pptx/herovideo.mp4'|theme }}" type="video/mp4">
-            </video>
-            
-            <!-- Dark Gradient Overlay -->
-            <div class="position-absolute w-100 h-100" style="background: linear-gradient(180deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.8) 100%); top: 0; left: 0; z-index: 5;"></div>
-            
-            <!-- Content -->
-            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center hero-content-wrapper" style="z-index: 6;">
-                <div class="container px-3">
-                    <div class="row justify-content-center">
-                        <div class="col-12 col-md-10 text-center">
-                            <div class="hero-badge">
-                                <i class="fa fa-shield-alt"></i> Security & Technology Solutions
+
+<!-- =========================================================================
+     SECTION A: HERO PANEL
+     ========================================================================= -->
+<div class="container-fluid p-0 mb-0">
+    <div class="position-relative" id="heroVideoSlider">
+        <!-- Unified Seamless Dual-Video Master Stream (0-10s: Highway CCTV, 10-20s: Barrier Automation) -->
+        <video id="heroMainVideo" autoplay muted loop playsinline preload="auto" class="hero-video-item position-absolute w-100 h-100" style="object-fit: cover; z-index: 2;" src="{{ 'assets/images/heroloop.mp4'|theme }}">
+            <source id="heroMainSource" src="{{ 'assets/images/heroloop.mp4'|theme }}" type="video/mp4">
+        </video>
+        
+        <!-- Natural Neutral Overlay (Zero Color Tint) -->
+        <div class="hero-enterprise-overlay"></div>
+        
+        <!-- Hero Content Layer -->
+        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center hero-content-layer" style="z-index: 6;">
+            <div class="container px-3">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-xl-11 text-center">
+                        <div class="hero-content-scrim">
+                            <!-- Hero Badge with crisp high contrast -->
+                            <div class="d-inline-block mb-3">
+                                <div class="hero-badge-pill">
+                                    <span class="pulse-dot" style="background: #38BDF8; box-shadow: 0 0 12px #38BDF8;"></span> 
+                                    <span class="hero-badge-eng" style="color: #FFFFFF; font-weight: 800; font-size: 0.96rem; letter-spacing: 0.07em; text-transform: uppercase;">{{ page_data.hero_badge|default('Mission-Critical Infrastructure & Engineering') }}</span>
+                                    <span class="text-white-50 mx-2 badge-divider">|</span>
+                                    <span class="tech-urdu-text hero-badge-urdu" style="color: #FDBA74; font-size: 1.1rem; font-weight: 700;">{{ page_data.hero_badge_urdu|default('انجینئرنگ اور سیکیورٹی سسٹمز') }}</span>
+                                </div>
                             </div>
-                            <h1 class="hero-title">
-                                Welcome to <span style="color: #65B530;">Technicist</span><br class="d-none d-sm-inline"> Private Limited
+                            
+                            <!-- Requested Headline (Larger, Ultra-Crisp English + Urdu) -->
+                            <h1 class="hero-title" style="font-size: clamp(2.4rem, 4.4vw, 3.85rem); font-weight: 900; line-height: 1.18; color: #FFFFFF; text-shadow: 0 4px 30px rgba(0,0,0,0.98), 0 2px 10px rgba(0,0,0,0.9); margin-bottom: 14px; letter-spacing: -0.01em;">
+                                {{ page_data.hero_title|default('Engineering Smarter Infrastructure. <br class="d-none d-md-inline"> Delivering Intelligent Security.')|raw }}
                             </h1>
-                            <p class="hero-text">
-                                {{ page_data.hero_subtitle ?: page_data.description ?: 'Trust is an ever more valuable commodity. Keeping this in view, we are providing essential services to many of the worlds biggest and most critical businesses, governments, and organizations.' }}
+                            <div class="tech-urdu-title mb-3" style="font-size: clamp(1.2rem, 1.8vw, 1.45rem) !important; font-weight: 700; color: #FFD29D; text-shadow: 0 4px 25px rgba(0,0,0,0.98), 0 2px 8px rgba(0,0,0,0.9); line-height: 1.8 !important;">
+                                {{ page_data.hero_title_urdu|default('جدید ترین انفراسٹرکچر انجینئرنگ اور محفوظ سیکیورٹی سسٹمز کی فراہمی') }}
+                            </div>
+                            
+                            <!-- Technical Specs Strip (Larger & Crisp) -->
+                            <div class="d-flex justify-content-center">
+                                <div class="hero-spec-strip">
+                                    <div class="hero-spec-item">
+                                        <i class="fa fa-microchip"></i> 
+                                        <span>Integrated RFID Barriers <small class="tech-urdu-text ms-1" style="color: #CBD5E1; font-size: 0.95rem; font-weight: 600;">(خودکار بیریئرز)</small></span>
+                                    </div>
+                                    <div class="hero-spec-divider d-none d-sm-block"></div>
+                                    <div class="hero-spec-item">
+                                        <i class="fa fa-video"></i> 
+                                        <span>HD Camera Poles <small class="tech-urdu-text ms-1" style="color: #CBD5E1; font-size: 0.95rem; font-weight: 600;">(سرویلنس پولز)</small></span>
+                                    </div>
+                                    <div class="hero-spec-divider d-none d-md-block"></div>
+                                    <div class="hero-spec-item d-none d-md-flex">
+                                        <i class="fa fa-tachometer-alt"></i> 
+                                        <span>Control Dashboards <small class="tech-urdu-text ms-1" style="color: #CBD5E1; font-size: 0.95rem; font-weight: 600;">(کنٹرول روم)</small></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Requested Sub-headline (Bigger, High Legibility Pure White) -->
+                            <p class="hero-text mb-2" style="color: #FFFFFF; font-size: clamp(1.15rem, 1.45vw, 1.32rem); max-width: 900px; margin: 0 auto; line-height: 1.65; font-weight: 500; text-shadow: 0 3px 18px rgba(0,0,0,0.98), 0 1px 6px rgba(0,0,0,0.9);">
+                                {{ page_data.hero_subtitle|default('Technicist delivers integrated vehicle access control, enterprise surveillance, road safety equipment, and electrical/mechanical engineering solutions across Pakistan.') }}
                             </p>
-                            <div class="d-flex flex-wrap justify-content-center gap-2 mt-2">
-                                <a href="{{ '/contact-us'|app }}" class="btn-hero-primary">Contact Us</a>
-                                <a href="{{ '/about-us'|app }}" class="btn-hero-outline">Learn More</a>
+                            <p class="tech-urdu-text hero-urdu-desc mb-4" style="color: #F1F5F9; font-size: clamp(1.12rem, 1.35vw, 1.25rem); max-width: 880px; margin: 8px auto 30px auto; line-height: 1.7; direction: rtl; font-weight: 700; text-shadow: 0 3px 18px rgba(0,0,0,0.98), 0 1px 6px rgba(0,0,0,0.9);">
+                                {{ page_data.hero_subtitle_urdu|default('ٹیکنیسٹ پاکستان بھر میں وہیکل ایکسس کنٹرول (ای ٹیگ)، سی سی ٹی وی نیٹ ورکس، روڈ سیفٹی اور الیکٹریکل و مکینیکل انجینئرنگ فراہم کرتا ہے۔') }}
+                            </p>
+                            
+                            <!-- Requested Primary & Secondary CTAs (Larger & Crisp) -->
+                            <div class="d-flex flex-wrap justify-content-center align-items-center gap-3 hero-cta-group">
+                                <a href="{{ '/contact-us'|app }}" class="btn-tech-primary shadow-lg" style="font-size: 1.05rem; padding: 14px 32px; font-weight: 700;">
+                                    <i class="fa fa-clipboard-list me-2"></i> 
+                                    <span>Request a Consultation</span>
+                                    <span class="badge ms-2 px-2 py-1 tech-urdu-text" style="background: rgba(0,0,0,0.3); font-size: 0.9rem; font-weight: 600;">مشاورت حاصل کریں</span>
+                                </a>
+                                <a href="{{ '/services'|app }}" class="btn-tech-outline" style="background: rgba(0, 0, 0, 0.7); border: 1.5px solid rgba(255,255,255,0.5); font-size: 1.05rem; padding: 14px 30px; font-weight: 700; color: #FFFFFF;">
+                                    <i class="fa fa-layer-group me-2" style="color: #38BDF8;"></i> 
+                                    <span>Explore Solutions</span>
+                                    <span class="text-white-50 tech-urdu-text ms-2" style="font-size: 0.9rem; font-weight: 500;">خدمات دیکھیں</span>
+                                </a>
+                                <a href="https://wa.me/923125721105?text=Hello%20Technicist%20Engineering%20Desk%2C%20I%20would%20like%20to%20request%20an%20infrastructure%20consultation." target="_blank" rel="noopener" class="btn-tech-wa shadow-lg" style="font-size: 1.05rem; padding: 14px 30px; font-weight: 700;">
+                                    <i class="fab fa-whatsapp me-2"></i> 
+                                    <span>WhatsApp Us</span>
+                                    <span class="badge ms-2 px-2 py-1 tech-urdu-text" style="background: rgba(0,0,0,0.25); font-size: 0.9rem; font-weight: 600;">واٹس ایپ رابطہ</span>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Slider Controls / Dots & Arrows -->
-            <div class="hero-slider-controls position-absolute w-100 d-flex justify-content-center align-items-center" style="bottom: 35px; z-index: 7; gap: 15px;">
-                <button id="heroPrevBtn" class="btn-slider-nav" style="width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.5); background: rgba(0,0,0,0.4); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;">
-                    <i class="fa fa-chevron-left" style="font-size: 13px;"></i>
-                </button>
-                <div class="hero-slider-dots d-flex align-items-center" style="gap: 10px;">
-                    <span class="hero-dot active" data-index="0" style="width: 12px; height: 12px; border-radius: 50%; background: #65B530; display: inline-block; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 10px #65B530;"></span>
-                    <span class="hero-dot" data-index="1" style="width: 12px; height: 12px; border-radius: 50%; border: 2px solid #fff; background: transparent; display: inline-block; cursor: pointer; transition: all 0.3s ease;"></span>
+        <!-- Slider Navigation Controls (Elevated above all layers for instant click response) -->
+        <div class="hero-controls-bar">
+            <button id="heroPrevBtn" type="button" class="btn-slider-nav" aria-label="Previous Slide" style="width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.4); background: rgba(0,0,0,0.75); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(8px); transition: all 0.2s ease;">
+                <i class="fa fa-chevron-left" style="font-size: 14px; pointer-events: none;"></i>
+            </button>
+            <div class="hero-slider-dots d-flex align-items-center" style="gap: 12px; padding: 6px 12px; background: rgba(0,0,0,0.6); border-radius: 30px; border: 1px solid rgba(255,255,255,0.2);">
+                <span class="hero-dot active" data-index="0" style="width: 28px; height: 10px; border-radius: 5px; background: #00A8E8; display: inline-block; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 0 12px #00A8E8;"></span>
+                <span class="hero-dot" data-index="1" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.5); display: inline-block; cursor: pointer; transition: all 0.3s ease;"></span>
+            </div>
+            <button id="heroNextBtn" type="button" class="btn-slider-nav" aria-label="Next Slide" style="width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.4); background: rgba(0,0,0,0.75); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(8px); transition: all 0.2s ease;">
+                <i class="fa fa-chevron-right" style="font-size: 14px; pointer-events: none;"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================================
+     HOME PAGE WHITE THEME WRAPPER (ALL SECTIONS EXCEPT HERO)
+     ========================================================================= -->
+<div class="tech-home-light-sections">
+
+<!-- =========================================================================
+     SECTION B: KEY CAPABILITIES TRUST BAR (Bilingual)
+     ========================================================================= -->
+<div class="tech-stats-strip" style="background: var(--tech-secondary-slate); border-top: 2px solid var(--tech-border-dark); border-bottom: 2px solid var(--tech-border-dark);">
+    <div class="container py-2">
+        <div class="row g-4 align-items-stretch">
+            <!-- Card 1 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="p-3 h-100 rounded-3 d-flex align-items-start gap-3" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.12);">
+                    <div class="rounded-3 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px; background: rgba(56, 189, 248, 0.15); color: #38BDF8; font-size: 1.25rem;">
+                        <i class="fa fa-shield-alt"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-white mb-0" style="font-size: 1.0rem; font-weight: 700; line-height: 1.3;">Integrated Access Systems</h4>
+                        <span class="tech-card-urdu-title" style="color: #FDBA74; font-size: 0.95rem;">خودکار رسائی و آٹومیشن سسٹمز</span>
+                        <p class="mb-0 mt-1" style="font-size: 0.85rem; line-height: 1.45; color: #E2E8F0;">High-speed boom barriers, UHF RFID tags, and vehicle screening.</p>
+                    </div>
                 </div>
-                <button id="heroNextBtn" class="btn-slider-nav" style="width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.5); background: rgba(0,0,0,0.4); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;">
-                    <i class="fa fa-chevron-right" style="font-size: 13px;"></i>
-                </button>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="p-3 h-100 rounded-3 d-flex align-items-start gap-3" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.12);">
+                    <div class="rounded-3 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px; background: rgba(56, 189, 248, 0.15); color: #38BDF8; font-size: 1.25rem;">
+                        <i class="fa fa-industry"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-white mb-0" style="font-size: 1.0rem; font-weight: 700; line-height: 1.3;">Industrial Infrastructure</h4>
+                        <span class="tech-card-urdu-title" style="color: #FDBA74; font-size: 0.95rem;">صنعتی و تجارتی انفراسٹرکچر</span>
+                        <p class="mb-0 mt-1" style="font-size: 0.85rem; line-height: 1.45; color: #E2E8F0;">Perimeter security, road safety cat-eyes, and mechanical engineering.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="p-3 h-100 rounded-3 d-flex align-items-start gap-3" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.12);">
+                    <div class="rounded-3 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px; background: rgba(56, 189, 248, 0.15); color: #38BDF8; font-size: 1.25rem;">
+                        <i class="fa fa-laptop-code"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-white mb-0" style="font-size: 1.0rem; font-weight: 700; line-height: 1.3;">Hardware & Software</h4>
+                        <span class="tech-card-urdu-title" style="color: #FDBA74; font-size: 0.95rem;">ہارڈویئر اور کسٹم سافٹ ویئر</span>
+                        <p class="mb-0 mt-1" style="font-size: 0.85rem; line-height: 1.45; color: #E2E8F0;">Universal IP controllers, database integration & visitor systems.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="p-3 h-100 rounded-3 d-flex align-items-start gap-3" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.12);">
+                    <div class="rounded-3 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px; background: rgba(56, 189, 248, 0.15); color: #38BDF8; font-size: 1.25rem;">
+                        <i class="fa fa-tools"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-white mb-0" style="font-size: 1.0rem; font-weight: 700; line-height: 1.3;">Turnkey Survey & AMC</h4>
+                        <span class="tech-card-urdu-title" style="color: #FDBA74; font-size: 0.95rem;">سائٹ سروے اور سالانہ سروسنگ</span>
+                        <p class="mb-0 mt-1" style="font-size: 0.85rem; line-height: 1.45; color: #E2E8F0;">Civil works, installation, calibration, and 24/7 technical SLA.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Hero Video Slider End -->
+</div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const v1 = document.getElementById('heroVid1');
-        const v2 = document.getElementById('heroVid2');
+<!-- =========================================================================
+     SECTION C: CORE SOLUTIONS GRID (6 High-Contrast Cards - Bilingual)
+     ========================================================================= -->
+<section class="py-5" style="background: var(--tech-primary-navy); border-top: 1px solid var(--tech-border-dark);">
+    <div class="container py-4">
+        <div class="text-center">
+            <div class="tech-section-badge">
+                <span class="pulse-dot"></span> 
+                <span>Core Engineering Solutions</span>
+                <span class="opacity-50 mx-1">|</span>
+                <span class="tech-urdu-text">اہم تکنیکی خدمات</span>
+            </div>
+            <h2 class="tech-section-title">Mission-Critical Security & Automation Systems</h2>
+            <div class="tech-urdu-title">اعلیٰ معیار کے خودکار سیکیورٹی اور ایکسس سسٹمز</div>
+            <p class="tech-section-subtitle mb-1">
+                Engineered for maximum duty cycles, high-throughput security gates, and severe climatic durability across Pakistan.
+            </p>
+            <p class="tech-urdu-subtitle">
+                بغیر تعطل چوبیس گھنٹے کام کرنے والے بیریئرز، ریڈیو فریکوئنسی ای ٹیگز اور بین الاقوامی معیار کے مانیٹرنگ سلوشنز
+            </p>
+        </div>
+
+        <div class="row g-4 mt-2">
+            {% if services and services.count > 0 %}
+                {% for service in services %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="tech-card">
+                        <div class="tech-card-media mb-3 rounded-3 overflow-hidden position-relative">
+                            <img src="{{ service.image ? (service.image starts with 'http' ? service.image : service.image|theme) : ('assets/images/vehicle-access-control.jpeg'|theme) }}" alt="{{ service.title }}" width="400" height="225" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+                            <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background: rgba(11, 19, 43, 0.85); color: #00A8E8; font-size: 0.75rem; border: 1px solid rgba(0, 168, 232, 0.3);">{{ service.badge|default('Solution') }}</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-3 mb-2">
+                            <div class="tech-card-icon mb-0" style="width: 44px; height: 44px; font-size: 1.15rem;">
+                                <i class="{{ service.icon|default('fa fa-shield-alt') }}"></i>
+                            </div>
+                            <div>
+                                <h3 class="tech-card-title mb-0" style="font-size: 1.15rem;">{{ service.title }}</h3>
+                                {% if service.title_urdu %}
+                                <span class="tech-card-urdu-title">{{ service.title_urdu }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <p class="tech-card-text mb-2">
+                            {{ service.description }}
+                        </p>
+                        <a href="{{ ('/services/' ~ (service.url_slug ? service.url_slug : service.slug))|app }}" class="btn-tech-outline w-100 justify-content-center mt-auto">
+                            <span class="fw-bold">View Details</span> <span class="tech-urdu-text ms-1" style="color: #BAE6FD;">(تفصیلات)</span> <i class="fa fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================================
+     SECTION D: INTERACTIVE STEP-BY-STEP ARCHITECTURE (Bilingual)
+     (Inspired by New City Wah architectural patterns)
+     ========================================================================= -->
+<section class="tech-workflow-section py-5" style="background: var(--tech-secondary-slate); border-top: 1px solid var(--tech-border-dark);">
+    <div class="container py-3">
+        <div class="text-center">
+            <div class="tech-section-badge">
+                <span class="pulse-dot"></span> 
+                <span>System Topology & Workflows</span>
+                <span class="opacity-50 mx-1">|</span>
+                <span class="tech-urdu-text">طریقہ کار اور سسٹم فلو</span>
+            </div>
+            <h2 class="tech-section-title">How Technicist Integrates Systems in Real-World Environments</h2>
+            <div class="tech-urdu-title">ٹیکنیسٹ کس طرح مختلف سسٹمز کو ایک مربوط نیٹ ورک میں جوڑتا ہے</div>
+            <p class="tech-section-subtitle mb-1">
+                Clear real-time signal flow and data processing diagrams demonstrating zero-friction security automation.
+            </p>
+            <p class="tech-urdu-subtitle">
+                گاڑی کی آمد سے لے کر تصدیق اور گیٹ کھلنے تک چند سیکنڈز میں مکمل ہونے والا خودکار عمل
+            </p>
+        </div>
+
+        <!-- Workflow 1: Vehicle Access Flow -->
+        <div class="tech-workflow-box mb-5 p-4 rounded-4" style="background: #FFFFFF; border: 1px solid #E2E8F0;">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4 border-bottom pb-3" style="border-color: #E2E8F0 !important;">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="btn-sm-square rounded-circle" style="background: var(--tech-action-orange); color: #FFFFFF; width: 36px; height: 36px;">
+                        <i class="fa fa-car"></i>
+                    </div>
+                    <div>
+                        <h3 class="mb-0" style="font-size: 1.25rem; font-weight: 700; color: #0F172A;">Workflow 1: Vehicle Access & Gate Automation Flow</h3>
+                        <small style="color: #64748B; font-weight: 500;">Sub-second execution loop for high-frequency entry checkpoints</small>
+                    </div>
+                </div>
+                <div class="tech-urdu-text" style="color: #EA580C; font-size: 1rem; font-weight: 700;">
+                    مرحلہ وار طریقہ کار: ای ٹیگ اور خودکار گیٹ انٹری
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-6 col-md-4 col-lg">
+                    <div class="tech-workflow-step p-3 rounded-3 h-100 text-center" style="background: #F8FAFC; border: 1px solid #E2E8F0;">
+                        <div class="fw-bold mb-1" style="font-size: 0.75rem; color: #0284C7;">STEP 01</div>
+                        <i class="fa fa-car-side mb-2" style="color: #0284C7; font-size: 1.5rem;"></i>
+                        <h4 class="mb-0" style="font-size: 0.92rem; font-weight: 700; color: #0F172A;">Approach Vehicle</h4>
+                        <span class="tech-card-urdu-title mb-1" style="font-size: 0.82rem; color: #D97706; font-weight: 600;">گاڑی کا لین میں داخلہ</span>
+                        <p class="small mb-0" style="font-size: 0.8rem; color: #475569; line-height: 1.4;">Vehicle enters the induction detection zone</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg">
+                    <div class="tech-workflow-step p-3 rounded-3 h-100 text-center" style="background: #F8FAFC; border: 1px solid #E2E8F0;">
+                        <div class="fw-bold mb-1" style="font-size: 0.75rem; color: #0284C7;">STEP 02</div>
+                        <i class="fa fa-broadcast-tower mb-2" style="color: #0284C7; font-size: 1.5rem;"></i>
+                        <h4 class="mb-0" style="font-size: 0.92rem; font-weight: 700; color: #0F172A;">RFID Tag Scan</h4>
+                        <span class="tech-card-urdu-title mb-1" style="font-size: 0.82rem; color: #D97706; font-weight: 600;">ای ٹیگ کی خودکار سکیننگ</span>
+                        <p class="small mb-0" style="font-size: 0.8rem; color: #475569; line-height: 1.4;">UHF reader scans e-tag up to 12m away</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg">
+                    <div class="tech-workflow-step p-3 rounded-3 h-100 text-center" style="background: #F8FAFC; border: 1px solid #E2E8F0;">
+                        <div class="fw-bold mb-1" style="font-size: 0.75rem; color: #0284C7;">STEP 03</div>
+                        <i class="fa fa-database mb-2" style="color: #0284C7; font-size: 1.5rem;"></i>
+                        <h4 class="mb-0" style="font-size: 0.92rem; font-weight: 700; color: #0F172A;">DB Verification</h4>
+                        <span class="tech-card-urdu-title mb-1" style="font-size: 0.82rem; color: #D97706; font-weight: 600;">ڈیٹابیس تصدیق (ملی سیکنڈز)</span>
+                        <p class="small mb-0" style="font-size: 0.8rem; color: #475569; line-height: 1.4;">Active authorization validated in &lt;150ms</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg">
+                    <div class="tech-workflow-step p-3 rounded-3 h-100 text-center" style="background: #F8FAFC; border: 1px solid #E2E8F0;">
+                        <div class="fw-bold mb-1" style="font-size: 0.75rem; color: #0284C7;">STEP 04</div>
+                        <i class="fa fa-shield-alt mb-2" style="color: #0284C7; font-size: 1.5rem;"></i>
+                        <h4 class="mb-0" style="font-size: 0.92rem; font-weight: 700; color: #0F172A;">Barrier Lift</h4>
+                        <span class="tech-card-urdu-title mb-1" style="font-size: 0.82rem; color: #D97706; font-weight: 600;">تیز رفتار بیریئر کا کھلنا</span>
+                        <p class="small mb-0" style="font-size: 0.8rem; color: #475569; line-height: 1.4;">Brushless barrier arm opens in 0.6s - 1.5s</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 col-lg">
+                    <div class="tech-workflow-step p-3 rounded-3 h-100 text-center" style="background: #F8FAFC; border: 1px solid #E2E8F0;">
+                        <div class="fw-bold mb-1" style="font-size: 0.75rem; color: #0284C7;">STEP 05</div>
+                        <i class="fa fa-cloud-upload-alt mb-2" style="color: #0284C7; font-size: 1.5rem;"></i>
+                        <h4 class="mb-0" style="font-size: 0.92rem; font-weight: 700; color: #0F172A;">Cloud Logging</h4>
+                        <span class="tech-card-urdu-title mb-1" style="font-size: 0.82rem; color: #D97706; font-weight: 600;">کلاؤڈ پر تصویر و ریکارڈ محفوظ</span>
+                        <p class="small mb-0" style="font-size: 0.8rem; color: #475569; line-height: 1.4;">Plate photo & timestamp stored on server</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workflow 2: Perimeter CCTV Flow -->
+        <div class="tech-workflow-box p-4 rounded-4" style="background: #FFFFFF; border: 1px solid #E2E8F0;">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4 border-bottom pb-3" style="border-color: #E2E8F0 !important;">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="btn-sm-square rounded-circle" style="background: var(--tech-accent-teal); color: #FFFFFF; width: 36px; height: 36px;">
+                        <i class="fa fa-video"></i>
+                    </div>
+                    <div>
+                        <h3 class="mb-0" style="font-size: 1.25rem; font-weight: 700; color: #0F172A;">Workflow 2: Perimeter CCTV & Surveillance Flow</h3>
+                        <small style="color: #64748B; font-weight: 500;">Continuous situational awareness and rapid threat response</small>
+                    </div>
+                </div>
+                <div class="tech-urdu-text" style="color: #EA580C; font-size: 1rem; font-weight: 700;">
+                    طریقہ کار: باؤنڈری وال سرویلنس اور ایمرجنسی الرٹ
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-6 col-md-3">
+                    <div class="tech-workflow-step p-3 rounded-3 h-100 text-center" style="background: #F8FAFC; border: 1px solid #E2E8F0;">
+                        <div class="fw-bold mb-1" style="font-size: 0.75rem; color: #D97706;">PHASE 01</div>
+                        <i class="fa fa-camera mb-2" style="color: #EA580C; font-size: 1.5rem;"></i>
+                        <h4 class="mb-0" style="font-size: 0.92rem; font-weight: 700; color: #0F172A;">Camera Capture</h4>
+                        <span class="tech-card-urdu-title mb-1" style="font-size: 0.82rem; color: #D97706; font-weight: 600;">کیمرہ مانیٹرنگ</span>
+                        <p class="small mb-0" style="font-size: 0.8rem; color: #475569; line-height: 1.4;">4K PTZ & thermal boundary capture</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="tech-workflow-step p-3 rounded-3 h-100 text-center" style="background: #F8FAFC; border: 1px solid #E2E8F0;">
+                        <div class="fw-bold mb-1" style="font-size: 0.75rem; color: #D97706;">PHASE 02</div>
+                        <i class="fa fa-network-wired mb-2" style="color: #EA580C; font-size: 1.5rem;"></i>
+                        <h4 class="mb-0" style="font-size: 0.92rem; font-weight: 700; color: #0F172A;">Switch Routing</h4>
+                        <span class="tech-card-urdu-title mb-1" style="font-size: 0.82rem; color: #D97706; font-weight: 600;">فائبر سوئچ روٹنگ</span>
+                        <p class="small mb-0" style="font-size: 0.8rem; color: #475569; line-height: 1.4;">Gigabit PoE fiber switch backbones</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="tech-workflow-step p-3 rounded-3 h-100 text-center" style="background: #F8FAFC; border: 1px solid #E2E8F0;">
+                        <div class="fw-bold mb-1" style="font-size: 0.75rem; color: #D97706;">PHASE 03</div>
+                        <i class="fa fa-hdd mb-2" style="color: #EA580C; font-size: 1.5rem;"></i>
+                        <h4 class="mb-0" style="font-size: 0.92rem; font-weight: 700; color: #0F172A;">NVR Recording</h4>
+                        <span class="tech-card-urdu-title mb-1" style="font-size: 0.82rem; color: #D97706; font-weight: 600;">محفوظ اسٹوریج ریکارڈنگ</span>
+                        <p class="small mb-0" style="font-size: 0.8rem; color: #475569; line-height: 1.4;">RAID SAN indexed continuous storage</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="tech-workflow-step p-3 rounded-3 h-100 text-center" style="background: #F8FAFC; border: 1px solid #E2E8F0;">
+                        <div class="fw-bold mb-1" style="font-size: 0.75rem; color: #D97706;">PHASE 04</div>
+                        <i class="fa fa-desktop mb-2" style="color: #EA580C; font-size: 1.5rem;"></i>
+                        <h4 class="mb-0" style="font-size: 0.92rem; font-weight: 700; color: #0F172A;">Console Alert</h4>
+                        <span class="tech-card-urdu-title mb-1" style="font-size: 0.82rem; color: #D97706; font-weight: 600;">کنٹرول روم سائرن الرٹ</span>
+                        <p class="small mb-0" style="font-size: 0.8rem; color: #475569; line-height: 1.4;">AI breach triggers video wall dispatch</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================================
+     SECTION E: PROJECT PORTFOLIO GRID (Bilingual)
+     ========================================================================= -->
+<section class="py-5" style="background: var(--tech-primary-navy); border-top: 1px solid var(--tech-border-dark);">
+    <div class="container py-4">
+        <div class="text-center">
+            <div class="tech-section-badge">
+                <span class="pulse-dot"></span> 
+                <span>Proven Execution Records</span>
+                <span class="opacity-50 mx-1">|</span>
+                <span class="tech-urdu-text">کامیاب پراجیکٹس اور کیس اسٹڈیز</span>
+            </div>
+            <h2 class="tech-section-title">Featured Project Portfolio</h2>
+            <div class="tech-urdu-title">پاکستان بھر میں مکمل کیے گئے اہم منصوبے</div>
+            <p class="tech-section-subtitle mb-1">
+                Turnkey deployments delivered for government authorities, armed forces cantonments, and national highway networks.
+            </p>
+            <p class="tech-urdu-subtitle">
+                دفاعی اداروں، ہاؤسنگ سوسائٹیز، کمرشل پلازوں اور موٹروے پر مکمل کیے گئے تصدیق شدہ سسٹمز
+            </p>
+        </div>
+
+        <!-- Filter Tabs (Bilingual) -->
+        <div class="d-flex flex-wrap justify-content-center gap-2 mb-4" id="portfolioFilterTabs">
+            <button class="portfolio-filter-btn active" data-filter="all">
+                <span>All Projects</span> <span class="tech-urdu-text ms-1" style="color: #BAE6FD;">(تمام)</span>
+            </button>
+            <button class="portfolio-filter-btn" data-filter="vehicle">
+                <span>Vehicle Access</span> <span class="tech-urdu-text ms-1" style="color: #BAE6FD;">(ای ٹیگ)</span>
+            </button>
+            <button class="portfolio-filter-btn" data-filter="surveillance">
+                <span>Surveillance</span> <span class="tech-urdu-text ms-1" style="color: #BAE6FD;">(کیمرے)</span>
+            </button>
+            <button class="portfolio-filter-btn" data-filter="traffic">
+                <span>Traffic Safety</span> <span class="tech-urdu-text ms-1" style="color: #BAE6FD;">(روڈ سیفٹی)</span>
+            </button>
+            <button class="portfolio-filter-btn" data-filter="engineering">
+                <span>Engineering</span> <span class="tech-urdu-text ms-1" style="color: #BAE6FD;">(انجینئرنگ)</span>
+            </button>
+        </div>
+
+        <!-- Portfolio Cards Grid -->
+        <div class="row g-4" id="portfolioGridContainer">
+            {% if projects and projects.count > 0 %}
+                {% for project in projects %}
+                <div class="col-md-6 col-lg-4 portfolio-item" data-category="{{ project.category|lower|replace({' ': '', '&': '', ',': ' '}) }}">
+                    <div class="tech-card">
+                        <div class="tech-card-media mb-3 rounded-3 overflow-hidden position-relative">
+                            <img src="{{ project.image ? (project.image starts with 'http' ? project.image : project.image|theme) : ('assets/images/Security_Safety_System.jpg'|theme) }}" alt="{{ project.title }}" width="400" height="225" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+                            <span class="badge position-absolute top-0 end-0 m-3 px-2 py-1" style="background: rgba(11, 19, 43, 0.85); color: #00A8E8; font-size: 0.75rem; border: 1px solid rgba(0, 168, 232, 0.3);">{{ project.badge|default(project.category|default('Project')) }}</span>
+                        </div>
+                        {% if project.client %}
+                        <span class="text-uppercase fw-bold text-muted small" style="letter-spacing: 0.05em;">{{ project.client }}</span>
+                        {% endif %}
+                        <h3 class="tech-card-title mt-1 mb-2" style="font-size: 1.15rem;">{{ project.title }}</h3>
+                        <p class="tech-card-text small">{{ project.description }}</p>
+                        <a href="{{ ('/projects/' ~ (project.slug|replace({'project-': ''})))|app }}" class="btn-tech-outline w-100 justify-content-center mt-auto">
+                            View Case Study <i class="fa fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}        </div>
+    </div>
+</section>
+
+<!-- Portfolio Filter Styling & Controller Script -->
+<style>
+.portfolio-filter-btn {
+    background: var(--tech-secondary-slate);
+    color: var(--tech-text-light);
+    border: 1px solid var(--tech-border-dark);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: var(--tech-transition);
+    cursor: pointer;
+}
+.portfolio-filter-btn:hover {
+    border-color: var(--tech-accent-teal);
+    color: #FFFFFF;
+}
+.portfolio-filter-btn.active {
+    background: var(--tech-accent-teal);
+    color: #FFFFFF;
+    border-color: var(--tech-accent-teal);
+    box-shadow: 0 4px 15px rgba(0, 168, 232, 0.4);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.portfolio-filter-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            const filterValue = this.getAttribute('data-filter');
+
+            portfolioItems.forEach(item => {
+                if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+});
+</script>
+
+<!-- =========================================================================
+     SECTION F: INDUSTRIES SERVED (Bilingual Interactive Grid)
+     ========================================================================= -->
+<section id="industries" class="py-5" style="background: var(--tech-secondary-slate); border-top: 1px solid var(--tech-border-dark);">
+    <div class="container py-4">
+        <div class="text-center">
+            <div class="tech-section-badge">
+                <span class="pulse-dot"></span> 
+                <span>Specialized Sectors</span>
+                <span class="opacity-50 mx-1">|</span>
+                <span class="tech-urdu-text">خدمات برائے مختلف شعبہ جات</span>
+            </div>
+            <h2 class="tech-section-title">Industries We Protect & Automate</h2>
+            <div class="tech-urdu-title">وہ شعبہ جات جہاں ہماری سیکیورٹی انجینئرنگ نافذ العمل ہے</div>
+            <p class="tech-section-subtitle mb-1">
+                Tailored security architectures engineered for specific threat profiles, throughput demands, and statutory compliance standards.
+            </p>
+            <p class="tech-urdu-subtitle">
+                ہاؤسنگ سوسائٹیز، سرکاری عمارات، کمرشل پلازوں اور موٹرویز کے لیے مخصوص حل
+            </p>
+        </div>
+
+        <div class="row g-4 mt-2">
+            <!-- 1. Gated Communities -->
+            <div class="col-md-6 col-lg-4" id="communities">
+                <div class="tech-card">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="tech-card-icon mb-0" style="width: 48px; height: 48px; font-size: 1.25rem;">
+                            <i class="fa fa-city"></i>
+                        </div>
+                        <div>
+                            <h3 class="tech-card-title mb-0" style="font-size: 1.15rem;">Gated Communities</h3>
+                            <span class="tech-card-urdu-title">ہاؤسنگ سوسائٹیز اور گیٹڈ کمیونٹیز</span>
+                        </div>
+                    </div>
+                    <p class="tech-card-text mb-2">
+                        Resident UHF RFID automated barrier gates, e-services mobile portals, visitor QR code gate passes, and perimeter boundary security surveillance.
+                    </p>
+                    <ul class="tech-spec-list">
+                        <li><i class="fa fa-check-circle"></i> Non-stop resident passage <span class="tech-urdu-text" style="color: #93C5FD; font-weight: 600;">(تیز رفتار انٹری)</span></li>
+                        <li><i class="fa fa-check-circle"></i> Automated CNIC visitor check <span class="tech-urdu-text" style="color: #93C5FD; font-weight: 600;">(ڈیجیٹل رجسٹریشن)</span></li>
+                        <li><i class="fa fa-check-circle"></i> Reduced guard dependency <span class="tech-urdu-text" style="color: #93C5FD; font-weight: 600;">(کم افرادی قوت)</span></li>
+                    </ul>
+                    <a href="{{ '/contact-us'|app }}" class="btn-tech-outline w-100 justify-content-center mt-auto">
+                        <span class="fw-bold">Consult for Society</span> <span class="tech-urdu-text ms-1" style="color: #BAE6FD;">(مشاورت)</span> <i class="fa fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 2. Government & Public Sector -->
+            <div class="col-md-6 col-lg-4" id="government">
+                <div class="tech-card">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="tech-card-icon mb-0" style="width: 48px; height: 48px; font-size: 1.25rem;">
+                            <i class="fa fa-landmark"></i>
+                        </div>
+                        <div>
+                            <h3 class="tech-card-title mb-0" style="font-size: 1.15rem;">Government Sector</h3>
+                            <span class="tech-card-urdu-title">سرکاری اور حساس دفاعی تنصیبات</span>
+                        </div>
+                    </div>
+                    <p class="tech-card-text mb-2">
+                        Hardened access barriers, K4/K12 hydraulic anti-ram crash bollards, under-vehicle surveillance systems (UVSS), and command center NVR integration.
+                    </p>
+                    <ul class="tech-spec-list">
+                        <li><i class="fa fa-check-circle"></i> Anti-terror crash protection <span class="tech-urdu-text" style="color: #93C5FD; font-weight: 600;">(ہائیڈرولک بولارڈز)</span></li>
+                        <li><i class="fa fa-check-circle"></i> Redundant optical fiber nets <span class="tech-urdu-text" style="color: #93C5FD; font-weight: 600;">(محفوظ نیٹ ورک)</span></li>
+                        <li><i class="fa fa-check-circle"></i> Multi-tier biometric auth <span class="tech-urdu-text" style="color: #93C5FD; font-weight: 600;">(بائیومیٹرک تصدیق)</span></li>
+                    </ul>
+                    <a href="{{ '/contact-us'|app }}" class="btn-tech-outline w-100 justify-content-center mt-auto">
+                        <span class="fw-bold">Consult for Government</span> <span class="tech-urdu-text ms-1" style="color: #BAE6FD;">(مشاورت)</span> <i class="fa fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 3. Commercial High-Rises -->
+            <div class="col-md-6 col-lg-4" id="commercial">
+                <div class="tech-card">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="tech-card-icon mb-0" style="width: 48px; height: 48px; font-size: 1.25rem;">
+                            <i class="fa fa-building"></i>
+                        </div>
+                        <div>
+                            <h3 class="tech-card-title mb-0" style="font-size: 1.15rem;">Commercial High-Rises</h3>
+                            <span class="tech-card-urdu-title">کمرشل ہائی رائز اور کارپوریٹ دفاتر</span>
+                        </div>
+                    </div>
+                    <p class="tech-card-text mb-2">
+                        Basement multi-level parking barrier loops, speed-lane optical flap turnstiles, lift-call access integrations, and corporate visitor kiosks.
+                    </p>
+                    <ul class="tech-spec-list">
+                        <li><i class="fa fa-check-circle"></i> Optical flap barrier turnstiles <span class="tech-urdu-text" style="color: #93C5FD; font-weight: 600;">(ٹرن اسٹائل گیٹس)</span></li>
+                        <li><i class="fa fa-check-circle"></i> Paid & validated parking <span class="tech-urdu-text" style="color: #93C5FD; font-weight: 600;">(پیڈ پارکنگ بیریئر)</span></li>
+                        <li><i class="fa fa-check-circle"></i> Tenant RFID badge access <span class="tech-urdu-text" style="color: #93C5FD; font-weight: 600;">(سمارٹ کارڈ حاضری)</span></li>
+                    </ul>
+                    <a href="{{ '/contact-us'|app }}" class="btn-tech-outline w-100 justify-content-center mt-auto">
+                        <span class="fw-bold">Consult for Commercial</span> <span class="tech-urdu-text ms-1" style="color: #BAE6FD;">(مشاورت)</span> <i class="fa fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 4. Industrial Facilities & Logistics -->
+            <div class="col-md-6 col-lg-4" id="industrial">
+                <div class="tech-card">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="tech-card-icon mb-0" style="width: 48px; height: 48px; font-size: 1.25rem;">
+                            <i class="fa fa-industry"></i>
+                        </div>
+                        <div>
+                            <h3 class="tech-card-title mb-0" style="font-size: 1.15rem;">Industrial & Logistics</h3>
+                            <span class="tech-card-urdu-title">صنعتی زونز اور لاجسٹکس پارکس</span>
+                        </div>
+                    </div>
+                    <p class="tech-card-text mb-2">
+                        Heavy freight entrance automation, bidirectional spike tire-killers, weighbridge barrier synchronizations, and thermal perimeter surveillance.
+                    </p>
+                    <ul class="tech-spec-list">
+                        <li><i class="fa fa-check-circle"></i> Heavy-vehicle extra-long 6m arms <span class="tech-urdu-text" style="color: #93C5FD; font-weight: 600;">(لمبے بیریئرز)</span></li>
+                        <li><i class="fa fa-check-circle"></i> Automatic weighbridge sync <span class="tech-urdu-text" style="color: #93C5FD; font-weight: 600;">(وزن کانٹا سسٹم)</span></li>
+                        <li><i class="fa fa-check-circle"></i> Heavy-duty tire killers <span class="tech-urdu-text" style="color: #93C5FD; font-weight: 600;">(ٹائر کلر سپائیکس)</span></li>
+                    </ul>
+                    <a href="{{ '/contact-us'|app }}" class="btn-tech-outline w-100 justify-content-center mt-auto">
+                        <span class="fw-bold">Consult for Industrial</span> <span class="tech-urdu-text ms-1" style="color: #BAE6FD;">(مشاورت)</span> <i class="fa fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5. Highways & Municipal Roads -->
+            <div class="col-md-6 col-lg-8" id="roads">
+                <div class="tech-card">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="tech-card-icon mb-0" style="width: 48px; height: 48px; font-size: 1.25rem;">
+                            <i class="fa fa-road"></i>
+                        </div>
+                        <div>
+                            <h3 class="tech-card-title mb-0" style="font-size: 1.15rem;">Highways & Municipal Roads</h3>
+                            <span class="tech-card-urdu-title">شاہراہیں، موٹرویز اور بلدیاتی سڑکیں</span>
+                        </div>
+                    </div>
+                    <p class="tech-card-text mb-2">
+                        Electronic toll plaza access automation, high-reflectivity 3M cat-eyes, 30+ ton solar aluminium road studs, municipal street lighting, and ITS speed cameras.
+                    </p>
+                    <div class="row g-2 pt-2 border-top border-secondary">
+                        <div class="col-sm-4 small" style="color: #E2E8F0;"><i class="fa fa-check text-info me-2"></i>NHA Toll Plazas <span class="tech-urdu-text" style="color: #FDBA74;">(ٹول پلازہ آٹومیشن)</span></div>
+                        <div class="col-sm-4 small" style="color: #E2E8F0;"><i class="fa fa-check text-info me-2"></i>Solar Road Studs <span class="tech-urdu-text" style="color: #FDBA74;">(سولر کیٹ آئیز)</span></div>
+                        <div class="col-sm-4 small" style="color: #E2E8F0;"><i class="fa fa-check text-info me-2"></i>Highway Warning Signs <span class="tech-urdu-text" style="color: #FDBA74;">(وارننگ سائنز)</span></div>
+                    </div>
+                    <div class="mt-3 pt-2">
+                        <a href="{{ '/contact-us'|app }}" class="btn-tech-outline w-100 justify-content-center">
+                            <span class="fw-bold">Consult for Highway Project</span> <span class="tech-urdu-text ms-1" style="color: #BAE6FD;">(موٹروے و ہائی وے پراجیکٹ مشاورت)</span> <i class="fa fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================================
+     SECTION G: 5-STEP DELIVERY LIFECYCLE (Bilingual)
+     ========================================================================= -->
+<section class="py-5" style="background: var(--tech-primary-navy); border-top: 1px solid var(--tech-border-dark);">
+    <div class="container py-4">
+        <div class="text-center">
+            <div class="tech-section-badge">
+                <span class="pulse-dot"></span> 
+                <span>Engineering Methodology</span>
+                <span class="opacity-50 mx-1">|</span>
+                <span class="tech-urdu-text">پراجیکٹ تکمیل کا 5 مرحلہ وار عمل</span>
+            </div>
+            <h2 class="tech-section-title">5-Step Delivery Lifecycle</h2>
+            <div class="tech-urdu-title">پراجیکٹ پلاننگ سے لے کر انسٹالیشن اور ہینڈ اوور تک</div>
+            <p class="tech-section-subtitle mb-1">
+                A rigorous, transparent technical implementation lifecycle ensuring zero operational downtime and total asset security.
+            </p>
+            <p class="tech-urdu-subtitle">
+                سائٹ سروے، ڈیزائننگ، ہارڈویئر فیبریکیشن اور سروس سپورٹ کا شفاف طریقہ کار
+            </p>
+        </div>
+
+        <div class="row g-4 mt-2">
+            <!-- Step 1 -->
+            <div class="col-md-6 col-lg">
+                <div class="tech-step-card h-100">
+                    <div class="tech-step-header">
+                        <div class="tech-step-icon">
+                            <i class="fa fa-search"></i>
+                        </div>
+                        <span class="tech-step-number">01</span>
+                    </div>
+                    <h3 class="tech-step-title mb-1">Site Audit & Analysis</h3>
+                    <span class="tech-card-urdu-title mb-2" style="font-size: 0.85rem;">سائٹ آڈٹ و تکنیکی جائزہ</span>
+                    <p class="tech-step-desc">
+                        On-ground physical survey, traffic flow modeling, conduit path discovery, and power load assessment.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="col-md-6 col-lg">
+                <div class="tech-step-card h-100">
+                    <div class="tech-step-header">
+                        <div class="tech-step-icon">
+                            <i class="fa fa-drafting-compass"></i>
+                        </div>
+                        <span class="tech-step-number">02</span>
+                    </div>
+                    <h3 class="tech-step-title mb-1">Architecture & Proposal</h3>
+                    <span class="tech-card-urdu-title mb-2" style="font-size: 0.85rem;">آرکیٹیکچر و تجاویز کا خاکہ</span>
+                    <p class="tech-step-desc">
+                        Engineering schematics, single-line diagrams, tender BOQ specifications, and network topology blueprint.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="col-md-6 col-lg">
+                <div class="tech-step-card h-100">
+                    <div class="tech-step-header">
+                        <div class="tech-step-icon">
+                            <i class="fa fa-microchip"></i>
+                        </div>
+                        <span class="tech-step-number">03</span>
+                    </div>
+                    <h3 class="tech-step-title mb-1">Custom Fabrication</h3>
+                    <span class="tech-card-urdu-title mb-2" style="font-size: 0.85rem;">سامان کی کسٹم فیبریکیشن</span>
+                    <p class="tech-step-desc">
+                        Sourcing industrial-grade hardware, custom barrier chassis fabrication, and proprietary firmware calibration.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="col-md-6 col-lg">
+                <div class="tech-step-card h-100">
+                    <div class="tech-step-header">
+                        <div class="tech-step-icon">
+                            <i class="fa fa-hard-hat"></i>
+                        </div>
+                        <span class="tech-step-number">04</span>
+                    </div>
+                    <h3 class="tech-step-title mb-1">On-Site Commissioning</h3>
+                    <span class="tech-card-urdu-title mb-2" style="font-size: 0.85rem;">سائٹ پر انسٹالیشن و ٹیسٹنگ</span>
+                    <p class="tech-step-desc">
+                        Precision mounting pad civil works, optical fiber splicing, loop detector tuning, and stress testing.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="col-md-12 col-lg">
+                <div class="tech-step-card h-100">
+                    <div class="tech-step-header">
+                        <div class="tech-step-icon">
+                            <i class="fa fa-handshake"></i>
+                        </div>
+                        <span class="tech-step-number">05</span>
+                    </div>
+                    <h3 class="tech-step-title mb-1">Handover & AMC Support</h3>
+                    <span class="tech-card-urdu-title mb-2" style="font-size: 0.85rem;">ہینڈ اوور اور سروس سپورٹ</span>
+                    <p class="tech-step-desc">
+                        Staff operator training, comprehensive as-built documentation, and guaranteed rapid 24/7 SLA maintenance.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div><!-- /tech-home-light-sections -->
+
+<!-- Hero Slider JS Controller -->
+<script>
+(function() {
+    function updateDots(index) {
         const dots = document.querySelectorAll('.hero-dot');
-        const prevBtn = document.getElementById('heroPrevBtn');
-        const nextBtn = document.getElementById('heroNextBtn');
-        
-        let currentIndex = 0;
-        let delayTimer = null;
-        let switching = false;
-
-        // Make sure v2 is fully stopped at start
-        v2.pause();
-        v2.currentTime = 0;
-
-        function updateDots(index) {
+        if (dots && dots.length >= 2) {
             dots.forEach(function(dot, idx) {
                 if (idx === index) {
-                    dot.style.background = '#00ff66';
-                    dot.style.border = 'none';
-                    dot.style.boxShadow = '0 0 8px #00ff66';
+                    dot.style.background = '#00A8E8';
+                    dot.style.width = '28px';
+                    dot.style.borderRadius = '5px';
+                    dot.style.boxShadow = '0 0 14px #00A8E8';
                     dot.classList.add('active');
                 } else {
-                    dot.style.background = 'transparent';
-                    dot.style.border = '2px solid #fff';
+                    dot.style.background = 'rgba(255,255,255,0.45)';
+                    dot.style.width = '10px';
+                    dot.style.borderRadius = '50%';
                     dot.style.boxShadow = 'none';
                     dot.classList.remove('active');
                 }
             });
         }
+    }
 
-        function switchToVideo(index) {
-            if (switching) return;
-            switching = true;
-            clearTimeout(delayTimer);
-            currentIndex = index;
-            updateDots(currentIndex);
+    window.switchHeroVideo = function(targetIndex) {
+        const player = document.getElementById('heroMainVideo');
+        if (!player) return;
 
-            if (index === 0) {
-                // Show Video 1
-                v2.style.opacity = '0';
-                v1.style.opacity = '1';
-                v1.style.zIndex = '2';
-                v2.style.zIndex = '1';
-                setTimeout(function() {
-                    v2.pause();
-                    v2.currentTime = 0;
-                    switching = false;
-                }, 1300);
-                v1.currentTime = 0;
-                v1.play().catch(function(e) { console.warn('V1 play failed:', e); switching = false; });
-            } else {
-                // Show Video 2
-                v2.currentTime = 0;
-                v2.play().then(function() {
-                    v1.style.opacity = '0';
-                    v2.style.opacity = '1';
-                    v2.style.zIndex = '2';
-                    v1.style.zIndex = '1';
-                    setTimeout(function() {
-                        v1.pause();
-                        v1.currentTime = 0;
-                        switching = false;
-                    }, 1300);
-                }).catch(function(e) {
-                    console.warn('V2 play failed:', e);
-                    switching = false;
-                });
-            }
+        updateDots(targetIndex);
+        player.currentTime = targetIndex === 0 ? 0 : 10.05;
+        player.play().catch(function(){});
+    };
+
+    function initHeroPlayer() {
+        const player = document.getElementById('heroMainVideo');
+        const prevBtn = document.getElementById('heroPrevBtn');
+        const nextBtn = document.getElementById('heroNextBtn');
+        const dots = document.querySelectorAll('.hero-dot');
+
+        if (!player) return;
+
+        player.muted = true;
+        player.play().catch(function() {});
+
+        // Automatically sync dots with video progress (0-10s: Vid1, 10s-20s: Vid2)
+        player.addEventListener('timeupdate', function() {
+            const isSecondHalf = player.currentTime >= 10.0;
+            updateDots(isSecondHalf ? 1 : 0);
+        });
+
+        // Button Handlers
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const isSecondHalf = player.currentTime >= 10.0;
+                window.switchHeroVideo(isSecondHalf ? 0 : 1);
+            });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const isSecondHalf = player.currentTime >= 10.0;
+                window.switchHeroVideo(isSecondHalf ? 0 : 1);
+            });
         }
 
-        // After video 1 ends → play video 2 immediately
-        v1.addEventListener('ended', function() {
-            switchToVideo(1);
-        });
-
-        // After video 2 ends → play video 1 immediately
-        v2.addEventListener('ended', function() {
-            switchToVideo(0);
-        });
-
-        // Dot click
-        dots.forEach(function(dot) {
-            dot.addEventListener('click', function() {
-                var idx = parseInt(this.getAttribute('data-index'));
-                if (idx !== currentIndex) {
-                    switchToVideo(idx);
-                }
+        // Dot Handlers
+        if (dots) {
+            dots.forEach(function(dot) {
+                dot.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const idx = parseInt(this.getAttribute('data-index') || '0', 10);
+                    window.switchHeroVideo(idx);
+                });
             });
-        });
+        }
+    }
 
-        prevBtn.addEventListener('click', function() {
-            switchToVideo(currentIndex === 0 ? 1 : 0);
-        });
-        nextBtn.addEventListener('click', function() {
-            switchToVideo(currentIndex === 0 ? 1 : 0);
-        });
-    });
-    </script>
-
-    <!-- Facts Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.1s">
-                    <div class="h-100 bg-dark p-4 p-xl-5 rounded shadow-sm">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <div class="btn-square rounded-circle" style="width: 64px; height: 64px; background: #65B530;">
-                                <img class="img-fluid p-2" src="{{ 'assets/img/icon/icon-3.png'|theme }}" alt="Icon">
-                            </div>
-                            <h1 class="display-1 mb-0" style="color: #65B530; opacity: 0.3;">01</h1>
-                        </div>
-                        <h5 class="text-white">Manpower Reduce</h5>
-                        <hr class="w-25 text-primary" style="border-color: #65B530;">
-                        <span class="text-light">Minimizing human effort with advanced automated solutions — Optimizing performance while reducing operational dependency.</span>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.3s">
-                    <div class="h-100 bg-dark p-4 p-xl-5 rounded shadow-sm">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <div class="btn-square rounded-circle" style="width: 64px; height: 64px; background: #65B530;">
-                                <img class="img-fluid p-2" src="{{ 'assets/img/icon/icon-4.png'|theme }}" alt="Icon">
-                            </div>
-                            <h1 class="display-1 mb-0" style="color: #65B530; opacity: 0.3;">02</h1>
-                        </div>
-                        <h5 class="text-white">Fastest Entry System</h5>
-                        <hr class="w-25 text-primary" style="border-color: #65B530;">
-                        <span class="text-light">Experience speed and accuracy like never before — Seamless access powered by intelligent entry management.</span>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="h-100 bg-dark p-4 p-xl-5 rounded shadow-sm">
-                        <div class="d-flex align-items-center justify-content-between mb-4">
-                            <div class="btn-square rounded-circle" style="width: 64px; height: 64px; background: #65B530;">
-                                <img class="img-fluid p-2" src="{{ 'assets/img/icon/icon-2.png'|theme }}" alt="Icon">
-                            </div>
-                            <h1 class="display-1 mb-0" style="color: #65B530; opacity: 0.3;">03</h1>
-                        </div>
-                        <h5 class="text-white">Security Enhance</h5>
-                        <hr class="w-25 text-primary" style="border-color: #65B530;">
-                        <span class="text-light">Strengthening protection with next-generation technology — Ensuring safety, reliability, and complete peace of mind.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Facts End -->
-
-    <!-- About Start -->
-    <div class="container-fluid bg-light overflow-hidden my-4 px-lg-0">
-        <div class="container about px-lg-0" style="max-width: 1050px;">
-            <div class="row g-0 mx-lg-0 align-items-center" style="background: #ffffff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); overflow: hidden;">
-                <div class="col-lg-5 ps-lg-0">
-                    <div class="h-100 d-flex align-items-center justify-content-center p-3">
-                        <img class="img-fluid rounded" src="{{ 'assets/images/Security_Safety_System.jpg'|theme }}" style="object-fit: cover; max-height: 280px; width: 100%; shadow: 0 4px 15px rgba(0,0,0,0.1);" alt="About Technicist PK">
-                    </div>
-                </div>
-                <div class="col-lg-7 about-text py-4 px-4 px-lg-5 wow fadeIn" data-wow-delay="0.3s">
-                    <div class="p-lg-2 pe-lg-0">
-                        <div class="bg-primary mb-2" style="width: 50px; height: 3px; background-color: #65B530 !important;"></div>
-                        <h2 class="display-6 mb-3" style="font-size: 1.85rem; font-weight: 700; color: #161616;">About Us</h2>
-                        <p class="mb-3" style="font-size: 0.98rem; line-height: 1.6; color: #222222 !important; font-weight: 500;">Technicist (SMC-Pvt) Ltd. is fully equipped with highly qualified and well-experienced technical staff. We are convinced that excellence, efficiency, customer satisfaction, and professionalism are the key to success in the marketplace.</p>
-                        
-                        <div class="row g-3 mb-4">
-                            <div class="col-sm-6 wow fadeIn" data-wow-delay="0.1s">
-                                <div class="d-flex align-items-center">
-                                    <div class="btn-square rounded-circle flex-shrink-0" style="width: 52px; height: 52px; background: rgba(101, 181, 48, 0.12);">
-                                        <img class="img-fluid p-2" src="{{ 'assets/img/icon/icon-1.png'|theme }}" alt="Icon">
-                                    </div>
-                                    <div class="ms-3">
-                                        <h3 class="mb-0 fw-bold" style="color: #161616; font-size: 1.65rem;"><span data-toggle="counter-up">500</span>+</h3>
-                                        <p class="fw-medium mb-0" style="color: #65B530; font-size: 0.9rem;">Happy Clients</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 wow fadeIn" data-wow-delay="0.3s">
-                                <div class="d-flex align-items-center">
-                                    <div class="btn-square rounded-circle flex-shrink-0" style="width: 52px; height: 52px; background: rgba(101, 181, 48, 0.12);">
-                                        <img class="img-fluid p-2" src="{{ 'assets/img/icon/icon-5.png'|theme }}" alt="Icon">
-                                    </div>
-                                    <div class="ms-3">
-                                        <h3 class="mb-0 fw-bold" style="color: #161616; font-size: 1.65rem;"><span data-toggle="counter-up">90</span>+</h3>
-                                        <p class="fw-medium mb-0" style="color: #65B530; font-size: 0.9rem;">Projects Done</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <a href="{{ '/about-us'|app }}" class="btn btn-primary rounded-pill py-2 px-4" style="background-color: #65B530 !important; border-color: #65B530 !important; font-size: 0.95rem; font-weight: 600;">Explore More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- About End -->
-
-    <!-- Services Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <div class="bg-primary mb-3 mx-auto" style="width: 60px; height: 3px; background-color: #65B530 !important;"></div>
-                <h1 class="display-5 mb-5" style="color: #161616; font-weight: 700;">Our Services</h1>
-            </div>
-            <div class="row g-4">
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
-                    <div class="service-item border h-100 p-4 rounded bg-white shadow-sm d-flex flex-column">
-                        <div class="btn-square rounded-circle mb-4" style="width: 64px; height: 64px; background: rgba(101, 181, 48, 0.12);">
-                            <img class="img-fluid p-2" src="{{ 'assets/img/icon/icon-6.png'|theme }}" alt="Icon">
-                        </div>
-                        <h5 class="mb-3 text-nowrap" style="color: #161616; font-weight: 700; font-size: 1.05rem;" title="CCTV Network Management">CCTV Network Management</h5>
-                        <p class="mb-4 flex-grow-1" style="color: #222222; font-weight: 500; font-size: 0.92rem;">Comprehensive CCTV and physical security integrations protecting critical assets.</p>
-                        <div class="d-flex justify-content-end mt-auto pt-2">
-                            <a class="see-more-btn" href="{{ '/services/security-safety-system'|app }}">See More <i class="fa fa-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
-                    <div class="service-item border h-100 p-4 rounded bg-white shadow-sm d-flex flex-column">
-                        <div class="btn-square rounded-circle mb-4" style="width: 64px; height: 64px; background: rgba(101, 181, 48, 0.12);">
-                            <img class="img-fluid p-2" src="{{ 'assets/img/icon/icon-8.png'|theme }}" alt="Icon">
-                        </div>
-                        <h5 class="mb-3 text-nowrap" style="color: #161616; font-weight: 700; font-size: 1.05rem;" title="E-Tag Vehicle Access">E-Tag Vehicle Access</h5>
-                        <p class="mb-4 flex-grow-1" style="color: #222222; font-weight: 500; font-size: 0.92rem;">Seamless vehicle and visitor management systems utilizing high-speed E-Tag technology.</p>
-                        <div class="d-flex justify-content-end mt-auto pt-2">
-                            <a class="see-more-btn" href="{{ '/services/e-tag-vehicle-access-control-system'|app }}">See More <i class="fa fa-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="service-item border h-100 p-4 rounded bg-white shadow-sm d-flex flex-column">
-                        <div class="btn-square rounded-circle mb-4" style="width: 64px; height: 64px; background: rgba(101, 181, 48, 0.12);">
-                            <img class="img-fluid p-2" src="{{ 'assets/img/icon/icon-9.png'|theme }}" alt="Icon">
-                        </div>
-                        <h5 class="mb-3 text-nowrap" style="color: #161616; font-weight: 700; font-size: 1.05rem;" title="Road Traffic Safety">Road Traffic Safety</h5>
-                        <p class="mb-4 flex-grow-1" style="color: #222222; font-weight: 500; font-size: 0.92rem;">Enhance road safety with advanced IT equipment, 3M Cat-eyes, and intelligent controllers.</p>
-                        <div class="d-flex justify-content-end mt-auto pt-2">
-                            <a class="see-more-btn" href="{{ '/services/road-traffic-safety'|app }}">See More <i class="fa fa-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
-                    <div class="service-item border h-100 p-4 rounded bg-white shadow-sm d-flex flex-column">
-                        <div class="btn-square rounded-circle mb-4" style="width: 64px; height: 64px; background: rgba(101, 181, 48, 0.12);">
-                            <img class="img-fluid p-2" src="{{ 'assets/img/icon/icon-3.png'|theme }}" alt="Icon">
-                        </div>
-                        <h5 class="mb-3 text-nowrap" style="color: #161616; font-weight: 700; font-size: 1.05rem;" title="Elect. & Mech. Works">Elect. & Mech. Works</h5>
-                        <p class="mb-4 flex-grow-1" style="color: #222222; font-weight: 500; font-size: 0.92rem;">Specialized Engineering Works ensuring precision, performance, and reliability.</p>
-                        <div class="d-flex justify-content-end mt-auto pt-2">
-                            <a class="see-more-btn" href="{{ '/services/elect-mech-engineering-works'|app }}">See More <i class="fa fa-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Services End -->
-
-    <!-- Feature Start -->
-    <div class="container-fluid bg-light overflow-hidden my-5 px-lg-0">
-        <div class="container feature px-lg-0">
-            <div class="row g-0 mx-lg-0">
-                <div class="col-lg-6 feature-text py-5 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="p-lg-5 ps-lg-0">
-                        <div class="bg-primary mb-3" style="width: 60px; height: 3px; background-color: #65B530 !important;"></div>
-                        <h1 class="display-5 mb-4" style="color: #161616; font-weight: 700;">Why Choose Us</h1>
-                        <p class="mb-4 pb-2 text-secondary">We provide cutting-edge IT and Technology Consultancy services, focusing on developing customized solutions, managing full product lifecycles, and seamlessly integrating systems.</p>
-                        <div class="row g-4">
-                            <div class="col-6">
-                                <div class="d-flex align-items-center">
-                                    <div class="btn-square bg-white rounded-circle shadow-sm" style="width: 64px; height: 64px;">
-                                        <img class="img-fluid p-2" src="{{ 'assets/img/icon/icon-7.png'|theme }}" alt="Icon">
-                                    </div>
-                                    <div class="ms-3">
-                                        <p class="mb-1" style="color: #65B530; font-weight: 600;">Comprehensive</p>
-                                        <h5 class="mb-0" style="color: #161616;">Solutions</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-flex align-items-center">
-                                    <div class="btn-square bg-white rounded-circle shadow-sm" style="width: 64px; height: 64px;">
-                                        <img class="img-fluid p-2" src="{{ 'assets/img/icon/icon-10.png'|theme }}" alt="Icon">
-                                    </div>
-                                    <div class="ms-3">
-                                        <p class="mb-1" style="color: #65B530; font-weight: 600;">Proven</p>
-                                        <h5 class="mb-0" style="color: #161616;">Trust</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-flex align-items-center">
-                                    <div class="btn-square bg-white rounded-circle shadow-sm" style="width: 64px; height: 64px;">
-                                        <img class="img-fluid p-2" src="{{ 'assets/img/icon/icon-3.png'|theme }}" alt="Icon">
-                                    </div>
-                                    <div class="ms-3">
-                                        <p class="mb-1" style="color: #65B530; font-weight: 600;">Advanced</p>
-                                        <h5 class="mb-0" style="color: #161616;">Technology</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-flex align-items-center">
-                                    <div class="btn-square bg-white rounded-circle shadow-sm" style="width: 64px; height: 64px;">
-                                        <img class="img-fluid p-2" src="{{ 'assets/img/icon/icon-2.png'|theme }}" alt="Icon">
-                                    </div>
-                                    <div class="ms-3">
-                                        <p class="mb-1" style="color: #65B530; font-weight: 600;">Customized</p>
-                                        <h5 class="mb-0" style="color: #161616;">Software</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 pe-lg-0" style="min-height: 400px;">
-                    <div class="position-relative h-100">
-                        <img class="position-absolute img-fluid w-100 h-100" src="{{ feature_image starts with '/' or feature_image starts with 'http' ? feature_image : (feature_image|theme) }}" style="object-fit: cover;" alt="Feature Image">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Feature End -->
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initHeroPlayer);
+    } else {
+        initHeroPlayer();
+    }
+})();
+</script>

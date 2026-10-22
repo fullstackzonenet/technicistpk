@@ -11,61 +11,30 @@ class Project extends Model
 {
     use \Winter\Storm\Database\Traits\Validation;
 
-    /**
-     * @var string The database table used by the model.
-     */
     public $table = 'technicist_portfolio_projects';
 
-    /**
-     * @var array Guarded fields
-     */
-    protected $guarded = ['*'];
+    protected $guarded = [];
 
-    /**
-     * @var array Fillable fields
-     */
-    protected $fillable = [];
-
-    /**
-     * @var array Validation rules for attributes
-     */
-    public $rules = [];
-    
-    public $attachOne = [
-        'featured_image' => 'System\Models\File'
+    protected $fillable = [
+        'title', 'slug', 'category', 'description', 'content',
+        'client', 'location', 'year', 'image', 'badge',
+        'features_json', 'featured', 'sort_order',
     ];
 
-    /**
-     * @var array Attributes to be cast to native types
-     */
-    protected $casts = [];
-
-    /**
-     * @var array Attributes to be cast to JSON
-     */
-    protected $jsonable = [];
-
-    /**
-     * @var array Attributes to be appended to the API representation of the model (ex. toArray())
-     */
-    protected $appends = [];
-
-    /**
-     * @var array Attributes to be removed from the API representation of the model (ex. toArray())
-     */
-    protected $hidden = [];
-
-    /**
-     * @var array Attributes to be cast to Argon (Carbon) instances
-     */
-    protected $dates = [
-        'created_at',
-        'updated_at',
+    public $rules = [
+        'title' => 'required',
+        'slug'  => 'required',
     ];
 
-    /**
-     * @var array Relations
-     */
+    protected $jsonable = ['features_json'];
+
+    protected $casts = [
+        'featured'   => 'boolean',
+        'sort_order' => 'integer',
+    ];
+
+    protected $dates = ['created_at', 'updated_at'];
+
     public $hasOne = [];
     public $hasMany = [];
     public $hasOneThrough = [];
@@ -75,5 +44,6 @@ class Project extends Model
     public $morphTo = [];
     public $morphOne = [];
     public $morphMany = [];
+    public $attachOne = [];
     public $attachMany = [];
 }

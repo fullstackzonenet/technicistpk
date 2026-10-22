@@ -1,10 +1,12 @@
 title = "Contact Us"
 url = "/contact-us"
 layout = "default"
+meta_title = "Contact Us & Request Technical Consultation | Technicist PK"
+meta_description = "Connect with Technicist's engineering desk in Sector F-10 Islamabad for vehicle access control, boom barrier installation, and security infrastructure consultations across Pakistan."
 ==
 function onStart()
 {
-    $this['page_data'] = \Technicist\Portfolio\Models\Page::where('slug', 'contact-us')->first();
+    $this['page_data'] = \Technicist\Portfolio\Models\Page::where('slug', 'contact')->orWhere('slug', 'contact-us')->first();
     $this['preset_subject'] = input('subject', '');
 }
 
@@ -49,7 +51,11 @@ function onSendContact()
                     <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
             </div>
-            <h4 style="color: #25d366; font-size: 1.35rem; font-weight: 600; margin: 0;">Form is successfully submitted. Thank you!</h4>
+            <h4 style="color: #0B132B; font-size: 1.35rem; font-weight: 700; margin-bottom: 8px;">Message Sent Successfully!</h4>
+            <p style="color: #4b5563; font-size: 0.95rem;">Our engineering solutions desk has received your request and will contact you promptly.</p>
+            <a href="https://wa.me/923125721105?text=Hello%20Technicist%20Desk%2C%20I%20just%20submitted%20the%20contact%20form." target="_blank" class="btn text-white fw-bold px-4 py-2 rounded-3 mt-2" style="background: #25D366;">
+                <i class="fab fa-whatsapp me-2"></i> Fast-Track on WhatsApp
+            </a>
         </div>
         '
     ];
@@ -57,18 +63,27 @@ function onSendContact()
 ==
 
 <!-- Page Header Start -->
-<div class="container-fluid page-header py-5 mb-5" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{{ 'assets/images/hero-yellowish-bg.png'|theme }}') center/cover no-repeat;">
-    <div class="container py-5 text-center">
-        <h1 class="display-3 text-white mb-3 animated slideInDown" style="font-weight: 700;">Contact Us</h1>
-        <nav aria-label="breadcrumb animated slideInDown">
-            <ol class="breadcrumb justify-content-center text-uppercase" style="background: transparent;">
-                <li class="breadcrumb-item"><a class="text-white" href="{{ '/'|app }}">Home</a></li>
-                <li class="breadcrumb-item text-primary active" aria-current="page" style="color: #65B530 !important;">Contact Us</li>
+<div class="container-fluid py-5 mb-5 position-relative" style="background: linear-gradient(135deg, #0B132B 0%, #1C2541 100%); border-bottom: 2px solid #00A8E8;">
+    <div class="container py-4 text-center">
+        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: rgba(0, 168, 232, 0.12); border: 1px solid rgba(0, 168, 232, 0.3); color: #00A8E8; font-size: 0.85rem; font-weight: 700;">
+            <span style="display:inline-block; width: 8px; height: 8px; border-radius: 50%; background: #00A8E8;"></span>
+            Engineering Advisory & Support Desk <span class="text-white-50 mx-1">|</span> <span class="tech-urdu-badge" style="font-size:0.9rem;">تکنیکی مشاورت و سپورٹ</span>
+        </div>
+        <h1 class="display-4 text-white mb-2 fw-bold" style="font-weight: 800; letter-spacing: 0.5px;">Contact Technicist</h1>
+        <div class="tech-urdu-title text-warning mb-2" style="font-size: 1.35rem; font-weight: 700; color: #38BDF8 !important;">
+            تکنیسسٹ انجینئرنگ سے رابطہ اور کوٹیشن
+        </div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center text-uppercase mb-0" style="background: transparent;">
+                <li class="breadcrumb-item"><a class="text-white-50" href="{{ '/'|app }}" style="text-decoration: none; font-weight: 500;">Home (ہوم)</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #00A8E8 !important; font-weight: 700;">Contact Us (رابطہ)</li>
             </ol>
         </nav>
-        <div class="mt-4" style="max-width: 800px; margin: 0 auto; color: #f5f5f5; font-size: 1.1rem; line-height: 1.75;">
+        {% if page_data and page_data.content %}
+        <div class="mt-3" style="max-width: 800px; margin: 0 auto; color: rgba(255,255,255,0.8); font-size: 1rem; line-height: 1.6;">
             {{ page_data.content|raw }}
         </div>
+        {% endif %}
     </div>
 </div>
 <!-- Page Header End -->
@@ -79,52 +94,61 @@ function onSendContact()
         <div class="row g-4 align-items-stretch">
             <!-- Left Column: Map & Info -->
             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                <div class="p-4 p-md-5 bg-white rounded-3 shadow-sm h-100" style="border-top: 4px solid #65B530;">
+                <div class="p-4 p-md-5 bg-white rounded-3 shadow-sm h-100" style="border-top: 4px solid #00A8E8;">
                     <div class="section-title text-start mb-4">
-                        <p class="text-uppercase fw-bold mb-2" style="color: #65B530; letter-spacing: 1px;">Get In Touch</p>
-                        <h2 class="display-6 mb-3" style="color: #161616; font-weight: 700;">Have Any Questions? Feel Free To Contact Us</h2>
-                        <p style="color: #555555; font-size: 0.98rem; line-height: 1.6;">
-                            Whether you need customized security engineering, system integration, access control, or emergency technical support, our team is available to assist you.
+                        <p class="text-uppercase fw-bold mb-2" style="color: #00A8E8; letter-spacing: 1px;">Get In Touch <span class="tech-urdu-badge text-secondary ms-2" style="font-size:0.85rem;">(رابطہ کریں)</span></p>
+                        <h2 class="display-6 mb-1" style="color: #0B132B; font-weight: 800;">Consult with Our Engineering Team</h2>
+                        <div class="tech-urdu-title text-primary mb-3" style="font-size: 1.2rem; font-weight: 700; color: #0284C7 !important;">
+                            ہماری انجینئرنگ ٹیم سے تکنیکی مشاورت حاصل کریں
+                        </div>
+                        <p style="color: #4b5563; font-size: 0.98rem; line-height: 1.6;">
+                            Whether you need customized security engineering, RFID access control, highway safety equipment, or tender specifications, our certified technical team is available.
+                        </p>
+                        <p class="tech-urdu-text mb-0" style="font-size: 0.92rem; color: #64748B;">
+                            خواہ آپ کو ای ٹیگ بیریئرز، سیکیورٹی کیمرے، روڈ کیٹ آئیز یا مکمل پروجیکٹ کے ٹینڈر کی معلومات درکار ہوں، ہماری ماہر انجینئرز کی ٹیم ہر وقت دستیاب ہے۔
                         </p>
                     </div>
                     
                     <div class="d-flex align-items-center mb-3">
-                        <div class="btn-square rounded-circle me-3 flex-shrink-0" style="background-color: #65B530 !important; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fa fa-map-marker-alt text-white"></i>
+                        <div class="rounded-circle me-3 flex-shrink-0" style="background-color: rgba(0, 168, 232, 0.15); color: #00A8E8; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                            <i class="fa fa-map-marker-alt"></i>
                         </div>
                         <div>
-                            <span style="color: #666; font-size: 0.85rem; display: block; text-transform: uppercase; font-weight: 600;">Main Office Address</span>
-                            <strong style="color: #161616; font-size: 0.98rem; word-break: break-word;">{{ settings.contact_address|default('Al Mustafa Tower, F10, Islamabad') }}</strong>
+                            <span style="color: #64748b; font-size: 0.82rem; display: block; text-transform: uppercase; font-weight: 700;">Main Office Address <span class="tech-urdu-badge">(مرکزی دفتر کا پتہ)</span></span>
+                            <strong style="color: #0B132B; font-size: 0.98rem; word-break: break-word;">{{ page_data.address|default(settings.contact_address|default('Sector F-10, Al Mustafa Tower, Islamabad, Pakistan')) }}</strong>
+                            {% if page_data.address_urdu %}
+                                <div class="tech-urdu-badge mt-1" style="font-size: 0.85rem; color: #64748B;">{{ page_data.address_urdu }}</div>
+                            {% endif %}
                         </div>
                     </div>
 
                     <div class="d-flex align-items-center mb-3">
-                        <div class="btn-square rounded-circle me-3 flex-shrink-0" style="background-color: #65B530 !important; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fa fa-phone-alt text-white"></i>
+                        <div class="rounded-circle me-3 flex-shrink-0" style="background-color: rgba(0, 168, 232, 0.15); color: #00A8E8; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                            <i class="fa fa-phone-alt"></i>
                         </div>
                         <div>
-                            <span style="color: #666; font-size: 0.85rem; display: block; text-transform: uppercase; font-weight: 600;">Phone / Direct Line</span>
-                            <strong style="color: #161616; font-size: 0.98rem;"><a href="tel:+923125721105" style="color: #161616; text-decoration: none;">{{ settings.contact_phone|default('+92 312 5721105') }}</a></strong>
+                            <span style="color: #64748b; font-size: 0.82rem; display: block; text-transform: uppercase; font-weight: 700;">Phone / Direct Line <span class="tech-urdu-badge">(فون و ہیلپ لائن)</span></span>
+                            <strong style="color: #0B132B; font-size: 0.98rem;"><a href="tel:{{ page_data.phone|default(settings.contact_phone|default('+923125721105'))|replace({' ': '', '-': ''}) }}" style="color: #0B132B; text-decoration: none;">{{ page_data.phone|default(settings.contact_phone|default('+92 312 5721105')) }}</a></strong>
                         </div>
                     </div>
 
                     <div class="d-flex align-items-center mb-3">
-                        <div class="btn-square rounded-circle me-3 flex-shrink-0" style="background-color: #65B530 !important; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fa fa-envelope text-white"></i>
+                        <div class="rounded-circle me-3 flex-shrink-0" style="background-color: rgba(0, 168, 232, 0.15); color: #00A8E8; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                            <i class="fa fa-envelope"></i>
                         </div>
                         <div>
-                            <span style="color: #666; font-size: 0.85rem; display: block; text-transform: uppercase; font-weight: 600;">Official Support Email</span>
-                            <strong style="color: #161616; font-size: 0.98rem;">info@technicistpk.com</strong>
+                            <span style="color: #64748b; font-size: 0.82rem; display: block; text-transform: uppercase; font-weight: 700;">Official Support Email <span class="tech-urdu-badge">(سرکاری ای میل)</span></span>
+                            <strong style="color: #0B132B; font-size: 0.98rem;"><a href="mailto:{{ page_data.email|default(settings.contact_email|default('info@technicistpk.com')) }}" style="color: #0B132B; text-decoration: none;">{{ page_data.email|default(settings.contact_email|default('info@technicistpk.com')) }}</a></strong>
                         </div>
                     </div>
 
                     <div class="d-flex align-items-center mb-3">
-                        <div class="btn-square rounded-circle me-3 flex-shrink-0" style="background-color: #65B530 !important; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fa fa-clock text-white"></i>
+                        <div class="rounded-circle me-3 flex-shrink-0" style="background-color: rgba(0, 168, 232, 0.15); color: #00A8E8; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                            <i class="fa fa-clock"></i>
                         </div>
                         <div>
-                            <span style="color: #666; font-size: 0.85rem; display: block; text-transform: uppercase; font-weight: 600;">Business Hours</span>
-                            <strong style="color: #161616; font-size: 0.98rem;">Mon - Sat: 09:00 AM - 06:00 PM</strong>
+                            <span style="color: #64748b; font-size: 0.82rem; display: block; text-transform: uppercase; font-weight: 700;">Business Hours <span class="tech-urdu-badge">(دفتری اوقات)</span></span>
+                            <strong style="color: #0B132B; font-size: 0.98rem;">Mon - Sat: 09:00 AM - 06:00 PM <span class="tech-urdu-badge text-muted ms-1">(پیر تا ہفتہ)</span></strong>
                         </div>
                     </div>
 
@@ -136,37 +160,51 @@ function onSendContact()
 
             <!-- Right Column: Form -->
             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.3s">
-                <div id="contact-form-container" class="p-4 p-md-5 bg-white rounded-3 shadow-sm h-100" style="border-top: 4px solid #65B530;">
-                    <h3 style="color: #161616; font-size: 1.6rem; font-weight: 700; margin-bottom: 24px;">Send Us A Message</h3>
+                <div id="contact-form-container" class="p-4 p-md-5 bg-white rounded-3 shadow-sm h-100" style="border-top: 4px solid #FF6B35;">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div>
+                            <h3 style="color: #0B132B; font-size: 1.5rem; font-weight: 800; margin: 0;">Request a Technical Proposal</h3>
+                            <div class="tech-urdu-title text-muted" style="font-size: 1.05rem; font-weight: 600; color: #EA580C !important;">تکنیکی تجویز اور کوٹیشن فارم</div>
+                        </div>
+                        <span class="badge" style="background: rgba(255, 107, 53, 0.15); color: #FF6B35; font-size: 0.75rem; border: 1px solid rgba(255, 107, 53, 0.3);">Fast Response | فوری جواب</span>
+                    </div>
                     
                     <form id="contact-form" data-request="onSendContact" data-request-flash>
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required style="border-color: #e2e8f0; color: #161616;">
-                                    <label for="name" style="color: #666;">Your Name</label>
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" required style="border-color: #cbd5e1; color: #0B132B;">
+                                    <label for="name" style="color: #64748b;">Full Name / ادارہ یا آپ کا نام</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required style="border-color: #e2e8f0; color: #161616;">
-                                    <label for="email" style="color: #666;">Your Email</label>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required style="border-color: #cbd5e1; color: #0B132B;">
+                                    <label for="email" style="color: #64748b;">Official Email / ای میل پتہ</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" value="{{ input('subject')|default(preset_subject) }}" required style="border-color: #e2e8f0; color: #161616;">
-                                    <label for="subject" style="color: #666;">Subject</label>
+                                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" value="{{ input('subject')|default(preset_subject) }}" required style="border-color: #cbd5e1; color: #0B132B;">
+                                    <label for="subject" style="color: #64748b;">Project Type (e.g. RFID Barrier, CCTV) / پروجیکٹ کی نوعیت</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Leave a message here" name="message" id="message" style="height: 140px; border-color: #e2e8f0; color: #161616;" required></textarea>
-                                    <label for="message" style="color: #666;">Message</label>
+                                    <textarea class="form-control" placeholder="Leave a message here" name="message" id="message" style="height: 130px; border-color: #cbd5e1; color: #0B132B;" required></textarea>
+                                    <label for="message" style="color: #64748b;">Requirements & Location / پروجیکٹ کی تفصیل اور شہر کا نام</label>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit" style="background-color: #65B530 !important; border-color: #65B530 !important; font-size: 1.05rem; font-weight: 700; color: #ffffff;">Send Message</button>
+                                <button class="btn w-100 py-3 text-white fw-bold shadow-sm" type="submit" style="background-color: #FF6B35 !important; border-color: #FF6B35 !important; font-size: 1.05rem; letter-spacing: 0.5px;">
+                                    <i class="fa fa-paper-plane me-2"></i> Submit Inquiry
+                                </button>
+                            </div>
+                            <div class="col-12 text-center pt-2">
+                                <span class="text-muted small">Need immediate assistance?</span>
+                                <a href="https://wa.me/923125721105?text=Hello%20Technicist%20Engineering%20Desk%2C%20I%20would%20like%20to%20request%20an%20urgent%20technical%20consultation." target="_blank" rel="noopener" class="d-inline-flex align-items-center gap-1 ms-2 fw-bold text-decoration-none" style="color: #25D366;">
+                                    <i class="fab fa-whatsapp"></i> Chat on WhatsApp (+92 312 5721105)
+                                </a>
                             </div>
                         </div>
                     </form>

@@ -19,37 +19,44 @@ class Page extends Model
     /**
      * @var array Guarded fields
      */
-    protected $guarded = ['*'];
+    protected $guarded = [];
 
     /**
      * @var array Fillable fields
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'title', 'slug', 'content',
+        // Hero
+        'hero_badge', 'hero_badge_urdu',
+        'hero_title', 'hero_title_urdu',
+        'hero_subtitle', 'hero_subtitle_urdu',
+        'hero_video',
+        // Stats
+        'stats_json',
+        // Intro
+        'intro_badge', 'intro_badge_urdu',
+        'intro_title', 'intro_title_urdu',
+        'intro_text', 'intro_text_urdu',
+        // Contact
+        'phone', 'whatsapp', 'email', 'address', 'address_urdu',
+        // SEO
+        'meta_title', 'meta_description',
+        // Extra
+        'sections_json',
+    ];
 
     /**
-     * @var array Validation rules for attributes
+     * @var array Validation rules
      */
-    public $rules = [];
+    public $rules = [
+        'title' => 'required',
+        'slug'  => 'required',
+    ];
 
     /**
-     * @var array Attributes to be cast to native types
+     * @var array JSON-decoded attributes
      */
-    protected $casts = [];
-
-    /**
-     * @var array Attributes to be cast to JSON
-     */
-    protected $jsonable = [];
-
-    /**
-     * @var array Attributes to be appended to the API representation of the model (ex. toArray())
-     */
-    protected $appends = [];
-
-    /**
-     * @var array Attributes to be removed from the API representation of the model (ex. toArray())
-     */
-    protected $hidden = [];
+    protected $jsonable = ['stats_json', 'sections_json'];
 
     /**
      * @var array Attributes to be cast to Argon (Carbon) instances
@@ -59,9 +66,6 @@ class Page extends Model
         'updated_at',
     ];
 
-    /**
-     * @var array Relations
-     */
     public $hasOne = [];
     public $hasMany = [];
     public $hasOneThrough = [];
